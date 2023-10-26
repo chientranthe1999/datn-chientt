@@ -8,10 +8,6 @@ export default [
         to: 'dashboards-analytics',
       },
       {
-        title: 'eCommerce',
-        to: 'dashboards-ecommerce',
-      },
-      {
         title: 'CRM',
         to: 'dashboards-crm',
       },

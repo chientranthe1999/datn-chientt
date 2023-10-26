@@ -258,13 +258,6 @@ const database: SearchItem[] = [
     url: { name: 'pages-authentication-two-steps-v2' },
   },
   {
-    id: 54,
-    url: { name: 'pages-typography' },
-    icon: 'tabler-baseline',
-    title: 'Typography',
-    category: 'userInterface',
-  },
-  {
     id: 55,
     url: { name: 'pages-icons' },
     icon: 'tabler-brand-google',

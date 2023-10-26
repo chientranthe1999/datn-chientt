@@ -1,11 +1,6 @@
 export default [
   { heading: 'UI Elements' },
   {
-    title: 'Typography',
-    icon: { icon: 'tabler-square-letter-t' },
-    to: 'pages-typography',
-  },
-  {
     title: 'Icons',
     icon: { icon: 'tabler-eye' },
     to: 'pages-icons',

@@ -45,7 +45,6 @@ const suggestionGroups: SuggestionGroup[] = [
   {
     title: 'User Interface',
     content: [
-      { icon: 'tabler-letter-a', title: 'Typography', url: { name: 'pages-typography' } },
       { icon: 'tabler-square', title: 'Tabs', url: { name: 'components-tabs' } },
       { icon: 'tabler-hand-click', title: 'Buttons', url: { name: 'components-button' } },
       { icon: 'tabler-keyboard', title: 'Statistics', url: { name: 'pages-cards-card-statistics' } },

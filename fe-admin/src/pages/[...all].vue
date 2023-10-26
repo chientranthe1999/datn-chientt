@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import misc404 from '@images/pages/404.png'
 import miscMaskDark from '@images/pages/misc-mask-dark.png'
 import miscMaskLight from '@images/pages/misc-mask-light.png'
@@ -31,7 +31,7 @@ const authThemeMask = useGenerateImageVariant(miscMaskLight, miscMaskDark)
     </div>
 
     <VImg
-      :src="authThemeMask"
+      :src="authThemeMask as string"
       class="misc-footer-img d-none d-md-block"
     />
   </div>

@@ -1,7 +1,7 @@
 module.exports = {
   rules: {
-    'valid-appcardcode-code-prop': 'error',
-    'valid-appcardcode-demo-sfc': 'error',
+    // 'valid-appcardcode-code-prop': 'error',
+    // 'valid-appcardcode-demo-sfc': 'error',
   },
   overrides: [
     {

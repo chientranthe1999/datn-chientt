@@ -9,11 +9,6 @@ export default [
         to: 'pages-icons',
       },
       {
-        title: 'Typography',
-        icon: { icon: 'tabler-square-letter-t' },
-        to: 'pages-typography',
-      },
-      {
         title: 'Cards',
         icon: { icon: 'tabler-credit-card' },
         children: [
