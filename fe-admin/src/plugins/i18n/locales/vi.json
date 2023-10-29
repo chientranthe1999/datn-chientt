@@ -50,7 +50,6 @@
     "Analytics": "Analytics",
     "Apps & Pages": "Apps & Pages",
     "Email": "Email",
-    "Chat": "Chat",
     "Invoice": "Invoice",
     "Preview": "Preview",
     "Add": "Add",
@@ -58,7 +57,7 @@
     "View": "View",
     "Login v1": "Login v1",
     "Login v2": "Login v2",
-    "Login": "Login",
+    "Login": "Đăng nhập",
     "Register v1": "Register v1",
     "Register v2": "Register v2",
     "Register": "Register",
@@ -100,7 +99,7 @@
     "2": "2",
     "Forms": "Forms",
     "Timeline": "Timeline",
-    "Disabled Menu": "Disabled Menu",
+    "Disabled Menu": "Test",
     "Help Center": "Help Center",
     "Verify Email": "Verify Email",
     "Verify Email v1": "Verify Email v1",
@@ -120,7 +119,7 @@
             }
         },
         "input": {
-            "clear": "clear",
+            "clear": "Xóa",
             "appendAction": "appendAction",
             "prependAction": "prependAction",
             "counterSize": "counterSize"
@@ -133,5 +132,8 @@
                 "item": "item"
             }
         }
-    }
+    },
+    "balance": "Total balance",
+    "spending": "Total spending",
+    "incoming": "Total incoming"
 }

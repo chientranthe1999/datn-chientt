@@ -220,7 +220,7 @@ return [
 
             /*
             |-----------------------------------------------------------------------------------------------------------
-            | This is final exception handler. If ex is not dealt with yet this is its last stop.
+            | This is finance-management exception handler. If ex is not dealt with yet this is its last stop.
             | Default handler is mandatory and MUST have both `api_code` and `http_code` set.
             |-----------------------------------------------------------------------------------------------------------
             */

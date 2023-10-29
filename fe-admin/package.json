@@ -1,5 +1,5 @@
 {
-  "name": "vuexy-vuetify-vuejs-admin-template",
+  "name": "personal-management-app",
   "version": "7.0.1",
   "scripts": {
     "dev": "npm run build:icons && vite --host",
@@ -49,7 +49,7 @@
     "@iconify-json/tabler": "^1.1.35",
     "@iconify/tools": "^2.1.0",
     "@iconify/vue": "^4.0.0",
-    "@intlify/vite-plugin-vue-i18n": "^5.0.1",
+    "@intlify/unplugin-vue-i18n": "^1.4.0",
     "@types/node": "^18.7.18",
     "@types/webfontloader": "^1.6.34",
     "@typescript-eslint/eslint-plugin": "^5.43.0",

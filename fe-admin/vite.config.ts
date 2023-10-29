@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'url'
-import VueI18n from '@intlify/vite-plugin-vue-i18n'
+
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -16,7 +17,6 @@ export default defineConfig({
     vue(),
     vueJsx(),
 
-    // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
     vuetify({
       styles: {
         configFile: 'src/styles/variables/_vuetify.scss',
@@ -25,7 +25,7 @@ export default defineConfig({
     Pages({
       dirs: ['./src/pages'],
 
-      // ℹ️ We need three routes using single routes so we will ignore generating route for this SFC file
+      // ℹ️ We need three routes using single routes, so we will ignore generating route for this SFC file
       onRoutesGenerated: routes => [
         // Email filter
         // {
@@ -63,7 +63,7 @@ export default defineConfig({
       imports: ['vue', 'vue-router', '@vueuse/core', '@vueuse/math', 'vue-i18n', 'pinia'],
       vueTemplate: true,
     }),
-    VueI18n({
+    VueI18nPlugin({
       runtimeOnly: true,
       compositionOnly: true,
       include: [

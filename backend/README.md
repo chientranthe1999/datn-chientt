@@ -22,6 +22,5 @@
 - Generate migration
 
 ```
-php artisan make:migration <name>
+    php artisan make:migration <name>
 ```
-

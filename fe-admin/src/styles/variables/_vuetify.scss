@@ -5,3 +5,6 @@
 // @forward "../../@core/scss/template/libs/vuetify/variables" with (
 //   $<variable-name>: <variable-value>
 // )
+.v-btn {
+  text-transform: none;
+}

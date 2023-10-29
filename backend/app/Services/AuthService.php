@@ -25,7 +25,7 @@ class AuthService
         $this->_retrieveClients();
     }
 
-    private function _retrieveClients()
+    private function _retrieveClients(): void
     {
         $clients = OClient::query()->where('password_client', 1)->get();
         $configProviders = config('auth.providers');

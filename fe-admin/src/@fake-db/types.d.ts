@@ -292,7 +292,7 @@ export interface EmailAttachment {
 
   === this is too confusing 😔
 
-  // this is final now 💯
+  // this is finance-management now 💯
   folders => inbox, sent, draft, spam
   flags: starred, trash
 */

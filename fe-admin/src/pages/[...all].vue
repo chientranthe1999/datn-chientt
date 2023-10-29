@@ -31,7 +31,7 @@ const authThemeMask = useGenerateImageVariant(miscMaskLight, miscMaskDark)
     </div>
 
     <VImg
-      :src="authThemeMask as string"
+      :src="authThemeMask"
       class="misc-footer-img d-none d-md-block"
     />
   </div>
