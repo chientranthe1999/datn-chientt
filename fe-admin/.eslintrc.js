@@ -148,6 +148,16 @@ module.exports = {
     'vue/no-irregular-whitespace': 'error',
     'vue/template-curly-spacing': 'error',
 
+    //
+    'vue/max-attributes-per-line': ['error', {
+      singleline: {
+        max: 4,
+      },
+      multiline: {
+        max: 4,
+      },
+    }],
+
     // -- Sonarlint
     'sonarjs/no-duplicate-string': 'off',
     'sonarjs/no-nested-template-literals': 'off',

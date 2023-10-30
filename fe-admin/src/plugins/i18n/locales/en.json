@@ -134,6 +134,12 @@
       }
     }
   },
+  "router": {
+    "finance": "Finance"
+  },
+  "finance": {
+    "overview": "Overview"
+  },
   "balance": "Total balance",
   "spending": "Total spending",
   "incoming": "Total incoming"

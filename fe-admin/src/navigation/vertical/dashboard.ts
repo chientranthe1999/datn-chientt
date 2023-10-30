@@ -15,4 +15,14 @@ export default [
     badgeContent: '2',
     badgeClass: 'bg-light-primary text-primary',
   },
+  {
+    title: 'router.finance',
+    icon: { icon: 'tabler-coins' },
+    children: [
+      {
+        title: 'finance.overview',
+        to: 'finance-management-overview',
+      },
+    ],
+  },
 ]
