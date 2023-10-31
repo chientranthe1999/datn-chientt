@@ -7,6 +7,8 @@ const chartJsCustomColors = {
   primary: '#29A073',
   warningShade: '#ffbd1f',
 }
+
+const toggle_exclusive = ref('month')
 </script>
 
 <template>
@@ -110,11 +112,20 @@ const chartJsCustomColors = {
       <!--    TODO: filter by month, year -->
       <!--    TOP category spending -->
       <VCol cols="12">
-        <VCard
-          title="Spending Report"
-          subtitle="Commercial networks and enterprises"
-        >
+        <VCard>
+          <!--          title="Spending Report" -->
+          <!--          subtitle="Commercial networks and enterprises" -->
           <VCardText>
+            <div class="d-flex justify-end">
+              <VBtnToggle v-model="toggle_exclusive" background-color="primary" dark>
+                <VBtn value="month">
+                  Month
+                </VBtn>
+                <VBtn value="year">
+                  Year
+                </VBtn>
+              </VBtnToggle>
+            </div>
             <SpendingChart :colors="chartJsCustomColors" />
           </VCardText>
         </VCard>
