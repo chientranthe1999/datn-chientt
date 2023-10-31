@@ -117,7 +117,7 @@ const toggle_exclusive = ref('month')
           <!--          subtitle="Commercial networks and enterprises" -->
           <VCardText>
             <div class="d-flex justify-end">
-              <VBtnToggle v-model="toggle_exclusive" background-color="primary" dark>
+              <VBtnToggle v-model="toggle_exclusive" color="primary" dark>
                 <VBtn value="month">
                   Month
                 </VBtn>

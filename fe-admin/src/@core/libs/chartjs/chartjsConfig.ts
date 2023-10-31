@@ -130,7 +130,7 @@ export const getLineChartConfig = (themeColors: ThemeInstance['themes']['value']
     },
     plugins: {
       legend: {
-        align: 'end',
+        align: 'center',
         position: 'top',
         labels: {
           padding: 25,
