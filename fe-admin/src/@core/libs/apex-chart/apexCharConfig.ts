@@ -68,7 +68,9 @@ export const getScatterChartConfig = (themeColors: ThemeInstance['themes']['valu
   }
 }
 export const getLineChartSimpleConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
-  const { themeBorderColor, themeDisabledTextColor } = colorVariables(themeColors)
+  const { themeBorderColor, themePrimaryTextColor } = colorVariables(themeColors)
+
+  console.log(themePrimaryTextColor)
 
   return {
     chart: {
@@ -76,8 +78,8 @@ export const getLineChartSimpleConfig = (themeColors: ThemeInstance['themes']['v
       zoom: { enabled: false },
       toolbar: { show: false },
     },
-    colors: ['#ff9f43'],
-    stroke: { curve: 'straight' },
+    colors: ['#ff9f43', '#29A073'],
+    stroke: { curve: 'smooth' },
     dataLabels: { enabled: false },
     markers: {
       strokeWidth: 7,
@@ -103,8 +105,11 @@ export const getLineChartSimpleConfig = (themeColors: ThemeInstance['themes']['v
     },
     yaxis: {
       labels: {
-        style: { colors: themeDisabledTextColor },
+        style: { colors: themePrimaryTextColor },
       },
+    },
+    legend: {
+      labels: { colors: themePrimaryTextColor },
     },
     xaxis: {
       axisBorder: { show: false },
@@ -114,24 +119,21 @@ export const getLineChartSimpleConfig = (themeColors: ThemeInstance['themes']['v
         stroke: { color: themeBorderColor },
       },
       labels: {
-        style: { colors: themeDisabledTextColor },
+        style: { colors: themePrimaryTextColor },
       },
       categories: [
-        '7/12',
-        '8/12',
+        'Jan',
+        'Feb',
         '9/12',
         '10/12',
         '11/12',
         '12/12',
         '13/12',
         '14/12',
-        '15/12',
-        '16/12',
-        '17/12',
-        '18/12',
-        '19/12',
-        '20/12',
-        '21/12',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
       ],
     },
   }
@@ -320,7 +322,7 @@ export const getDonutChartConfig = (themeColors: ThemeInstance['themes']['value'
 
   return {
     stroke: { width: 0 },
-    labels: ['Operational', 'Networking', 'Hiring', 'R&D'],
+    labels: ['Operational', 'Networking', 'Hiring', 'Other'],
     colors: [donutColors.series1, donutColors.series5, donutColors.series3, donutColors.series2],
     dataLabels: {
       enabled: true,

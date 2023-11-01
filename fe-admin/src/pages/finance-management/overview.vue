@@ -3,7 +3,8 @@ import RecentTransaction from '@/views/finance-management/RecentTransaction.vue'
 import type { ChartJsCustomColors } from '@/views/charts/chartjs/types'
 import SpendingChart from '@/views/finance-management/SpendingChart.vue'
 import TopSpending from '@/views/finance-management/TopSpending.vue'
-import CategoryDonutChart from '@/views/finance-management/CategoryDonutChart.vue'
+import CategoryChart from '@/views/finance-management/CategoryChart.vue'
+import Wallet from '@/views/finance-management/Wallet.vue'
 
 const chartJsCustomColors = {
   primary: '#29A073',
@@ -83,9 +84,25 @@ const toggle_exclusive = ref('month')
         </VCard>
       </VCol>
 
+      <VCol cols="12" sm="12" md="4">
+        <TopSpending class="h-100" />
+      </VCol>
+
+      <VCol cols="12" sm="12" md="4">
+        <Wallet class="h-100" />
+      </VCol>
+
+      <VCol cols="12" sm="12" md="4">
+        <VCard title="Category Spending" class="h-100">
+          <VCardText>
+            <CategoryChart />
+          </VCardText>
+        </VCard>
+      </VCol>
+
       <!--    TODO: filter by month, year -->
       <!--    TOP category spending -->
-      <VCol cols="8" sm="12" md="8">
+      <VCol cols="12" sm="12" md="6">
         <VCard title="Sending Chart">
           <template #append>
             <VBtnToggle v-model="toggle_exclusive" color="primary" dark>
@@ -99,20 +116,9 @@ const toggle_exclusive = ref('month')
         </VCard>
       </VCol>
 
-      <VCol cols="4" sm="12" md="4">
-        <TopSpending />
-      </VCol>
-
-      <VCol cols="12">
-        <RecentTransaction />
-      </VCol>
-
-      <VCol cols="12">
-        <VCard>
-          <VCardText>
-            <CategoryDonutChart :colors="chartJsCustomColors" />
-          </VCardText>
-        </VCard>
+      <!--      Recent transaction -->
+      <VCol cols="12" sm="12" md="6">
+        <RecentTransaction class="h-100" />
       </VCol>
     </VRow>
   </div>

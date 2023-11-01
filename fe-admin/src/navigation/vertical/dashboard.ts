@@ -12,7 +12,6 @@ export default [
         to: 'dashboards-crm',
       },
     ],
-    badgeContent: '2',
     badgeClass: 'bg-light-primary text-primary',
   },
   {
@@ -22,6 +21,12 @@ export default [
       {
         title: 'finance.overview',
         to: 'finance-management-overview',
+        icon: { icon: 'tabler-smart-home' },
+      },
+      {
+        title: 'finance.overview',
+        to: 'finance-management-overview',
+        icon: { icon: 'tabler-smart-home' },
       },
     ],
   },

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import FlatPickr from 'vue-flatpickr-component'
+import monthSelectPlugin from 'flatpickr/dist/plugins/monthSelect'
+import 'flatpickr/dist/plugins/monthSelect/style.css'
 import { useTheme } from 'vuetify'
 
 // @ts-expect-error There won't be declaration file for it
@@ -119,6 +121,14 @@ const emitModelValue = (val: string) => {
               v-if="!isInlinePicker"
               v-bind="compAttrs"
               ref="refFlatPicker"
+              :config="{
+                plugins: [new monthSelectPlugin({
+                  shorthand: true, //defaults to false
+                  dateFormat: 'm.y',
+                  altFormat: 'F Y',
+                  theme: 'dark',
+                })],
+              }"
               :model-value="modelValue"
               class="flat-picker-custom-style"
               :disabled="isReadonly.value"

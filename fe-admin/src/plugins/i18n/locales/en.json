@@ -138,8 +138,10 @@
     "finance": "Finance"
   },
   "finance": {
-    "overview": "Overview"
+    "overview": "Overview",
+    "my_wallet": "My wallet"
   },
+  "see_all": "See all",
   "balance": "Total balance",
   "spending": "Total spending",
   "incoming": "Total incoming"

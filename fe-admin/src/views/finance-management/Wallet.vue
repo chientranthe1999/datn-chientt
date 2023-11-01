@@ -52,7 +52,11 @@ const transitions = [
 </script>
 
 <template>
-  <VCard title="Top Spending By Transaction">
+  <VCard :title="$t('finance.my_wallet')">
+    <template #append>
+      {{ $t('see_all') }}
+    </template>
+
     <VCardText>
       <VList class="card-list">
         <VListItem
@@ -60,12 +64,7 @@ const transitions = [
           :key="transition.title"
         >
           <template #prepend>
-            <VAvatar
-              size="34"
-              :color="transition.avatarColor"
-              variant="tonal"
-              rounded
-            >
+            <VAvatar size="34" :color="transition.avatarColor" variant="tonal">
               <VIcon :icon="transition.avatarIcon" />
             </VAvatar>
           </template>
@@ -73,9 +72,6 @@ const transitions = [
           <VListItemTitle class="font-weight-semibold">
             {{ transition.title }}
           </VListItemTitle>
-          <VListItemSubtitle>
-            {{ transition.subtitle }}
-          </VListItemSubtitle>
 
           <template #append>
             <div class="d-flex align-center">
