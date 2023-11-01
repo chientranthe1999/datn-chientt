@@ -326,6 +326,7 @@ export const getDonutChartConfig = (themeColors: ThemeInstance['themes']['value'
       enabled: true,
       formatter: (val: string) => `${parseInt(val, 10)}%`,
     },
+    aspectRatio: 1,
     legend: {
       position: 'bottom',
       markers: { offsetX: -3 },

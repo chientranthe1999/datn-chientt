@@ -158,6 +158,9 @@ module.exports = {
       },
     }],
 
+    // ignore single element content
+    'vue/singleline-html-element-content-newline': 'off',
+
     // -- Sonarlint
     'sonarjs/no-duplicate-string': 'off',
     'sonarjs/no-nested-template-literals': 'off',

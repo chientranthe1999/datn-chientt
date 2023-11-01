@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
 import type { ChartJsCustomColors } from '@/views/charts/chartjs/types'
-import { getPolarChartConfig } from '@core/libs/chartjs/chartjsConfig'
-import PolarAreaChart from '@core/libs/chartjs/components/PolarAreaChart'
+import { getDonutChartConfig } from '@core/libs/apex-chart/apexCharConfig'
+import DoughnutChart from '@core/libs/chartjs/components/DoughnutChart'
 
 interface Props {
   colors: ChartJsCustomColors
@@ -12,7 +12,7 @@ const props = defineProps<Props>()
 
 const vuetifyTheme = useTheme()
 
-const chartConfig = computed(() => getPolarChartConfig(vuetifyTheme.current.value))
+const chartConfig = computed(() => getDonutChartConfig(vuetifyTheme.current.value))
 
 const data = {
   labels: ['Africa', 'Asia', 'Europe', 'America', 'Antarctica', 'Australia'],
@@ -28,8 +28,7 @@ const data = {
 </script>
 
 <template>
-  <PolarAreaChart
-    :height="400"
+  <DoughnutChart
     :chart-data="data"
     :chart-options="chartConfig"
   />
