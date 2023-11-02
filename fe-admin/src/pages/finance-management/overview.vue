@@ -105,7 +105,7 @@ const toggle_exclusive = ref('month')
       <VCol cols="12" sm="12" md="6">
         <VCard title="Sending Chart">
           <template #append>
-            <VBtnToggle v-model="toggle_exclusive" color="primary" dark>
+            <VBtnToggle v-model="toggle_exclusive" color="primary">
               <VBtn value="month">Month</VBtn>
               <VBtn value="year">Year</VBtn>
             </VBtnToggle>

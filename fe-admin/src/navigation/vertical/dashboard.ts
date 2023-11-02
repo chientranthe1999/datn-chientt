@@ -24,7 +24,11 @@ export default [
       },
       {
         title: 'finance.transaction',
-        to: 'finance-management-transaction',
+        to: 'finance-management-transactions',
+      },
+      {
+        title: 'Wallet',
+        to: 'finance-management-wallets',
       },
     ],
   },
