@@ -21,12 +21,10 @@ export default [
       {
         title: 'finance.overview',
         to: 'finance-management-overview',
-        icon: { icon: 'tabler-smart-home' },
       },
       {
-        title: 'finance.overview',
-        to: 'finance-management-overview',
-        icon: { icon: 'tabler-smart-home' },
+        title: 'finance.transaction',
+        to: 'finance-management-transaction',
       },
     ],
   },

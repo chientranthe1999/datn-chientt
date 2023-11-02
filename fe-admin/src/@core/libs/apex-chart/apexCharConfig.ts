@@ -70,8 +70,6 @@ export const getScatterChartConfig = (themeColors: ThemeInstance['themes']['valu
 export const getLineChartSimpleConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
   const { themeBorderColor, themePrimaryTextColor } = colorVariables(themeColors)
 
-  console.log(themePrimaryTextColor)
-
   return {
     chart: {
       parentHeightOffset: 0,

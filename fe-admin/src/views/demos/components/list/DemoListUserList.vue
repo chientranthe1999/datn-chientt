@@ -84,9 +84,7 @@ const resolveStatusColor: Status = {
         </VListItemSubtitle>
 
         <template #append>
-          <VBtn size="small">
-            Add
-          </VBtn>
+          <VBtn size="small">Add</VBtn>
         </template>
       </VListItem>
       <VDivider v-if="index !== users.length - 1" />

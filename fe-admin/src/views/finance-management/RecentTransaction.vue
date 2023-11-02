@@ -69,18 +69,12 @@ const resolveStatus: Status = {
 </script>
 
 <template>
-  <VCard title="Recent Transaction">
+  <VCard :title="$t('finance.recent_transaction')">
     <template #append>
       <div class="me-n2">
-        <VBtn
-          color="success"
-          variant="text"
-        >
-          View all
-          <VIcon
-            end
-            icon="tabler-chevron-right"
-          />
+        <VBtn color="success" variant="text">
+          {{ $t('see_all') }}
+          <VIcon end icon="tabler-chevron-right" />
         </VBtn>
       </div>
     </template>

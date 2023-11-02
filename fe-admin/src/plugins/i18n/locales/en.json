@@ -139,7 +139,9 @@
   },
   "finance": {
     "overview": "Overview",
-    "my_wallet": "My wallet"
+    "my_wallet": "My wallet",
+    "recent_transaction": "Recent Transaction",
+    "transaction": "Transaction List"
   },
   "see_all": "See all",
   "balance": "Total balance",

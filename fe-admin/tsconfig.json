@@ -57,7 +57,8 @@
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client",
       "@intlify/vite-plugin-vue-i18n/client",
-      "vuetify"
+      "vuetify",
+      "vuetify/lib/labs/components.mjs"
     ]
   },
   "include": [

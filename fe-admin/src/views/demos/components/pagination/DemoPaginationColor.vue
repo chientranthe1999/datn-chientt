@@ -19,7 +19,7 @@ const pageInfo = ref(3)
     <VPagination
       v-model="pageInfo"
       :length="7"
-      active-color="info"
+      color="info"
     />
   </div>
 </template>
