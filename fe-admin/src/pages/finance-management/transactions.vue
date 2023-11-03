@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { CategoryIcon } from '@/constants/common'
+
 const headers = [
   { title: 'Name/Wallet', align: 'start', key: 'name' },
   { title: 'Calories', align: 'end', key: 'category' },

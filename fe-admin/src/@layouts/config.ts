@@ -6,8 +6,6 @@ export const config: Config = {
   app: {
     title: 'Title',
     logo: h('img', { src: '/src/assets/logo.svg' }),
-
-    // logo: () => h('img', { src: 'assets/colored-logo.png' }, null),
     contentWidth: ref(ContentWidth.Boxed),
     contentLayoutNav: ref(AppContentLayoutNav.Vertical),
     overlayNavFromBreakpoint: breakpointsVuetify.md,

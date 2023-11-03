@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
+            $table->bigInteger('group_id');
+            $table->string('description')->nullable();
             $table->string('name');
             $table->float('total');
             $table->tinyInteger('status');
-            $table->boolean('report_exclude')->default(false)->nullable();
+            $table->string('icon')->default('wallet-icon')->nullable();
+            $table->boolean('report_exclude')->default(false);
             $table->timestamps();
         });
     }

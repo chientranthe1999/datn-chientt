@@ -4,7 +4,7 @@ import type { ComputedRef } from 'vue'
 interface TableColumn {
   title: string
   key: string
-  minWidth?: number
+  width?: number
 }
 
 const props = defineProps({
@@ -41,6 +41,9 @@ const totalPage: ComputedRef<number> = computed(() => Math.floor(props.total / p
 <template>
   <VCardText>
     <VTable class="text-no-wrap">
+      <colgroup>
+        <col v-for="(col, index) in columns" :key="`col_${index}`" :style="{ width: col.width }">
+      </colgroup>
       <!-- 👉 table head -->
       <thead>
         <tr>
@@ -55,7 +58,9 @@ const totalPage: ComputedRef<number> = computed(() => Math.floor(props.total / p
           <!--          TODO: set width for td -->
           <td v-for="(col, colIndex) in columns" :key="`data_col_${colIndex}`">
             <slot :name="columns[colIndex].key" :col-data="item">
-              <div class="d-flex align-center">{{ item[columns[colIndex].key] }}</div>
+              <div class="w-100" :class="[columns[colIndex].align ? `text-${columns[colIndex].align}` : '']">
+                <span>{{ item[columns[colIndex].key] }}</span>
+              </div>
             </slot>
           </td>
         </tr>

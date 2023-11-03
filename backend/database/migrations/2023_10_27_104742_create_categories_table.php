@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('group_id')->default(0);
             $table->string('type', 16);
             $table->string('name', 128);
             $table->bigInteger('group_id');
             $table->string('icon');
+            $table->boolean('report_exclude')->default(false);
             $table->timestamps();
         });
     }
