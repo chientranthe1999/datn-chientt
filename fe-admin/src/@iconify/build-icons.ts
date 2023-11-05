@@ -69,6 +69,16 @@ const sources: BundleScriptConfig = {
       monotone: false,
       prefix: 'custom',
     },
+    {
+      dir: 'src/assets/images/icons/category',
+      monotone: false,
+      prefix: 'cate',
+    },
+    {
+      dir: 'src/assets/images/icons/wallet',
+      monotone: false,
+      prefix: '',
+    },
 
     // {
     //   dir: 'emojis',

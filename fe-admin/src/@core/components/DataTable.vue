@@ -42,12 +42,12 @@ const totalPage: ComputedRef<number> = computed(() => Math.floor(props.total / p
   <VCardText>
     <VTable class="text-no-wrap">
       <colgroup>
-        <col v-for="(col, index) in columns" :key="`col_${index}`" :style="{ width: col.width }">
+        <col v-for="(col, index) in columns" :key="`col_${index}`" :style="{ width: `${col.width}%` }">
       </colgroup>
       <!-- 👉 table head -->
       <thead>
         <tr>
-          <th v-for="(col, index) in columns" :key="index">
+          <th v-for="(col, index) in columns" :key="index" :class="[col.align ? `text-${col.align}` : '']">
             {{ col.title }}
           </th>
         </tr>
@@ -58,8 +58,8 @@ const totalPage: ComputedRef<number> = computed(() => Math.floor(props.total / p
           <!--          TODO: set width for td -->
           <td v-for="(col, colIndex) in columns" :key="`data_col_${colIndex}`">
             <slot :name="columns[colIndex].key" :col-data="item">
-              <div class="w-100" :class="[columns[colIndex].align ? `text-${columns[colIndex].align}` : '']">
-                <span>{{ item[columns[colIndex].key] }}</span>
+              <div class="w-100" :class="[col.align ? `text-${col.align}` : '']">
+                <span>{{ item[col.key] }}</span>
               </div>
             </slot>
           </td>
