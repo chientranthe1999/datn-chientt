@@ -207,24 +207,24 @@ const dialogModelValueUpdate = (val: boolean) => {
 
               <!-- 👉 Start date -->
               <VCol cols="12">
-                <AppDateTimePicker
-                  :key="JSON.stringify(startDateTimePickerConfig)"
-                  v-model="event.start"
-                  :rules="[requiredValidator]"
-                  label="Start date"
-                  :config="startDateTimePickerConfig"
-                />
+                <!--                <AppDateTimePicker -->
+                <!--                  :key="JSON.stringify(startDateTimePickerConfig)" -->
+                <!--                  v-model="event.start" -->
+                <!--                  :rules="[requiredValidator]" -->
+                <!--                  label="Start date" -->
+                <!--                  :config="startDateTimePickerConfig" -->
+                <!--                /> -->
               </VCol>
 
               <!-- 👉 End date -->
               <VCol cols="12">
-                <AppDateTimePicker
-                  :key="JSON.stringify(endDateTimePickerConfig)"
-                  v-model="event.end"
-                  :rules="[requiredValidator]"
-                  label="End date"
-                  :config="endDateTimePickerConfig"
-                />
+                <!--                <AppDateTimePicker -->
+                <!--                  :key="JSON.stringify(endDateTimePickerConfig)" -->
+                <!--                  v-model="event.end" -->
+                <!--                  :rules="[requiredValidator]" -->
+                <!--                  label="End date" -->
+                <!--                  :config="endDateTimePickerConfig" -->
+                <!--                /> -->
               </VCol>
 
               <!-- 👉 All day -->

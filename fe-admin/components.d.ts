@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     AppPricing: typeof import('./src/@core/components/AppPricing.vue')['default']
     AppSearchHeader: typeof import('./src/@core/components/AppSearchHeader.vue')['default']
     BuyNow: typeof import('./src/@core/components/BuyNow.vue')['default']
+    Calendar: typeof import('./src/@core/components/Calendar.vue')['default']
     CardAddEditDialog: typeof import('./src/@core/components/CardAddEditDialog.vue')['default']
     CardStatisticsHorizontal: typeof import('./src/@core/components/CardStatisticsHorizontal.vue')['default']
     CardStatisticsVertical: typeof import('./src/@core/components/CardStatisticsVertical.vue')['default']

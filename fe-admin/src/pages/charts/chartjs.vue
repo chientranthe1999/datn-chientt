@@ -117,12 +117,12 @@ const chartJsCustomColors: ChartJsCustomColors = {
 
           <template #append>
             <div class="date-picker-wrapper">
-              <AppDateTimePicker
-                model-value="2022-06-09"
-                prepend-inner-icon="tabler-calendar"
-                density="compact"
-                :config="{ position: 'auto right' }"
-              />
+              <!--              <AppDateTimePicker -->
+              <!--                model-value="2022-06-09" -->
+              <!--                prepend-inner-icon="tabler-calendar" -->
+              <!--                density="compact" -->
+              <!--                :config="{ position: 'auto right' }" -->
+              <!--              /> -->
             </div>
           </template>
         </VCardItem>
@@ -144,12 +144,12 @@ const chartJsCustomColors: ChartJsCustomColors = {
 
           <template #append>
             <div class="date-picker-wrapper">
-              <AppDateTimePicker
-                model-value="2022-06-09"
-                prepend-inner-icon="tabler-calendar"
-                density="compact"
-                :config="{ position: 'auto right' }"
-              />
+              <!--              <AppDateTimePicker -->
+              <!--                model-value="2022-06-09" -->
+              <!--                prepend-inner-icon="tabler-calendar" -->
+              <!--                density="compact" -->
+              <!--                :config="{ position: 'auto right' }" -->
+              <!--              /> -->
             </div>
           </template>
         </VCardItem>
@@ -172,12 +172,12 @@ const chartJsCustomColors: ChartJsCustomColors = {
 
           <template #append>
             <div class="date-picker-wrapper">
-              <AppDateTimePicker
-                model-value="2022-06-09"
-                prepend-inner-icon="tabler-calendar"
-                density="compact"
-                :config="{ position: 'auto right' }"
-              />
+              <!--              <AppDateTimePicker -->
+              <!--                model-value="2022-06-09" -->
+              <!--                prepend-inner-icon="tabler-calendar" -->
+              <!--                density="compact" -->
+              <!--                :config="{ position: 'auto right' }" -->
+              <!--              /> -->
             </div>
           </template>
         </VCardItem>

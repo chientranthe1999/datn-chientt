@@ -77,13 +77,13 @@ const checkAll = computed({
           <VDivider />
 
           <div class="d-flex align-center justify-center pa-2 mb-3">
-            <AppDateTimePicker
-              :model-value="new Date().toJSON().slice(0, 10)"
-              label="Inline"
-              :config="{ inline: true }"
-              class="calendar-date-picker"
-              @input="jumpToDate($event.target.value)"
-            />
+            <!--            <AppDateTimePicker -->
+            <!--              :model-value="new Date().toJSON().slice(0, 10)" -->
+            <!--              label="Inline" -->
+            <!--              :config="{ inline: true }" -->
+            <!--              class="calendar-date-picker" -->
+            <!--              @input="jumpToDate($event.target.value)" -->
+            <!--            /> -->
           </div>
 
           <VDivider />

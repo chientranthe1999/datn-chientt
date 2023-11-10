@@ -27,6 +27,10 @@ export default [
         to: 'finance-management-transactions',
       },
       {
+        title: 'finance.transaction_add',
+        to: 'finance-management-transaction-add',
+      },
+      {
         title: 'Wallet',
         to: 'finance-management-wallets',
       },

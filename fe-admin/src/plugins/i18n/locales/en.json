@@ -141,7 +141,8 @@
     "overview": "Overview",
     "my_wallet": "My wallet",
     "recent_transaction": "Recent Transaction",
-    "transaction": "Transaction List"
+    "transaction": "Transaction List",
+    "transaction_add": "Transaction Add"
   },
   "see_all": "See all",
   "balance": "Total balance",

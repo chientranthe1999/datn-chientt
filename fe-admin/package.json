@@ -34,7 +34,7 @@
     "vue-router": "^4.1.5",
     "vue3-apexcharts": "^1.4.1",
     "vue3-perfect-scrollbar": "^1.6.0",
-    "vuetify": "3.3.3",
+    "vuetify": "3.4.0",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
@@ -70,7 +70,6 @@
     "stylelint-config-idiomatic-order": "^9.0.0",
     "stylelint-config-standard-scss": "^6.1.0",
     "stylelint-use-logical-spec": "^4.1.0",
-    "svgo": "^3.0.2",
     "type-fest": "^3.2.0",
     "typescript": "^4.9.3",
     "unplugin-auto-import": "^0.11.4",

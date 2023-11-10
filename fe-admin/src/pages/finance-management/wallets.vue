@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { CategoryIcon } from '@/constants/common'
-import CategoryTree from '@/views/finance-management/CategoryTree.vue'
 
 const headers = [
   { title: 'Wallet', width: '15', align: 'start', key: 'name' },
