@@ -35,14 +35,14 @@ const desserts = [
     <VCol cols="7">
       <VCard title="My wallet">
         <template #append>
-          <VBtn prepend-icon="tabler-plus">Add New</VBtn>
+          <VBtn prepend-icon="tabler-plus" size="small">Add New</VBtn>
         </template>
         <VDivider />
 
         <DataTable :columns="headers" :items="desserts" :limit="2" :total="10">
           <template #action>
-            <VBtn color="primary" size="small" prepend-icon="tabler-pencil">Edit</VBtn>
-            <VBtn color="success" size="small" class="ms-2" variant="tonal">Transaction</VBtn>
+            <VBtn color="primary" size="x-small" prepend-icon="tabler-pencil">Edit</VBtn>
+            <VBtn color="success" size="x-small" class="ms-2" variant="tonal">Transaction</VBtn>
           </template>
 
           <template #name="{ colData }">
@@ -57,8 +57,13 @@ const desserts = [
 
     <VCol cols="5">
       <VCard title="My Categories">
+        <template #append>
+          <VBtn prepend-icon="tabler-plus" size="small">Add New</VBtn>
+        </template>
+        <VDivider />
+
         <VCardText>
-          <CategoryTree />
+          <TreeView />
         </VCardText>
       </VCard>
     </VCol>

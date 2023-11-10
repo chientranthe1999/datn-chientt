@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { PropType, VNode } from 'vue'
+import { VAvatar } from 'vuetify/components'
 import { VTreeNode } from '@core/components/TreeView/index'
 
 interface TreeItem {
@@ -20,15 +21,14 @@ export default defineComponent({
   setup(props) {
     const genChild = (child: TreeItem) => {
       return h(VTreeNode, {
-        class: 'ml-2',
-        props: {
-          items: child,
-        },
+        class: 'ml-8',
+        items: child, // flat props
       })
     }
 
     const genChildren = () => {
       const childElements: VNode[] = []
+
       if (props.items.children) {
         props.items.children.forEach(child => {
           childElements.push(genChild(child))
@@ -39,12 +39,23 @@ export default defineComponent({
     }
 
     const genRoot = () => {
-      return h('label', {}, 'ChienTT')
+      const icon = h(VAvatar, {
+        variant: 'tonal',
+        icon: props.items.icon ?? 'cate-default',
+        size: '40',
+        class: 'me-2',
+      })
+
+      return h('div',
+        {
+          class: 'py-3',
+        },
+        [icon, props.items.label],
+      )
     }
 
     return () => {
-      console.log(genChildren())
-      h('div', {}, [genRoot(), ...genChildren()])
+      return h('div', {}, [genRoot(), ...genChildren()])
     }
   },
 
