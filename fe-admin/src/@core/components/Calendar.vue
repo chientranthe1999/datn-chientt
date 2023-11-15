@@ -1,16 +1,23 @@
 <script lang="ts" setup>
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:datetime'])
 
 const formatDate = (date: Date = new Date()) => {
-  return `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate()}`
+  return `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`
 }
 
 const menuDisplay = ref(false)
+const datePickerValue = ref(new Date())
 const displayDate = ref(formatDate())
+
+watch(datePickerValue, newVal => {
+  displayDate.value = formatDate(newVal)
+  menuDisplay.value = false
+  emit('update:datetime', displayDate)
+})
 </script>
 
 <template>
-  <VMenu open-on-click :close-on-content-click="true">
+  <VMenu v-model="menuDisplay" open-on-click :close-on-content-click="false">
     <template #activator="{ props }">
       <VTextField
         v-model="displayDate"
@@ -21,14 +28,9 @@ const displayDate = ref(formatDate())
     </template>
 
     <VDatePicker
+      v-model="datePickerValue"
       no-title
       hide-header
-      @update:model-value="(val) => {
-        displayDate = formatDate(val)
-        menuDisplay = false
-        emit('update:modelValue', displayDate)
-        return false
-      }"
     />
   </VMenu>
 </template>

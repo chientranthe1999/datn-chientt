@@ -3,10 +3,10 @@ import { CategoryIcon } from '@/constants/common'
 
 const headers = [
   { title: 'Name/Wallet', align: 'start', key: 'name' },
-  { title: 'Calories', align: 'end', key: 'category' },
-  { title: 'Amount', align: 'end', key: 'amount' },
-  { title: 'Date', align: 'end', key: 'date' },
-  { title: '', align: 'center', key: 'action' },
+  { title: 'Calories', align: 'center', key: 'category' },
+  { title: 'Amount', align: 'center', key: 'amount' },
+  { title: 'Date', align: 'center', key: 'date' },
+  { title: 'Action', align: 'center', key: 'action' },
 ]
 
 const desserts = [
@@ -34,12 +34,12 @@ const desserts = [
 <template>
   <VCard title="Transaction List">
     <template #append>
-      <VBtn prepend-icon="tabler-plus">Add New</VBtn>
+      <VBtn prepend-icon="tabler-plus" :to="{ name: 'finance-management-transaction-add' }">Add New</VBtn>
     </template>
     <VDivider />
 
     <VCardText>
-      <VRow>
+      <VRow class="mb-3">
         <VCol cols="2.5">
           <VSelect
             density="compact"
@@ -76,13 +76,13 @@ const desserts = [
           <VBtn prepend-icon="tabler-search">Search</VBtn>
         </VCol>
       </VRow>
-    </VCardText>
 
-    <DataTable :columns="headers" :items="desserts" :limit="2" :total="10">
-      <template #action>
-        <VBtn color="primary" size="small">Detail</VBtn>
-      </template>
-    </DataTable>
+      <VDataTable :headers="headers" :items="desserts">
+        <template #item.action>
+          <VBtn color="primary" size="small">Detail</VBtn>
+        </template>
+      </VDataTable>
+    </VCardText>
   </VCard>
 </template>
 

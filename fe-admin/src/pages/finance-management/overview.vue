@@ -31,95 +31,93 @@ const toggle_exclusive = ref('month')
 </script>
 
 <template>
-  <div>
-    <VRow>
-      <VCol cols="12" sm="6" md="3">
-        <VCard>
-          <VCardText>
-            <VRow class="align-center">
-              <VCol cols="3" class="d-flex justify-center">
-                <VAvatar color="primary" variant="tonal" size="42" icon="tabler-credit-card" />
-              </VCol>
+  <VRow>
+    <VCol cols="12" sm="6" md="3">
+      <VCard>
+        <VCardText>
+          <VRow class="align-center">
+            <VCol cols="3" class="d-flex justify-center">
+              <VAvatar color="primary" variant="tonal" size="42" icon="tabler-credit-card" />
+            </VCol>
 
-              <VCol cols="9">
-                <div class="mb-2">{{ $t('spending') }}</div>
-                <div class="text-h6">250 250</div>
-              </VCol>
-            </VRow>
-          </VCardText>
-        </VCard>
-      </VCol>
+            <VCol cols="9">
+              <div class="mb-2">{{ $t('spending') }}</div>
+              <div class="text-h6">250 250</div>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VCol>
 
-      <VCol cols="12" sm="6" md="3">
-        <VCard>
-          <VCardText>
-            <VRow class="align-center">
-              <VCol cols="3" class="d-flex justify-center">
-                <VAvatar color="info" variant="tonal" size="42" icon="tabler-chart-bar" />
-              </VCol>
+    <VCol cols="12" sm="6" md="3">
+      <VCard>
+        <VCardText>
+          <VRow class="align-center">
+            <VCol cols="3" class="d-flex justify-center">
+              <VAvatar color="info" variant="tonal" size="42" icon="tabler-chart-bar" />
+            </VCol>
 
-              <VCol cols="9">
-                <div class="mb-2">{{ $t('spending') }}</div>
-                <div class="text-h6">250 250</div>
-              </VCol>
-            </VRow>
-          </VCardText>
-        </VCard>
-      </VCol>
+            <VCol cols="9">
+              <div class="mb-2">{{ $t('spending') }}</div>
+              <div class="text-h6">250 250</div>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VCol>
 
-      <VCol cols="12" sm="6" md="3">
-        <VCard>
-          <VCardText>
-            <VRow class="align-center">
-              <VCol cols="3" class="d-flex justify-center">
-                <VAvatar color="success" variant="tonal" size="42" icon="tabler-arrow-elbow-right" />
-              </VCol>
+    <VCol cols="12" sm="6" md="3">
+      <VCard>
+        <VCardText>
+          <VRow class="align-center">
+            <VCol cols="3" class="d-flex justify-center">
+              <VAvatar color="success" variant="tonal" size="42" icon="tabler-arrow-elbow-right" />
+            </VCol>
 
-              <VCol cols="9">
-                <div class="mb-2">{{ $t('incoming') }}</div>
-                <div class="text-h6">250 250</div>
-              </VCol>
-            </VRow>
-          </VCardText>
-        </VCard>
-      </VCol>
+            <VCol cols="9">
+              <div class="mb-2">{{ $t('incoming') }}</div>
+              <div class="text-h6">250 250</div>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VCol>
 
-      <VCol cols="12" sm="12" md="4">
-        <TopSpending class="h-100" />
-      </VCol>
+    <VCol cols="12" sm="12" md="4">
+      <TopSpending class="h-100" />
+    </VCol>
 
-      <VCol cols="12" sm="12" md="4">
-        <Wallet class="h-100" />
-      </VCol>
+    <VCol cols="12" sm="12" md="4">
+      <Wallet class="h-100" />
+    </VCol>
 
-      <VCol cols="12" sm="12" md="4">
-        <VCard title="Category Spending" class="h-100">
-          <VCardText>
-            <CategoryChart />
-          </VCardText>
-        </VCard>
-      </VCol>
+    <VCol cols="12" sm="12" md="4">
+      <VCard title="Category Spending" class="h-100">
+        <VCardText>
+          <CategoryChart />
+        </VCardText>
+      </VCard>
+    </VCol>
 
-      <!--    TODO: filter by month, year -->
-      <!--    TOP category spending -->
-      <VCol cols="12" sm="12" md="6">
-        <VCard title="Sending Chart">
-          <template #append>
-            <VBtnToggle v-model="toggle_exclusive" color="primary">
-              <VBtn value="month">Month</VBtn>
-              <VBtn value="year">Year</VBtn>
-            </VBtnToggle>
-          </template>
-          <VCardText>
-            <SpendingChart :colors="chartJsCustomColors" />
-          </VCardText>
-        </VCard>
-      </VCol>
+    <!--    TODO: filter by month, year -->
+    <!--    TOP category spending -->
+    <VCol cols="12" sm="12" md="6">
+      <VCard title="Sending Chart">
+        <template #append>
+          <VBtnToggle v-model="toggle_exclusive" color="primary">
+            <VBtn value="month">Month</VBtn>
+            <VBtn value="year">Year</VBtn>
+          </VBtnToggle>
+        </template>
+        <VCardText>
+          <SpendingChart :colors="chartJsCustomColors" />
+        </VCardText>
+      </VCard>
+    </VCol>
 
-      <!--      Recent transaction -->
-      <VCol cols="12" sm="12" md="6">
-        <RecentTransaction class="h-100" />
-      </VCol>
-    </VRow>
-  </div>
+    <!--      Recent transaction -->
+    <VCol cols="12" sm="12" md="6">
+      <RecentTransaction class="h-100" />
+    </VCol>
+  </VRow>
 </template>

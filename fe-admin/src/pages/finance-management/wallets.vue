@@ -38,19 +38,19 @@ const desserts = [
         </template>
         <VDivider />
 
-        <DataTable :columns="headers" :items="desserts" :limit="2" :total="10">
-          <template #action>
+        <VDataTable :headers="headers" :items="desserts">
+          <template #item.action>
             <VBtn color="primary" size="x-small" prepend-icon="tabler-pencil">Edit</VBtn>
             <VBtn color="success" size="x-small" class="ms-2" variant="tonal">Transaction</VBtn>
           </template>
 
-          <template #name="{ colData }">
+          <template #item.name="{ item }">
             <VRow class="align-center">
               <VAvatar variant="tonal" icon="wallet-default" size="40" />
-              <span class="ms-2">{{ colData.name }}</span>
+              <span class="ms-2">{{ item.name }}</span>
             </VRow>
           </template>
-        </DataTable>
+        </VDataTable>
       </VCard>
     </VCol>
 
