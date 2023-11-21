@@ -35,6 +35,12 @@ const columns = [
         date: 'Sep 15',
         type: 'QA',
       },
+      {
+        id: 6,
+        title: 'Add discount code to checkout page',
+        date: 'Sep 14',
+        type: 'Feature Request',
+      },
     ],
   },
   {
@@ -121,58 +127,43 @@ const columns = [
 </script>
 
 <template>
-  <div id="app">
-    <div class="d-flex justify-center">
-      <div class="min-h-screen d-flex overflow-x-scroll py-12">
-        <div
-          v-for="column in columns"
-          :key="column.title"
-          class="mr-4 bg-gray-100 rounded-lg px-3 py-3 column-width rounded "
-        >
-          <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{ column.title }}</p>
-          <Draggable
-            :list="column.tasks"
-            ghost-class="ghost"
-            item-key="id"
-          >
-            <template #item="{ element }">
-              <TaskCard
-                v-for="(task) in column.tasks"
-                :key="task.id"
-                :task="task"
-                class="mt-3 cursor-move"
-              />
-            </template>
-          </Draggable>
+  <div class="d-flex overflow-x-auto py-12">
+    <VCard
+      v-for="column in columns"
+      :key="column.title"
+      class="mr-4 px-3 py-3 column-width h-fit-content"
+      color="#f3f3f3"
+    >
+      <p class="text-sm font-weight-semibold">{{ column.title }}</p>
+      <Draggable
+        :list="column.tasks"
+        :item-key="column.title"
+        group="task"
+        tag="transition-group"
+        :component-data="{ tag: 'ul', name: 'flip-list', type: 'transition' }"
+      >
+        <template #item="{ element }">
+          <TaskCard
+            :task="element"
+            class="mt-3 cursor-grab"
+          />
+        </template>
 
-          <!--          <Draggable -->
-          <!--            :list="column.tasks" -->
-          <!--            item-key="title" -->
-          <!--            class="list-group" -->
-          <!--            ghost-class="ghost" -->
-          <!--          > -->
-          <!--            <template #item="{ element }"> -->
-          <!--              <div class="list-group-item"> -->
-          <!--                {{ element.title }} -->
-          <!--              </div> -->
-          <!--            </template> -->
-          <!--          </Draggable> -->
-        </div>
-      </div>
-    </div>
+        <template #footer>
+          <VBtn block="true" variant="tonal" prepend-icon="tabler-plus">Add Task</VBtn>
+        </template>
+      </Draggable>
+    </VCard>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .column-width {
   min-width: 320px;
   width: 320px;
 }
-/* Unfortunately @apply cannot be setup in codesandbox,
-but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */
-.ghost-card {
-  opacity: 0.5;
-  background: #F7FAFC;
-  border: 1px solid #4299e1;
+
+.cursor-grab {
+  cursor: grab;
 }
 </style>
