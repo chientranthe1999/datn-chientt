@@ -4,7 +4,7 @@ const shortcuts = [
     icon: 'tabler-calendar',
     title: 'Calendar',
     subtitle: 'Appointments',
-    to: { name: 'apps-calendar' },
+    to: { name: 'task-calendar' },
   },
   {
     icon: 'tabler-file',

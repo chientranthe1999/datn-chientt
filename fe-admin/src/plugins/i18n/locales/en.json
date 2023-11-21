@@ -11,11 +11,19 @@
     "wallet_category": "Wallet & Category"
   },
   "task": {
+    "heading": "Task & Calendar",
     "title": "Title",
-    "label": "Label"
+    "label": "Label",
+    "kanban": "Kanban Board"
   },
   "see_all": "See all",
   "balance": "Total balance",
   "spending": "Total spending",
-  "incoming": "Total incoming"
+  "incoming": "Total incoming",
+  "btn": {
+    "submit": "Submit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit"
+  }
 }

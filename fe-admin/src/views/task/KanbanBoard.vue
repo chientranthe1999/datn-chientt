@@ -2,6 +2,8 @@
 import Draggable from 'vuedraggable'
 import TaskCard from './TaskCard.vue'
 
+defineEmits(['openAddNewTask'])
+
 const columns = [
   {
     title: 'Backlog',
@@ -150,7 +152,7 @@ const columns = [
         </template>
 
         <template #footer>
-          <VBtn block="true" variant="tonal" prepend-icon="tabler-plus">Add Task</VBtn>
+          <VBtn block="true" variant="tonal" prepend-icon="tabler-plus" @click="$emit('openAddNewTask', column.title)">Add Task</VBtn>
         </template>
       </Draggable>
     </VCard>

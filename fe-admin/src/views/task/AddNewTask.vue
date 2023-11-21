@@ -4,7 +4,7 @@ import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import type { VForm } from 'vuetify/components'
 
 import type { UserProperties } from '@/@fake-db/types'
-import { emailValidator, requiredValidator } from '@validators'
+import { requiredValidator } from '@validators'
 
 interface Emit {
   (e: 'update:isDrawerOpen', value: boolean): void
@@ -89,21 +89,6 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
       <VBtn
         density="compact" icon="tabler-trash-filled" variant="text" color="error"
       />
-
-      <!-- 👉 Close btn -->
-      <!--      <VBtn -->
-      <!--        variant="tonal" -->
-      <!--        color="default" -->
-      <!--        icon -->
-      <!--        size="32" -->
-      <!--        class="rounded" -->
-      <!--        @click="closeNavigationDrawer" -->
-      <!--      > -->
-      <!--        <VIcon -->
-      <!--          size="18" -->
-      <!--          icon="tabler-x" -->
-      <!--        /> -->
-      <!--      </VBTn> -->
     </div>
     <VDivider class="my-4" />
 
@@ -122,6 +107,7 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
               :label="$t('task.title')"
               :hide-details="false"
               density="compact"
+              class="mb-2"
             />
 
             <VSelect
@@ -131,69 +117,53 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
               :items="['Admin', 'Author', 'Editor', 'Maintainer', 'Subscriber']"
               :hide-details="false"
               clearable="true"
+              class="mb-2"
+              chips
             />
 
-            <VTextField
-              v-model="company"
-              :rules="[requiredValidator]"
-              label="Company"
-              :hide-details="false"
-              density="compact"
-            />
+            <VRadioGroup class="mb-4">
+              <template #label>
+                <div>Priority</div>
+              </template>
 
-            <VTextField
-              v-model="country"
-              :rules="[requiredValidator]"
-              label="Country"
-              density="compact"
-              :hide-details="false"
-            />
+              <div class="d-flex">
+                <VRadio value="High">
+                  <template #label>
+                    <VChip prepend-icon="tabler-arrow-badge-up" color="error">High</VChip>
+                  </template>
+                </VRadio>
+                <VRadio value="Medium">
+                  <template #label>
+                    <VChip prepend-icon="tabler-menu" color="success">Medium</VChip>
+                  </template>
+                </VRadio>
 
-            <VTextField
-              v-model="contact"
-              type="number"
-              :rules="[requiredValidator]"
-              label="Contact"
-              :hide-details="false"
-            />
+                <VRadio value="Low">
+                  <template #label>
+                    <VChip prepend-icon="tabler-chevron-down" color="primary">Low</VChip>
+                  </template>
+                </VRadio>
+              </div>
+            </VRadioGroup>
 
-            <VSelect
+            <VTextarea
               v-model="role"
-              label="Select Role"
+              label="Description"
               :rules="[requiredValidator]"
               :items="['Admin', 'Author', 'Editor', 'Maintainer', 'Subscriber']"
               :hide-details="false"
+              class="mb-4"
             />
 
-            <VSelect
-              v-model="plan"
-              label="Select Plan"
-              :rules="[requiredValidator]"
-              :items="['Basic', 'Company', 'Enterprise', 'Team']"
-              :hide-details="false"
-            />
-
-            <VSelect
-              v-model="status"
-              label="Select Status"
-              :rules="[requiredValidator]"
-              :items="[{ title: 'Active', value: 'active' }, { title: 'Inactive', value: 'inactive' }, { title: 'Pending', value: 'pending' }]"
-              :hide-details="false"
-            />
-
-            <VBtn
-              type="submit"
-              class="me-3"
-            >
-              Submit
-            </VBtn>
+            <VBtn size="small" type="submit" class="me-3"> {{ $t("btn.save") }} </VBtn>
             <VBtn
               type="reset"
               variant="tonal"
               color="secondary"
+              size="small"
               @click="closeNavigationDrawer"
             >
-              Cancel
+              {{ $t("btn.cancel") }}
             </VBtn>
           </VForm>
         </VCardText>

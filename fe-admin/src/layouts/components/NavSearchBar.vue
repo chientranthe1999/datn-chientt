@@ -36,7 +36,7 @@ const suggestionGroups: SuggestionGroup[] = [
   {
     title: 'Apps & Pages',
     content: [
-      { icon: 'tabler-calendar', title: 'Calendar', url: { name: 'apps-calendar' } },
+      { icon: 'tabler-calendar', title: 'Calendar', url: { name: 'task-calendar' } },
       { icon: 'tabler-file-plus', title: 'Invoice Add', url: { name: 'apps-invoice-add' } },
       { icon: 'tabler-currency-dollar', title: 'Pricing', url: { name: 'pages-pricing' } },
       { icon: 'tabler-user', title: 'Account Settings', url: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },

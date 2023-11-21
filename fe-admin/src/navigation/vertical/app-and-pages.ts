@@ -1,11 +1,6 @@
 export default [
   { heading: 'Apps & Pages' },
   {
-    title: 'Calendar',
-    icon: { icon: 'tabler-calendar' },
-    to: 'apps-calendar',
-  },
-  {
     title: 'User',
     icon: { icon: 'tabler-user' },
     children: [

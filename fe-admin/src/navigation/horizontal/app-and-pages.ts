@@ -4,11 +4,6 @@ export default [
     icon: { icon: 'tabler-package' },
     children: [
       {
-        title: 'Calendar',
-        to: 'apps-calendar',
-        icon: { icon: 'tabler-calendar' },
-      },
-      {
         title: 'User',
         icon: { icon: 'tabler-user' },
         children: [

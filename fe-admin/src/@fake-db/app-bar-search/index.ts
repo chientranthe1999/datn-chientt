@@ -27,13 +27,6 @@ const database: SearchItem[] = [
     category: 'dashboards',
   },
   {
-    id: 6,
-    url: { name: 'apps-calendar' },
-    icon: 'tabler-calendar',
-    title: 'Calendar',
-    category: 'appsPages',
-  },
-  {
     id: 7,
     url: { name: 'apps-invoice-list' },
     icon: 'tabler-list',
