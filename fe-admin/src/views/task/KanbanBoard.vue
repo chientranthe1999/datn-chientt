@@ -4,7 +4,7 @@ import TaskCard from './TaskCard.vue'
 
 defineEmits(['openAddNewTask'])
 
-const columns = [
+const columns = ref([
   {
     title: 'Backlog',
     tasks: [
@@ -125,7 +125,7 @@ const columns = [
       },
     ],
   },
-]
+])
 </script>
 
 <template>
@@ -155,6 +155,13 @@ const columns = [
           <VBtn block="true" variant="tonal" prepend-icon="tabler-plus" @click="$emit('openAddNewTask', column.title)">Add Task</VBtn>
         </template>
       </Draggable>
+    </VCard>
+
+    <VCard
+      class="mr-4 px-3 py-3 column-width h-fit-content"
+      color="#f3f3f3"
+    >
+      <VBtn block="true" variant="tonal" prepend-icon="tabler-plus" @click="$emit('openAddNewTask', column.title)">Add Task</VBtn>
     </VCard>
   </div>
 </template>

@@ -49,20 +49,10 @@ const desserts = [
           />
         </VCol>
         <VCol cols="2.5">
-          <VSelect
-            density="compact"
-            variant="outlined"
-            label="Start Date"
-            :items="[10, 20, 30, 50]"
-          />
+          <Calendar v-model:datetime="displayDate" label="Start Date" />
         </VCol>
         <VCol cols="2.5">
-          <VSelect
-            density="compact"
-            variant="outlined"
-            label="End Date"
-            :items="[10, 20, 30, 50]"
-          />
+          <Calendar v-model:datetime="displayDate" label="End Date" />
         </VCol>
         <VCol cols="2.5">
           <VSelect

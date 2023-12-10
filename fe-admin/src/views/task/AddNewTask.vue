@@ -83,7 +83,7 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
       <VSelect
         variant="outlined"
         class="custom-select"
-        :items="[10, 20, 30, 50]"
+        :items="['Backlog', 'In Progress', 'Review', 'Done']"
       />
 
       <VBtn
@@ -114,12 +114,19 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
               v-model="role"
               :label="$t('task.label')"
               :rules="[requiredValidator]"
-              :items="['Admin', 'Author', 'Editor', 'Maintainer', 'Subscriber']"
+              :items="['Design', 'Backend', 'Feature Request', 'QA']"
               :hide-details="false"
               clearable="true"
               class="mb-2"
               chips
             />
+
+            <div class="mb-4">
+              <Calendar v-model:datetime="displayDate" label="Start date" />
+            </div>
+            <div class="mb-2">
+              <Calendar v-model:datetime="displayDate" label="End date" />
+            </div>
 
             <VRadioGroup class="mb-4">
               <template #label>

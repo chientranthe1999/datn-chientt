@@ -1,4 +1,11 @@
 <script lang="ts" setup>
+const props = defineProps({
+  label: {
+    type: String,
+    default: 'Date',
+  },
+})
+
 const emit = defineEmits(['update:datetime'])
 
 const formatDate = (date: Date = new Date()) => {
@@ -21,7 +28,7 @@ watch(datePickerValue, newVal => {
     <template #activator="{ props }">
       <VTextField
         v-model="displayDate"
-        label="Date"
+        :label="label"
         v-bind="props"
         append-inner-icon="mdi-calendar"
       />

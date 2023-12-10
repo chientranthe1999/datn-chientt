@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import '@fullcalendar/core/vdom' // solves problem with Vite
-
-// Local imports
+import '@fullcalendar/core/vdom'
 
 import FullCalendar from '@fullcalendar/vue3'
 import { blankEvent, useCalendar } from '@/views/apps/calendar/useCalendar'
@@ -62,7 +60,7 @@ const checkAll = computed({
           touchless
           location="start"
           class="calendar-add-event-drawer"
-          :temporary="$vuetify.display.mdAndDown"
+          :temprary="$vuetify.display.mdAndDown"
         >
           <div style="margin: 1.4rem;">
             <VBtn
@@ -77,13 +75,10 @@ const checkAll = computed({
           <VDivider />
 
           <div class="d-flex align-center justify-center pa-2 mb-3">
-            <!--            <AppDateTimePicker -->
-            <!--              :model-value="new Date().toJSON().slice(0, 10)" -->
-            <!--              label="Inline" -->
-            <!--              :config="{ inline: true }" -->
-            <!--              class="calendar-date-picker" -->
-            <!--              @input="jumpToDate($event.target.value)" -->
-            <!--            /> -->
+            <VDatePicker
+              no-title
+              hide-header
+            />
           </div>
 
           <VDivider />
