@@ -26,10 +26,9 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => ['required', 'unique:admins,username', 'min:4', 'max:12', new NoSpaces],
-            'email' => ['required', 'email', 'unique:admins,email', 'max:64', new NoSpaces],
+            'name' => ['required'],
+            'email' => ['required', 'email', 'unique:users,email', 'max:64', new NoSpaces],
             'password' => 'required|min:6',
-            'role' => 'in:' . implode(',', [Role::ROLE_ADMIN, Role::ROLE_STAFF]),
         ];
     }
 }

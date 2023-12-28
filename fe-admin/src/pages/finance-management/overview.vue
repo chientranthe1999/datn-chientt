@@ -41,13 +41,14 @@ const toggle_exclusive = ref('month')
             </VCol>
 
             <VCol cols="9">
-              <div class="mb-2">{{ $t('spending') }}</div>
+              <div class="mb-2">{{ $t('balance') }}</div>
               <div class="text-h6">250 250</div>
             </VCol>
           </VRow>
         </VCardText>
       </VCard>
     </VCol>
+    <ImageUpload />
 
     <VCol cols="12" sm="6" md="3">
       <VCard>
@@ -102,7 +103,7 @@ const toggle_exclusive = ref('month')
     <!--    TODO: filter by month, year -->
     <!--    TOP category spending -->
     <VCol cols="12" sm="12" md="6">
-      <VCard title="Sending Chart">
+      <VCard :title="$t('finance.spending_chart')">
         <template #append>
           <VBtnToggle v-model="toggle_exclusive" color="primary">
             <VBtn value="month">Month</VBtn>

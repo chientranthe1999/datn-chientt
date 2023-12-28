@@ -52,7 +52,7 @@ const transitions = [
 </script>
 
 <template>
-  <VCard title="Top Spending By Transaction">
+  <VCard :title="$t('finance.top_spending')">
     <VCardText>
       <VList class="card-list">
         <VListItem

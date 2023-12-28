@@ -25,9 +25,10 @@ app.use(createPinia())
 app.use(router)
 app.use(layoutsPlugin)
 app.use(i18n)
-app.use(abilitiesPlugin, ability, {
-  useGlobalProperties: true,
-})
+
+// app.use(abilitiesPlugin, ability, {
+//   useGlobalProperties: true,
+// })
 
 // Mount vue app
 app.mount('#app')

@@ -10,11 +10,13 @@ class Wallet extends Model
     use HasFactory;
 
     protected $fillable = [
-        'username',
-        'email',
-        'password',
-        'avt',
-        'role',
-        'email_verified_at'
+        'user_id',
+        'group_id',
+        'description',
+        'name',
+        'total',
+        'status',
+        'report_exclude',
+        'icon'
     ];
 }

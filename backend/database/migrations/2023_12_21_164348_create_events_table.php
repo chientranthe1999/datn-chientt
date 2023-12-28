@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('group_id')->default(0);
-            $table->string('type', 16);
-            $table->string('name', 128);
-            $table->string('icon');
-            $table->boolean('report_exclude')->default(false);
+            $table->string('title', 200);
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->string('description');
+            $table->string('location', 200);
+            $table->string('tag', 20);
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('events');
     }
 };

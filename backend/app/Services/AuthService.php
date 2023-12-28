@@ -7,8 +7,10 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\UnauthorizedException;
 use Laravel\Passport\Client as OClient;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\Exceptions\AuthenticationException;
 use Laravel\Passport\Token;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -60,15 +62,19 @@ class AuthService
     /**
      * @throws Exception
      */
-    public function register(string $modelNamespace, $username, $email, $password): array
+    public function register(string $modelNamespace, $name, $email, $password, $avt = ''): array
     {
-        $data = compact('username', 'email', 'password');
+        $data = compact('name', 'email', 'password', 'avt');
         $data['password'] = Hash::make($password);
+
+        // send email active
+        // save login history
+        $data['is_active'] = true;
         $user = $modelNamespace::create($data);
 
-        $tokenData = $this->generateToken($modelNamespace, $username, $password);
+        $tokenData = $this->generateToken($modelNamespace, $email, $password);
         if (!$tokenData) {
-            throw new BadRequestException();
+            throw new BadRequestException("There is an error happen when create token");
         }
 
         return Arr::add($tokenData, 'user', $user);
@@ -77,15 +83,15 @@ class AuthService
     /**
      * @throws Exception
      */
-    public function login(string $modelNamespace, $username, $password)
+    public function login(string $modelNamespace, $email, $password)
     {
         $result = [];
-        $result['token'] = $this->generateToken($modelNamespace, $username, $password);
+        $result['token'] = $this->generateToken($modelNamespace, $email, $password);
         if (!$result['token']) {
-            throw new AuthorizationException(__('api.exception.invalid_credentials'));
+            throw new AuthenticationException();
         }
         $guard = auth($this->_getGuard($modelNamespace));
-        if ($guard && $guard->attempt(compact('username', 'password'))) {
+        if ($guard && $guard->attempt(compact('email', 'password'))) {
             $result['user'] = $guard->user();
         }
 
@@ -104,12 +110,12 @@ class AuthService
 
     /**
      * @param string $modelNamespace
-     * @param $username
+     * @param $email
      * @param $password
      * @return mixed|null
      * @throws Exception
      */
-    public function generateToken(string $modelNamespace, $username, $password)
+    public function generateToken(string $modelNamespace, $email, $password): mixed
     {
         $oClient = $this->_getClient($modelNamespace);
         if (!$oClient) return null;
@@ -118,7 +124,7 @@ class AuthService
             'grant_type' => 'password',
             'client_id' => (string)$oClient->id,
             'client_secret' => $oClient->secret,
-            'username' => $username,
+            'username' => $email,
             'password' => $password,
             'scope' => '*',
         ]);

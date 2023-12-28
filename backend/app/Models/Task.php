@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Transaction extends Model
+class Task extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'amount',
-        'category_id',
-        'user_id',
-        'wallet_id',
+        'title',
+        'label',
+        'priority',
         'description',
-        'image',
-        'report_exclude',
-        'action_time',
+        'startDate',
+        'endDate',
+        'status_id',
+        'user_id',
+        'parent_id'
     ];
 }

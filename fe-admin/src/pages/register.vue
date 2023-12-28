@@ -84,14 +84,8 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <VRow
-    no-gutters
-    class="auth-wrapper"
-  >
-    <VCol
-      lg="8"
-      class="d-none d-lg-flex"
-    >
+  <VRow no-gutters class="auth-wrapper">
+    <VCol lg="8" class="d-none d-lg-flex">
       <div class="position-relative auth-bg rounded-lg w-100 ma-8 me-0">
         <div class="d-flex align-center justify-center w-100 h-100">
           <VImg
@@ -101,27 +95,20 @@ const onSubmit = () => {
           />
         </div>
 
-        <VImg
-          class="auth-footer-mask"
-          :src="authThemeMask"
-        />
+        <VImg class="auth-footer-mask" :src="authThemeMask" />
       </div>
     </VCol>
 
-    <VCol
-      cols="12"
-      lg="4"
-      class="d-flex align-center justify-center"
-    >
+    <VCol cols="12" lg="4" class="d-flex align-center justify-center">
       <VCard
-        flat
         :max-width="500"
         class="mt-12 mt-sm-0 pa-4"
+        flat
       >
         <VCardText>
           <VNodeRenderer
             :nodes="themeConfig.app.logo"
-            class="mb-6"
+            class="mb-6 w-25"
           />
           <h5 class="text-h5 font-weight-semibold mb-1">
             Adventure starts here 🚀

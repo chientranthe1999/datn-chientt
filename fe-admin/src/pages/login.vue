@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { VForm } from 'vuetify/components'
-import type { LoginResponse } from '@/@fake-db/types'
-import { useAppAbility } from '@/plugins/casl/useAppAbility'
+
+// import { useAppAbility } from '@/plugins/casl/useAppAbility'
+import type { Ref } from 'vue'
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
-import axios from '@axios'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
@@ -15,17 +15,20 @@ import authV2LoginIllustrationDark from '@images/pages/auth-v2-login-illustratio
 import authV2LoginIllustrationLight from '@images/pages/auth-v2-login-illustration-light.png'
 import authV2MaskDark from '@images/pages/misc-mask-dark.png'
 import authV2MaskLight from '@images/pages/misc-mask-light.png'
+import { login } from '@/api/auth'
+import { HTTP_STATUS } from '@/constants/common'
+import { setToken } from '@core/utils/auth'
+import { useUserStore as userStore } from '@/pinia/userStore'
 
 const authThemeImg = useGenerateImageVariant(authV2LoginIllustrationLight, authV2LoginIllustrationDark, authV2LoginIllustrationBorderedLight, authV2LoginIllustrationBorderedDark, true)
 
 const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
 
 const isPasswordVisible = ref(false)
+const loading: Ref<boolean> = ref(false)
 
 const route = useRoute()
 const router = useRouter()
-
-const ability = useAppAbility()
 
 const errors = ref<Record<string, string | undefined>>({
   email: undefined,
@@ -33,50 +36,45 @@ const errors = ref<Record<string, string | undefined>>({
 })
 
 const refVForm = ref<VForm>()
-const email = ref('admin@demo.com')
-const password = ref('admin')
-const rememberMe = ref(false)
+const email = ref()
+const password = ref()
 
-const login = () => {
-  axios.post<LoginResponse>('/auth/login', { email: email.value, password: password.value })
-    .then(r => {
-      const { accessToken, userData, userAbilities } = r.data
+const loginHandler = async () => {
+  try {
+    loading.value = true
 
-      localStorage.setItem('userAbilities', JSON.stringify(userAbilities))
-      ability.update(userAbilities)
+    const res = await login({ email: email.value, password: password.value })
+    if (res.status === HTTP_STATUS.OK && res.data) {
+      const { token, user } = res.data
 
-      localStorage.setItem('userData', JSON.stringify(userData))
-      localStorage.setItem('accessToken', JSON.stringify(accessToken))
+      setToken(token.access_token)
+      userStore.setToken(token)
+      userStore.setUserInfo(user)
 
       // Redirect to `to` query if exist or redirect to index route
-      router.replace(route.query.to ? String(route.query.to) : '/')
-    })
-    .catch(e => {
-      const { errors: formErrors } = e.response.data
+      await router.replace(route.query.to ? String(route.query.to) : '/')
+    }
+  }
+  catch (e) {
 
-      errors.value = formErrors
-      console.error(e.response.data)
-    })
+  }
+  finally {
+    loading.value = false
+  }
 }
 
 const onSubmit = () => {
   refVForm.value?.validate()
-    .then(({ valid: isValid }) => {
+    .then(async ({ valid: isValid }) => {
       if (isValid)
-        login()
+        await loginHandler()
     })
 }
 </script>
 
 <template>
-  <VRow
-    no-gutters
-    class="auth-wrapper"
-  >
-    <VCol
-      lg="8"
-      class="d-none d-lg-flex"
-    >
+  <VRow no-gutters class="auth-wrapper">
+    <VCol lg="8" class="d-none d-lg-flex">
       <div class="position-relative auth-bg rounded-lg w-100 ma-8 me-0">
         <div class="d-flex align-center justify-center w-100 h-100">
           <VImg
@@ -86,10 +84,7 @@ const onSubmit = () => {
           />
         </div>
 
-        <VImg
-          :src="authThemeMask"
-          class="auth-footer-mask"
-        />
+        <VImg :src="authThemeMask" class="auth-footer-mask" />
       </div>
     </VCol>
 
@@ -116,24 +111,9 @@ const onSubmit = () => {
             Please sign-in to your account and start the adventure
           </p>
         </VCardText>
+
         <VCardText>
-          <VAlert
-            color="primary"
-            variant="tonal"
-          >
-            <p class="text-caption mb-2">
-              Admin Email: <strong>admin@demo.com</strong> / Pass: <strong>admin</strong>
-            </p>
-            <p class="text-caption mb-0">
-              Client Email: <strong>client@demo.com</strong> / Pass: <strong>client</strong>
-            </p>
-          </VAlert>
-        </VCardText>
-        <VCardText>
-          <VForm
-            ref="refVForm"
-            @submit.prevent="onSubmit"
-          >
+          <VForm ref="refVForm" @submit.prevent="onSubmit">
             <VRow>
               <!-- email -->
               <VCol cols="12">
@@ -159,31 +139,16 @@ const onSubmit = () => {
                 />
 
                 <div class="d-flex align-center flex-wrap justify-space-between mt-2 mb-4">
-                  <VCheckbox
-                    v-model="rememberMe"
-                    label="Remember me"
-                  />
-                  <RouterLink
-                    class="text-primary ms-2 mb-1"
-                    :to="{ name: 'forgot-password' }"
-                  >
+                  <RouterLink class="text-primary ms-2 mb-1" :to="{ name: 'forgot-password' }">
                     Forgot Password?
                   </RouterLink>
                 </div>
 
-                <VBtn
-                  block
-                  type="submit"
-                >
-                  Login
-                </VBtn>
+                <VBtn block type="submit" :loading="loading">Login</VBtn>
               </VCol>
 
               <!-- create account -->
-              <VCol
-                cols="12"
-                class="text-center"
-              >
+              <VCol cols="12" class="text-center">
                 <span>New on our platform?</span>
                 <RouterLink
                   class="text-primary ms-2"
@@ -202,10 +167,7 @@ const onSubmit = () => {
               </VCol>
 
               <!-- auth providers -->
-              <VCol
-                cols="12"
-                class="text-center"
-              >
+              <VCol cols="12" class="text-center">
                 <AuthProvider />
               </VCol>
             </VRow>

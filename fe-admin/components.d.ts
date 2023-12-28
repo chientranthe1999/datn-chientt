@@ -272,6 +272,7 @@ declare module '@vue/runtime-core' {
     EnableOneTimePasswordDialog: typeof import('./src/@core/components/EnableOneTimePasswordDialog.vue')['default']
     ErrorHeader: typeof import('./src/@core/components/ErrorHeader.vue')['default']
     I18n: typeof import('./src/@core/components/I18n.vue')['default']
+    ImageUpload: typeof import('./src/@core/components/ImageUpload.vue')['default']
     Notifications: typeof import('./src/@core/components/Notifications.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

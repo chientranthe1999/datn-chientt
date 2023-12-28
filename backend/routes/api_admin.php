@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function() {
-    return response()->json(['status' => 'OK']);
+    return response()->json(['status' => 'ChienTT OK']);
 });
 
 Route::post('login', [AuthController::class, 'login'])->name('admin.login');

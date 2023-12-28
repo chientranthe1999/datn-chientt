@@ -8,7 +8,7 @@ interface Shortcut {
   to: object | string
 }
 
-interface Props {cd
+interface Props {
   togglerIcon?: string
   shortcuts: Shortcut[]
 }

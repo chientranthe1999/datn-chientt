@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import { initialAbility } from '@/plugins/casl/ability'
-import { useAppAbility } from '@/plugins/casl/useAppAbility'
+import { useUserStore } from '@/pinia/userStore'
 
 const router = useRouter()
-const ability = useAppAbility()
-const userData = JSON.parse(localStorage.getItem('userData') || 'null')
 
-const logout = () => {
-  // Remove "userData" from localStorage
-  localStorage.removeItem('userData')
+// const ability = useAppAbility()
+const userData = useUserStore.userInfo
 
-  // Remove "accessToken" from localStorage
-  localStorage.removeItem('accessToken')
+const logout = async () => {
+  await useUserStore.logout()
 
   // Redirect to login page
   router.push('/login')
@@ -21,7 +17,7 @@ const logout = () => {
       localStorage.removeItem('userAbilities')
 
       // Reset ability to initial ability
-      ability.update(initialAbility)
+      // ability.update(initialAbility)
     })
 }
 </script>
@@ -35,14 +31,10 @@ const logout = () => {
     bordered
     color="success"
   >
-    <VAvatar
-      class="cursor-pointer"
-      color="primary"
-      variant="tonal"
-    >
+    <VAvatar class="cursor-pointer" color="primary" variant="tonal">
       <VImg
-        v-if="userData && userData.avatar"
-        :src="userData.avatar"
+        v-if="userData && userData.avt"
+        :src="userData.avt"
       />
       <VIcon
         v-else
@@ -86,7 +78,7 @@ const logout = () => {
             </template>
 
             <VListItemTitle class="font-weight-semibold">
-              {{ userData.fullName }}
+              {{ userData.name }}
             </VListItemTitle>
             <VListItemSubtitle>{{ userData.role }}</VListItemSubtitle>
           </VListItem>
@@ -120,30 +112,30 @@ const logout = () => {
           </VListItem>
 
           <!-- 👉 Pricing -->
-          <VListItem :to="{ name: 'pages-pricing' }">
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="tabler-currency-dollar"
-                size="22"
-              />
-            </template>
+          <!--          <VListItem :to="{ name: 'pages-pricing' }"> -->
+          <!--            <template #prepend> -->
+          <!--              <VIcon -->
+          <!--                class="me-2" -->
+          <!--                icon="tabler-currency-dollar" -->
+          <!--                size="22" -->
+          <!--              /> -->
+          <!--            </template> -->
 
-            <VListItemTitle>Pricing</VListItemTitle>
-          </VListItem>
+          <!--            <VListItemTitle>Pricing</VListItemTitle> -->
+          <!--          </VListItem> -->
 
           <!-- 👉 FAQ -->
-          <VListItem :to="{ name: 'pages-faq' }">
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="tabler-help"
-                size="22"
-              />
-            </template>
+          <!--          <VListItem :to="{ name: 'pages-faq' }"> -->
+          <!--            <template #prepend> -->
+          <!--              <VIcon -->
+          <!--                class="me-2" -->
+          <!--                icon="tabler-help" -->
+          <!--                size="22" -->
+          <!--              /> -->
+          <!--            </template> -->
 
-            <VListItemTitle>FAQ</VListItemTitle>
-          </VListItem>
+          <!--            <VListItemTitle>FAQ</VListItemTitle> -->
+          <!--          </VListItem> -->
 
           <!-- Divider -->
           <VDivider class="my-2" />

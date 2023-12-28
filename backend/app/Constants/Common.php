@@ -11,4 +11,10 @@ class Common
         'SALARY' => 'SALARY',
         'EXPENSE' => 'EXPENSE'
     ];
+
+    const TASK_PRIORITY = [
+        'LOW' => 'LOW',
+        'MEDIUM' => 'MEDIUM',
+        'HIGH' => 'HIGH',
+    ];
 }

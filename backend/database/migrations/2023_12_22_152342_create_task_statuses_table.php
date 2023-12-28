@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('task_statuses', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('group_id')->default(0);
-            $table->string('type', 16);
-            $table->string('name', 128);
-            $table->string('icon');
-            $table->boolean('report_exclude')->default(false);
+            $table->string('title', 200);
+            $table->boolean('is_active')->default(true);
+            $table->integer('order');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('task_statuses');
     }
 };

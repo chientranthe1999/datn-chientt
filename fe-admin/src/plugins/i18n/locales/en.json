@@ -8,7 +8,10 @@
     "recent_transaction": "Recent Transaction",
     "transaction": "Transaction List",
     "transaction_add": "Transaction Add",
-    "wallet_category": "Wallet & Category"
+    "wallet_category": "Wallet & Category",
+    "top_spending": "Top Spending By Transaction",
+    "spending_by_category": "Category Spending",
+    "spending_chart": "Spending Chart"
   },
   "task": {
     "heading": "Task & Calendar",
@@ -24,6 +27,7 @@
     "submit": "Submit",
     "save": "Save",
     "cancel": "Cancel",
-    "edit": "Edit"
+    "edit": "Edit",
+    "detail": "Detail"
   }
 }

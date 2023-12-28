@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\Admin\LogoutRequest;
 use App\Http\Requests\Admin\Admin\RefreshTokenRequest;
 use App\Http\Requests\Admin\Admin\RegisterRequest;
 use App\Models\Admin;
+use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -28,19 +29,19 @@ class AuthController extends Controller
     public function create(RegisterRequest $request)
     {
         $result = DB::transaction(function() use ($request) {
-            $data = $request->only('username', 'email', 'password');
+            $data = $request->only('name', 'email', 'password', 'avt');
 
-            return $this->authService->register(Admin::class, ...array_values($data));
+            return $this->authService->register(User::class, ...array_values($data));
         });
 
         return $this->respond($result['user']);
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): \Symfony\Component\HttpFoundation\Response
     {
-        $data = $request->only('username', 'password');
+        $data = $request->only('email', 'password');
 
-        return $this->respond($this->authService->login(Admin::class, ...array_values($data)));
+        return $this->respond($this->authService->login(User::class, ...array_values($data)));
     }
 
     public function logout(LogoutRequest $request)

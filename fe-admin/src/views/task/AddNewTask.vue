@@ -5,6 +5,7 @@ import type { VForm } from 'vuetify/components'
 
 import type { UserProperties } from '@/@fake-db/types'
 import { requiredValidator } from '@validators'
+import { TASK_PRIORITY } from '@/constants/common'
 
 interface Emit {
   (e: 'update:isDrawerOpen', value: boolean): void
@@ -134,20 +135,9 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
               </template>
 
               <div class="d-flex">
-                <VRadio value="High">
+                <VRadio v-for="(val, key) in TASK_PRIORITY" :key="key" :value="val">
                   <template #label>
-                    <VChip prepend-icon="tabler-arrow-badge-up" color="error">High</VChip>
-                  </template>
-                </VRadio>
-                <VRadio value="Medium">
-                  <template #label>
-                    <VChip prepend-icon="tabler-menu" color="success">Medium</VChip>
-                  </template>
-                </VRadio>
-
-                <VRadio value="Low">
-                  <template #label>
-                    <VChip prepend-icon="tabler-chevron-down" color="primary">Low</VChip>
+                    <VChip :prepend-icon="val.icon" :color="val.color">{{ val.text }}</VChip>
                   </template>
                 </VRadio>
               </div>
