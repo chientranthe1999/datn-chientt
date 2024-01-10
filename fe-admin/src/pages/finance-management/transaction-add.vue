@@ -21,7 +21,7 @@ watch(displayDate, newVal => {
 </script>
 
 <template>
-  <VCard title="Add a new transaction">
+  <VCard :title="$t('finance.transaction_add_title')">
     <VDivider />
     <VCardText title="Add a new transaction">
       <VForm @submit.prevent>
@@ -29,7 +29,7 @@ watch(displayDate, newVal => {
           <VCol cols="6">
             <VTextField
               v-model="firstName"
-              label="Amount"
+              :label="$t('common.amount')"
               :rules="rules.email"
               :hide-details="false"
               suffix="$"
@@ -38,7 +38,7 @@ watch(displayDate, newVal => {
           <VCol cols="6">
             <VSelect
               v-model="firstName"
-              label="Category"
+              :label="$t('common.category')"
               :rules="rules.email"
               :hide-details="false"
             />
@@ -47,7 +47,7 @@ watch(displayDate, newVal => {
           <VCol cols="6">
             <VSelect
               v-model="firstName"
-              label="Wallet"
+              :label="$t('common.wallet')"
               :rules="rules.email"
               :hide-details="false"
             />
@@ -58,18 +58,19 @@ watch(displayDate, newVal => {
           </VCol>
 
           <VCol cols="12">
-            <VTextarea label="Note" />
+            <VTextarea :label="$t('common.note')" />
           </VCol>
           <VCol cols="12">
-            <VFileInput label="Input image" />
+            <p>{{ $t('finance.image') }}</p>
+            <ImageUpload />
           </VCol>
           <VCol cols="12">
-            <VCheckbox label="Exclude from report" />
+            <VCheckbox :label="$t('finance.exclude_report')" />
           </VCol>
         </VRow>
 
         <VBtn type="submit" class="mt-4">
-          Submit
+          {{ $t('btn.submit') }}
         </VBtn>
       </VForm>
     </VCardText>

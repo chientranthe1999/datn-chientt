@@ -274,6 +274,7 @@ declare module '@vue/runtime-core' {
     I18n: typeof import('./src/@core/components/I18n.vue')['default']
     ImageUpload: typeof import('./src/@core/components/ImageUpload.vue')['default']
     Notifications: typeof import('./src/@core/components/Notifications.vue')['default']
+    Notify: typeof import('./src/@core/components/Notify.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Shortcuts: typeof import('./src/@core/components/Shortcuts.vue')['default']

@@ -29,8 +29,15 @@ const userStore = defineStore('UserStore', {
     },
 
     async logout() {
-      const res = await logout()
-      if (res.status === HTTP_STATUS.OK) {
+      try {
+        const res = await logout()
+        if (res.status === HTTP_STATUS.OK) {
+          this.userInfo = {} as UserInfo
+          this.token = ''
+          removeToken()
+        }
+      }
+      catch (e) {
         this.userInfo = {} as UserInfo
         this.token = ''
         removeToken()

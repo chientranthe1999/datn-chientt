@@ -48,7 +48,6 @@ const toggle_exclusive = ref('month')
         </VCardText>
       </VCard>
     </VCol>
-    <ImageUpload />
 
     <VCol cols="12" sm="6" md="3">
       <VCard>

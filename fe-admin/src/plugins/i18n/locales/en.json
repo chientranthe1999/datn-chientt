@@ -11,7 +11,11 @@
     "wallet_category": "Wallet & Category",
     "top_spending": "Top Spending By Transaction",
     "spending_by_category": "Category Spending",
-    "spending_chart": "Spending Chart"
+    "spending_chart": "Spending Chart",
+    "note": "Note",
+    "image": "Image",
+    "exclude_report": "Exclude from report",
+    "transaction_add_title": "Add a new transaction"
   },
   "task": {
     "heading": "Task & Calendar",
@@ -29,5 +33,11 @@
     "cancel": "Cancel",
     "edit": "Edit",
     "detail": "Detail"
+  },
+  "common": {
+    "category": "Category",
+    "amount": "Amount",
+    "wallet": "Wallet",
+    "note": "Note"
   }
 }

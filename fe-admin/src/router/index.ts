@@ -35,10 +35,17 @@ router.beforeEach(async (to, _, next) => {
 
   if (isLoggedIn) {
     if (!useUserStore.userInfo.name) {
-      const res = await profile()
-      if (res.status === HTTP_STATUS.OK)
-        useUserStore.setUserInfo(res.data.user)
-      else await useUserStore.logout()
+      try {
+        const res = await profile()
+        if (res.status === HTTP_STATUS.OK)
+          useUserStore.setUserInfo(res.data.user)
+      }
+      catch (e) {
+        await useUserStore.logout()
+        next('/login')
+
+        return
+      }
     }
     next()
   }
