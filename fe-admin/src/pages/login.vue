@@ -3,6 +3,7 @@ import { VForm } from 'vuetify/components'
 
 // import { useAppAbility } from '@/plugins/casl/useAppAbility'
 import type { Ref } from 'vue'
+import type { AxiosError } from 'axios'
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
@@ -19,6 +20,7 @@ import { login } from '@/api/auth'
 import { HTTP_STATUS } from '@/constants/common'
 import { setToken } from '@core/utils/auth'
 import { useUserStore as userStore } from '@/pinia/userStore'
+import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 
 const authThemeImg = useGenerateImageVariant(authV2LoginIllustrationLight, authV2LoginIllustrationDark, authV2LoginIllustrationBorderedLight, authV2LoginIllustrationBorderedDark, true)
 
@@ -39,6 +41,8 @@ const refVForm = ref<VForm>()
 const email = ref()
 const password = ref()
 
+const createSnackbar = useSnackbar()
+
 const loginHandler = async () => {
   try {
     loading.value = true
@@ -51,12 +55,17 @@ const loginHandler = async () => {
       userStore.setToken(token)
       userStore.setUserInfo(user)
 
+      createSnackbar('Login Successfully', { color: 'success' })
+
       // Redirect to `to` query if exist or redirect to index route
       await router.replace(route.query.to ? String(route.query.to) : '/')
     }
   }
   catch (e) {
+    if ((e as AxiosError)?.response?.status === HTTP_STATUS.UNAUTHORIZED)
+      createSnackbar('Email or password is incorrect', { color: 'error' })
 
+    else createSnackbar('There is an error', { color: 'error' })
   }
   finally {
     loading.value = false
