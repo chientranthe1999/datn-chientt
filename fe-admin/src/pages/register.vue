@@ -8,7 +8,6 @@ import authV2RegisterIllustrationLight from '@images/pages/auth-v2-register-illu
 import authV2MaskDark from '@images/pages/misc-mask-dark.png'
 import authV2MaskLight from '@images/pages/misc-mask-light.png'
 
-import { useAppAbility } from '@/plugins/casl/useAppAbility'
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 import axios from '@axios'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
@@ -17,17 +16,26 @@ import { themeConfig } from '@themeConfig'
 import { alphaDashValidator, emailValidator, requiredValidator } from '@validators'
 
 const refVForm = ref<VForm>()
-const username = ref('johnDoe')
-const email = ref('john@example.com')
-const password = ref('john@VUEXY#123')
+
+const registerData = reactive({
+  username: '',
+  email: '',
+  password: '',
+  rePassword: '',
+  avt: '',
+  privacyPolicies: false,
+})
+
+const isPasswordVisible = ref(false)
+
+const username = ref('')
+const email = ref('')
+const password = ref('')
 const privacyPolicies = ref(true)
 
 // Router
 const route = useRoute()
 const router = useRouter()
-
-// Ability
-const ability = useAppAbility()
 
 // Form Errors
 const errors = ref<Record<string, string | undefined>>({
@@ -42,10 +50,7 @@ const register = () => {
     password: password.value,
   })
     .then(r => {
-      const { accessToken, userData, userAbilities } = r.data
-
-      localStorage.setItem('userAbilities', JSON.stringify(userAbilities))
-      ability.update(userAbilities)
+      const { accessToken, userData } = r.data
 
       localStorage.setItem('userData', JSON.stringify(userData))
       localStorage.setItem('accessToken', JSON.stringify(accessToken))
@@ -72,8 +77,6 @@ const imageVariant = useGenerateImageVariant(
 
 const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
 
-const isPasswordVisible = ref(false)
-
 const onSubmit = () => {
   refVForm.value?.validate()
     .then(({ valid: isValid }) => {
@@ -85,7 +88,7 @@ const onSubmit = () => {
 
 <template>
   <VRow no-gutters class="auth-wrapper">
-    <VCol lg="8" class="d-none d-lg-flex">
+    <VCol lg="6" class="d-none d-lg-flex">
       <div class="position-relative auth-bg rounded-lg w-100 ma-8 me-0">
         <div class="d-flex align-center justify-center w-100 h-100">
           <VImg
@@ -99,7 +102,7 @@ const onSubmit = () => {
       </div>
     </VCol>
 
-    <VCol cols="12" lg="4" class="d-flex align-center justify-center">
+    <VCol cols="12" lg="6" class="d-flex align-center justify-center">
       <VCard
         :max-width="500"
         class="mt-12 mt-sm-0 pa-4"
@@ -123,64 +126,79 @@ const onSubmit = () => {
             ref="refVForm"
             @submit.prevent="onSubmit"
           >
+            <div class="mb-4">
+              <ImageUpload rounded class="mb-2" />
+              <p class="text-x">Upload your avt here</p>
+            </div>
+
+            <VTextField
+              v-model="registerData.username"
+              :rules="[requiredValidator, alphaDashValidator]"
+              label="Enter your name"
+              :hide-details="false"
+              class="mb-3"
+            />
+
+            <!-- email -->
+            <VTextField
+              v-model="email"
+              :rules="[requiredValidator, emailValidator]"
+              label="Email"
+              type="email"
+              :hide-details="false"
+              class="mb-3"
+            />
+
+            <!-- password -->
+            <VTextField
+              v-model="password"
+              :rules="[requiredValidator]"
+              label="Password"
+              :type="isPasswordVisible ? 'text' : 'password'"
+              :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
+              :hide-details="false"
+              class="mb-3"
+              @click:append-inner="isPasswordVisible = !isPasswordVisible"
+            />
+
+            <!-- password -->
+            <VTextField
+              v-model="password"
+              :rules="[requiredValidator]"
+              label="Password"
+              :type="isPasswordVisible ? 'text' : 'password'"
+              :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
+              :hide-details="false"
+              class="mb-3"
+              @click:append-inner="isPasswordVisible = !isPasswordVisible"
+            />
+
+            <div class="d-flex align-center mt-2 mb-4">
+              <VCheckbox
+                id="privacy-policy"
+                v-model="privacyPolicies"
+                inline
+              />
+              <VLabel
+                for="privacy-policy"
+                class="pb-1"
+                style="opacity: 1;"
+              >
+                <span class="me-1">I agree to</span>
+                <a
+                  class="text-primary"
+                >privacy policy & terms</a>
+              </VLabel>
+            </div>
+
+            <VBtn
+              block
+              type="submit"
+            >
+              Sign up
+            </VBtn>
+
             <VRow>
-              <!-- Username -->
-              <VCol cols="12">
-                <VTextField
-                  v-model="username"
-                  :rules="[requiredValidator, alphaDashValidator]"
-                  label="Username"
-                />
-              </VCol>
-
-              <!-- email -->
-              <VCol cols="12">
-                <VTextField
-                  v-model="email"
-                  :rules="[requiredValidator, emailValidator]"
-                  label="Email"
-                  type="email"
-                />
-              </VCol>
-
-              <!-- password -->
-              <VCol cols="12">
-                <VTextField
-                  v-model="password"
-                  :rules="[requiredValidator]"
-                  label="Password"
-                  :type="isPasswordVisible ? 'text' : 'password'"
-                  :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
-                  @click:append-inner="isPasswordVisible = !isPasswordVisible"
-                />
-
-                <div class="d-flex align-center mt-2 mb-4">
-                  <VCheckbox
-                    id="privacy-policy"
-                    v-model="privacyPolicies"
-                    inline
-                  />
-                  <VLabel
-                    for="privacy-policy"
-                    class="pb-1"
-                    style="opacity: 1;"
-                  >
-                    <span class="me-1">I agree to</span>
-                    <a
-                      href="javascript:void(0)"
-                      class="text-primary"
-                    >privacy policy & terms</a>
-                  </VLabel>
-                </div>
-
-                <VBtn
-                  block
-                  type="submit"
-                >
-                  Sign up
-                </VBtn>
-              </VCol>
-
               <!-- create account -->
               <VCol
                 cols="12"

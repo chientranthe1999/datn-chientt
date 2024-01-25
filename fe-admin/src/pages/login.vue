@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { VForm } from 'vuetify/components'
 
-// import { useAppAbility } from '@/plugins/casl/useAppAbility'
 import type { Ref } from 'vue'
 import type { AxiosError } from 'axios'
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
@@ -31,6 +30,7 @@ const loading: Ref<boolean> = ref(false)
 
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n()
 
 const errors = ref<Record<string, string | undefined>>({
   email: undefined,
@@ -57,15 +57,15 @@ const loginHandler = async () => {
 
       createSnackbar('Login Successfully', { color: 'success' })
 
-      // Redirect to `to` query if exist or redirect to index route
       await router.replace(route.query.to ? String(route.query.to) : '/')
     }
   }
   catch (e) {
+    let errorMessage = t('message.exception')
     if ((e as AxiosError)?.response?.status === HTTP_STATUS.UNAUTHORIZED)
-      createSnackbar('Email or password is incorrect', { color: 'error' })
+      errorMessage = t('message.unauthorized')
 
-    else createSnackbar('There is an error', { color: 'error' })
+    createSnackbar(errorMessage, { color: 'error' })
   }
   finally {
     loading.value = false
@@ -131,6 +131,7 @@ const onSubmit = () => {
                   label="Email"
                   type="email"
                   :rules="[requiredValidator, emailValidator]"
+                  :hide-details="false"
                   :error-messages="errors.email"
                 />
               </VCol>
@@ -144,6 +145,7 @@ const onSubmit = () => {
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :error-messages="errors.password"
                   :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
+                  :hide-details="false"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
                 />
 

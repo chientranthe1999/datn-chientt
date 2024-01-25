@@ -1,6 +1,6 @@
 import { setupLayouts } from 'virtual:generated-layouts'
 import { createRouter, createWebHistory } from 'vue-router'
-import { isUserLoggedIn } from './utils'
+import { WHITE_LIST_ROUTE, isUserLoggedIn } from './utils'
 import routes from '~pages'
 import { profile } from '@/api/auth'
 import { HTTP_STATUS } from '@/constants/common'
@@ -8,8 +8,6 @@ import { HTTP_STATUS } from '@/constants/common'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // ℹ️ We are redirecting to different pages based on role.
-    // NOTE: Role is just for UI purposes. ACL is based on abilities.
     {
       path: '/',
       redirect: to => {
@@ -50,7 +48,7 @@ router.beforeEach(async (to, _, next) => {
     next()
   }
   else {
-    return to.name === 'login' ? next() : next('/login')
+    return WHITE_LIST_ROUTE.includes(to.name as string) ? next() : next('/login')
   }
 
   /*

@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { upload as uploadImage } from '@/plugins/firebase/firebase'
 
+interface Props {
+  rounded?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  rounded: false,
+})
+
 const fileInput = ref<HTMLElement>()
 const imageUrl = ref<string | null>('')
 const selectedFile = ref<File | null>(null)
@@ -52,13 +60,13 @@ defineExpose({
 </script>
 
 <template>
-  <div class="upload-picture" @click="handleClick">
+  <div class="upload-picture" :class="{ 'rounded-50': props.rounded }" v-bind="$attrs" @click="handleClick">
     <div v-if="imageUrl" class="upload-picture--cover">
-      <div class="upload-picture--tool d-flex">
+      <div class="upload-picture--tool d-flex" :class="{ 'rounded-50': props.rounded }">
         <VIcon icon="tabler-zoom-in" class="mr-1" title="zoom out" @click="zoomImage" />
         <VIcon icon="tabler-circle-minus" title="remove" @click="removeImage" />
       </div>
-      <img :src="imageUrl" alt="Selected Image" style="max-width: 100%; max-height: 100%">
+      <img :src="imageUrl" alt="Selected Image" style="max-width: 100%;" :style="props.rounded ? 'height: 100%; border-radius: 50%;' : ''">
     </div>
     <slot v-else name="icon"><VIcon icon="tabler-plus" /></slot>
     <input ref="fileInput" type="file" accept="image/*" @change="previewImage">
@@ -126,5 +134,9 @@ defineExpose({
 .icon--close {
   width: fit-content;
   margin: 2em auto 0;
+}
+
+.rounded-50 {
+  border-radius: 50%;
 }
 </style>

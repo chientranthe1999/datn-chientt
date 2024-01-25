@@ -39,5 +39,10 @@
     "amount": "Amount",
     "wallet": "Wallet",
     "note": "Note"
+  },
+  "message": {
+    "login_success": "Login successfully",
+    "unauthorized": "Email or password is incorrect",
+    "exception": "There is an error, please try again"
   }
 }
