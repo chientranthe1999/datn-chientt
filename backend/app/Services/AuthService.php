@@ -2,11 +2,21 @@
 
 namespace App\Services;
 
+use App\Constants\Common;
+use App\Mail\ActiveAccount;
+use App\Models\User;
+use App\Models\UserRequest;
+use App\Utils\CommonUtil;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Validation\UnauthorizedException;
 use Laravel\Passport\Client as OClient;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -62,22 +72,27 @@ class AuthService
     /**
      * @throws Exception
      */
-    public function register(string $modelNamespace, $name, $email, $password, $avt = ''): array
+    public function register(string $modelNamespace, $name, $email, $password, $avt = '')
     {
         $data = compact('name', 'email', 'password', 'avt');
         $data['password'] = Hash::make($password);
 
-        // send email active
-        // save login history
-        $data['is_active'] = true;
         $user = $modelNamespace::create($data);
+        Log::info($user);
+        $token = Str::random(Common::REQUEST_ACCOUNT_TOKEN_LENGTH);
+        UserRequest::create([
+            'user_id' => $user->id,
+            'type' => Common::USER_REQUEST['ACTIVE_ACCOUNT'],
+            'expired_at' => Carbon::now()->addDay(),
+            'token' => $token
+        ]);
 
-        $tokenData = $this->generateToken($modelNamespace, $email, $password);
-        if (!$tokenData) {
-            throw new BadRequestException("There is an error happen when create token");
-        }
+        Log::info("Send email to: " . $data['email']);
+        Mail::to($data['email'])->send(
+            new ActiveAccount(CommonUtil::buildClientUrl(Common::CLIENT_REDIRECT_URI['ACTIVE_ACCOUNT'] . '/' . $token))
+        );
 
-        return Arr::add($tokenData, 'user', $user);
+        return true;
     }
 
     /**
@@ -85,6 +100,9 @@ class AuthService
      */
     public function login(string $modelNamespace, $email, $password)
     {
+        $user = User::query()->where('email', $email);
+        if(!$user) throw new AuthenticationException();
+        if(!$user->is_active) throw new BadRequestException('Your account have not been activated, please check your email to active your account');
         $result = [];
         $result['token'] = $this->generateToken($modelNamespace, $email, $password);
         if (!$result['token']) {
@@ -186,6 +204,25 @@ class AuthService
                 if ($token === $currentToken && !$include) continue;
                 $this->revokeToken($token);
             }
+        }
+    }
+
+    public function activeAccount($token)
+    {
+        $accountRequestInfo = UserRequest::query()
+            ->where('token', $token);
+
+        if(!$accountRequestInfo || $accountRequestInfo->type !== Common::USER_REQUEST['ACTIVE_ACCOUNT']) {
+            return Common::ACCOUNT_REQUEST_STATUS['INVALID_TOKEN'];
+        }
+
+        $user = Auth::user();
+        if($user && $user->id !== $accountRequestInfo->user_id) {
+            return Common::ACCOUNT_REQUEST_STATUS['NOT_MATCH_USER'];
+        }
+
+        if($accountRequestInfo->expired_at < Carbon::now()) {
+            return Common::ACCOUNT_REQUEST_STATUS['TOKEN_EXPIRED'];
         }
     }
 }

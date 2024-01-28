@@ -16,35 +16,9 @@ class UserRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'username',
-        'email',
-        'password',
-        'avt',
-        'role',
-        'email_verified_at'
+        'user_id',
+        'type',
+        'expired_at',
+        'token'
     ];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    public function findForPassport($username)
-    {
-        return $this->where('username', $username)->first();
-    }
-
-    public function guardName(): string
-    {
-        return 'api_admin';
-    }
 }

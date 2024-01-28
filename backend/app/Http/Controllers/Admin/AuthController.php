@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Constants\Common;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Admin\LoginRequest;
 use App\Http\Requests\Admin\Admin\LogoutRequest;
@@ -12,6 +13,10 @@ use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Request;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class AuthController extends Controller
@@ -34,7 +39,7 @@ class AuthController extends Controller
             return $this->authService->register(User::class, ...array_values($data));
         });
 
-        return $this->respond($result['user']);
+        return $this->respond($result);
     }
 
     public function login(LoginRequest $request): \Symfony\Component\HttpFoundation\Response
@@ -69,6 +74,14 @@ class AuthController extends Controller
         $user = auth()->user();
 
         return $this->respond(['user' => $user]);
+    }
+
+    public function activeAccount($token) {
+        if(count($token) !== Common::REQUEST_ACCOUNT_TOKEN_LENGTH) {
+            return $this->respondWithError(Response::HTTP_BAD_REQUEST, Response::HTTP_BAD_REQUEST, "Your link you provided is invalid");
+        }
+
+
     }
 }
 

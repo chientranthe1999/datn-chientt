@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->bigInteger('user_id');
-            $table->char('token', 40);
+            $table->char('token', 60);
             $table->char('type', 40);
             $table->dateTime('expired_at');
         });

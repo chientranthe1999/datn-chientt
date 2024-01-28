@@ -24,3 +24,9 @@
 ```
     php artisan make:migration <name>
 ```
+
+- Generate mail content
+
+```
+    php artisan make:mail <name>
+```

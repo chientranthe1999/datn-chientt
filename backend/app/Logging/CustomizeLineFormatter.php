@@ -25,14 +25,14 @@ class CustomizeLineFormatter extends LineFormatter
     /**
      * {@inheritdoc}
      */
-    public function format(array $record): string
+    public function format($record): string
     {
         $vars = NormalizerFormatter::format($record);
         $output = array_merge([
             'timestamp' => $vars['datetime'],
+            'level' => $vars['level_name'],
             'message' => $vars['message']
         ], $vars['context']);
-        return json_encode($output) . "\n";
+        return json_encode($output, JSON_UNESCAPED_UNICODE) . "\n";
     }
-
 }

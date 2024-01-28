@@ -37,7 +37,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => array_merge(['stdout'], env('ENABLE_STORAGE_LOG', false) ? ['general'] : []),
             'ignore_exceptions' => false,
         ],
 
@@ -109,6 +109,16 @@ return [
             'with' => [
                 'filename' => (empty(env('LOG_DIR', '')) ? storage_path('logs') : env('LOG_DIR')) . '/general.log',
                 'maxFiles' => 14
+            ],
+        ],
+
+        // Log to stdout
+        'stdout' => [
+            'driver' => 'monolog',
+            'handler' => StreamHandler::class,
+            'tap' => [App\Logging\CustomizeFormatter::class],
+            'with' => [
+                'stream' => 'php://stdout',
             ],
         ],
     ],
