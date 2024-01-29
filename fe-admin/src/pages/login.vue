@@ -83,7 +83,7 @@ const onSubmit = () => {
 
 <template>
   <VRow no-gutters class="auth-wrapper">
-    <VCol lg="8" class="d-none d-lg-flex">
+    <VCol lg="6" class="d-none d-lg-flex">
       <div class="position-relative auth-bg rounded-lg w-100 ma-8 me-0">
         <div class="d-flex align-center justify-center w-100 h-100">
           <VImg
@@ -97,11 +97,7 @@ const onSubmit = () => {
       </div>
     </VCol>
 
-    <VCol
-      cols="12"
-      lg="4"
-      class="d-flex align-center justify-center"
-    >
+    <VCol cols="12" lg="6" class="d-flex align-center justify-center">
       <VCard
         flat
         :max-width="500"

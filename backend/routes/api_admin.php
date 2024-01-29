@@ -21,6 +21,7 @@ Route::get('/', function() {
 Route::post('login', [AuthController::class, 'login'])->name('admin.login');
 Route::post('register', [AuthController::class, 'create'])->name('admin.register');
 Route::post('refresh_token', [AuthController::class, 'refreshToken'])->name('admin.refresh_token');
+Route::get('active-user/{token}', [AuthController::class, 'activeAccount']);
 
 Route::middleware('auth:api_admin')->group(function() {
     Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');

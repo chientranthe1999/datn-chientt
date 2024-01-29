@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Laravel\Passport\TokenRepository;
 use Laravel\Passport\RefreshTokenRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AuthService
 {
@@ -61,6 +62,7 @@ class AuthService
 
     private function _getClient(string $key)
     {
+        dd($this->oClient);
         return $this->oClient[$key] ?? null;
     }
 
@@ -100,7 +102,7 @@ class AuthService
      */
     public function login(string $modelNamespace, $email, $password)
     {
-        $user = User::query()->where('email', $email);
+        $user = User::query()->where('email', $email)->first();
         if(!$user) throw new AuthenticationException();
         if(!$user->is_active) throw new BadRequestException('Your account have not been activated, please check your email to active your account');
         $result = [];
@@ -112,7 +114,6 @@ class AuthService
         if ($guard && $guard->attempt(compact('email', 'password'))) {
             $result['user'] = $guard->user();
         }
-
         return $result;
     }
 
@@ -207,22 +208,55 @@ class AuthService
         }
     }
 
-    public function activeAccount($token)
+    public function checkValidToken($token)
     {
         $accountRequestInfo = UserRequest::query()
-            ->where('token', $token);
+            ->where('token', $token)
+            ->first();
+        if(!$accountRequestInfo) {
+            return [
+                'is_valid' => false,
+                'code' => Common::ACCOUNT_REQUEST_STATUS['INVALID_TOKEN']
+            ];
+        }
 
-        if(!$accountRequestInfo || $accountRequestInfo->type !== Common::USER_REQUEST['ACTIVE_ACCOUNT']) {
-            return Common::ACCOUNT_REQUEST_STATUS['INVALID_TOKEN'];
+        if($accountRequestInfo->type !== Common::USER_REQUEST['ACTIVE_ACCOUNT']) {
+             return [
+                'is_valid' => false,
+                'code' => Common::ACCOUNT_REQUEST_STATUS['NOT_MATCH_TYPE']
+             ];
         }
 
         $user = Auth::user();
         if($user && $user->id !== $accountRequestInfo->user_id) {
-            return Common::ACCOUNT_REQUEST_STATUS['NOT_MATCH_USER'];
+            return [
+                'is_valid' => false,
+                'code' => Common::ACCOUNT_REQUEST_STATUS['NOT_MATCH_USER']
+            ];
         }
 
         if($accountRequestInfo->expired_at < Carbon::now()) {
-            return Common::ACCOUNT_REQUEST_STATUS['TOKEN_EXPIRED'];
+            return [
+                'is_valid' => false,
+                'code' => Common::ACCOUNT_REQUEST_STATUS['TOKEN_EXPIRED']
+            ];
         }
+
+        return [
+            'is_valid' => true,
+            'code' => Common::ACCOUNT_REQUEST_STATUS['VALID'],
+            'data' => $accountRequestInfo
+        ];
+    }
+
+    public function activeUser($userId, $requestId)
+    {
+        $user = User::query()->find($userId);
+        if(!$user) throw new NotFoundHttpException('User not found');
+        $user->is_active = true;
+        $user->save();
+
+        UserRequest::destroy($requestId);
+        return true;
     }
 }

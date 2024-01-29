@@ -103,11 +103,7 @@ const onSubmit = () => {
     </VCol>
 
     <VCol cols="12" lg="6" class="d-flex align-center justify-center">
-      <VCard
-        :max-width="500"
-        class="mt-12 mt-sm-0 pa-4"
-        flat
-      >
+      <VCard :max-width="500" class="mt-12 mt-sm-0 pa-4" flat>
         <VCardText>
           <VNodeRenderer
             :nodes="themeConfig.app.logo"
@@ -181,29 +177,18 @@ const onSubmit = () => {
               />
               <VLabel
                 for="privacy-policy"
-                class="pb-1"
                 style="opacity: 1;"
               >
                 <span class="me-1">I agree to</span>
-                <a
-                  class="text-primary"
-                >privacy policy & terms</a>
+                <a class="text-primary">privacy policy & terms</a>
               </VLabel>
             </div>
 
-            <VBtn
-              block
-              type="submit"
-            >
-              Sign up
-            </VBtn>
+            <VBtn block type="submit" class="mb-4">Sign up</VBtn>
 
             <VRow>
               <!-- create account -->
-              <VCol
-                cols="12"
-                class="text-center text-base"
-              >
+              <VCol cols="12" class="text-center text-base">
                 <span>Already have an account?</span>
                 <RouterLink
                   class="text-primary ms-2"
@@ -213,10 +198,7 @@ const onSubmit = () => {
                 </RouterLink>
               </VCol>
 
-              <VCol
-                cols="12"
-                class="d-flex align-center"
-              >
+              <VCol cols="12" class="d-flex align-center">
                 <VDivider />
                 <span class="mx-4">or</span>
                 <VDivider />

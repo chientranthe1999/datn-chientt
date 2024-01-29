@@ -77,11 +77,15 @@ class AuthController extends Controller
     }
 
     public function activeAccount($token) {
-        if(count($token) !== Common::REQUEST_ACCOUNT_TOKEN_LENGTH) {
-            return $this->respondWithError(Response::HTTP_BAD_REQUEST, Response::HTTP_BAD_REQUEST, "Your link you provided is invalid");
+        if(strlen($token) !== Common::REQUEST_ACCOUNT_TOKEN_LENGTH) {
+            return $this->respondWithError(Response::HTTP_BAD_REQUEST, Response::HTTP_BAD_REQUEST, "Your link you provided is not valid");
+        }
+        $validateInfo = $this->authService->checkValidToken($token);
+        if(!$validateInfo['is_valid']) {
+            return $this->respondWithError(Response::HTTP_BAD_REQUEST, Response::HTTP_BAD_REQUEST, '', $validateInfo);
         }
 
-
+        return $this->authService->activeUser($validateInfo['data']->user_id, $validateInfo['data']->id);
     }
 }
 
