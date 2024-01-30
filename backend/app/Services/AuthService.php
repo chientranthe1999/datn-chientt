@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Laravel\Passport\TokenRepository;
 use Laravel\Passport\RefreshTokenRepository;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AuthService
@@ -62,7 +63,6 @@ class AuthService
 
     private function _getClient(string $key)
     {
-        dd($this->oClient);
         return $this->oClient[$key] ?? null;
     }
 
@@ -103,8 +103,8 @@ class AuthService
     public function login(string $modelNamespace, $email, $password)
     {
         $user = User::query()->where('email', $email)->first();
-        if(!$user) throw new AuthenticationException();
-        if(!$user->is_active) throw new BadRequestException('Your account have not been activated, please check your email to active your account');
+        if(!$user) throw new NotFoundHttpException();
+        if(!$user->is_active) throw new BadRequestHttpException('Your account have not been activated, please check your email to active your account');
         $result = [];
         $result['token'] = $this->generateToken($modelNamespace, $email, $password);
         if (!$result['token']) {

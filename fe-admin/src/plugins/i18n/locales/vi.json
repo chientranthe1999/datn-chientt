@@ -29,5 +29,11 @@
         "cancel": "Hủy bỏ",
         "edit": "Edit",
         "detail": "Chi tiết"
+    },
+    "active_account": {
+        "not_match_type": "The provided token does not match the expected type.",
+        "not_match_user": "The provided token does not match current user.",
+        "token_expired": "The token has expired.",
+        "invalid_token": "The token is invalid.",
     }
 }

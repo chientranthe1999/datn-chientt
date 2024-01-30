@@ -44,5 +44,11 @@
     "login_success": "Login successfully",
     "unauthorized": "Email or password is incorrect",
     "exception": "There is an error, please try again"
+  },
+  "active_account": {
+    "not_match_type": "The provided token does not match the expected type.",
+    "not_match_user": "The provided token does not match current user.",
+    "token_expired": "The token has expired.",
+    "invalid_token": "The token is invalid.",
   }
 }

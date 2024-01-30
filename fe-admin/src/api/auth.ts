@@ -1,3 +1,4 @@
+import { RouteParamValue } from 'vue-router'
 import request from '@axios'
 
 interface LoginRequest {
@@ -22,6 +23,10 @@ export const logout = () => {
 
 export const register = (data: RegisterRequest) => {
   return request.post('api_admin/register', data)
+}
+
+export const activeAccount = (token: string) => {
+  return request.get(`api_admin/active-user/${token}`)
 }
 
 export const profile = () => {
