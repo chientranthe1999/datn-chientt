@@ -28,7 +28,8 @@
         "save": "Lưu",
         "cancel": "Hủy bỏ",
         "edit": "Edit",
-        "detail": "Chi tiết"
+        "detail": "Chi tiết",
+        "login": "Đăng nhập"
     },
     "active_account": {
         "not_match_type": "The provided token does not match the expected type.",

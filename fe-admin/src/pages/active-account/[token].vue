@@ -4,7 +4,7 @@ import { activeAccount } from '@/api/auth'
 const route = useRoute()
 const { t } = useI18n()
 
-const isSuccess = ref(true)
+const isSuccess = ref(false)
 const errorMessage = ref('')
 
 const activeAccountHandler = async () => {
@@ -19,18 +19,19 @@ const activeAccountHandler = async () => {
     const result = await activeAccount(token)
   }
   catch (e) {
-    errorMessage.value = e.response?.data.message || t(`active_account.${e.response?.data?.errors?.code?.toLowerCase()}`)
+    if (e)
+      errorMessage.value = e.response?.data.message || t(`active_account.${e.response?.data?.errors?.code?.toLowerCase()}`)
     isSuccess.value = false
   }
 }
 
-// activeAccountHandler()
+activeAccountHandler()
 </script>
 
 <template>
   <VCard class="message-container">
     <VCardText v-if="isSuccess">
-      <img src="@/assets/images/icons/common/checked.png" alt="success icon">
+      <img src="@/assets/images/common/checked.png" alt="success icon">
       <h3 class="text-success py-2 message-text">Active Account Successfully</h3>
       <p>Welcome to our community. Click "Login" to join</p>
       <VBtn>
@@ -38,13 +39,19 @@ const activeAccountHandler = async () => {
           class="text-white"
           :to="{ name: 'login' }"
         >
-          Login
+          {{ $t('btn.login') }}
         </RouterLink>
       </VBtn>
     </VCardText>
 
-    <VCardText v-else>
-      <p>{{ errorMessage }}</p>
+    <VCardText v-else-if="errorMessage">
+      <div class="d-flex justify-center align-center error-message">
+        <img src="@/assets/images/common/broken-link.svg" alt="broken link" class="mb-2">
+        <p style="font-size: 6em;">Woops!</p>
+      </div>
+      <p class="message-text">{{ errorMessage }}</p>
+      <p>Go to home and login again</p>
+      <VBtn>Home</VBtn>
     </VCardText>
   </VCard>
 </template>

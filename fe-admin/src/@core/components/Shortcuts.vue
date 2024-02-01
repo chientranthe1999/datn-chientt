@@ -27,16 +27,9 @@ const router = useRouter()
     size="small"
     icon
   >
-    <VIcon
-      size="24"
-      :icon="props.togglerIcon"
-    />
+    <VIcon size="24" :icon="props.togglerIcon" />
 
-    <VMenu
-      activator="parent"
-      offset="14px"
-      location="bottom end"
-    >
+    <VMenu activator="parent" offset="14px" location="bottom end">
       <VCard
         width="340"
         max-height="560"
@@ -46,12 +39,7 @@ const router = useRouter()
           <VCardTitle>Shortcuts</VCardTitle>
 
           <template #append>
-            <VBtn
-              size="x-small"
-              variant="text"
-              color="default"
-              icon
-            >
+            <VBtn size="x-small" variant="text" color="default" icon>
               <VIcon
                 size="22"
                 icon="tabler-layout-grid-add"
