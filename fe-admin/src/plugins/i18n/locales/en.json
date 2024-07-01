@@ -44,7 +44,8 @@
   "message": {
     "login_success": "Login successfully",
     "unauthorized": "Email or password is incorrect",
-    "exception": "There is an error, please try again"
+    "exception": "There is an error, please try again",
+    "invalid_link": "Your link you have provided is not valid, please check again or go to Home to continue."
   },
   "active_account": {
     "not_match_type": "The provided token does not match the expected type.",
@@ -52,4 +53,5 @@
     "token_expired": "The token has expired. Please login to re-send activation link",
     "invalid_token": "The token is invalid."
   }
+
 }

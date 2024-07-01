@@ -20,7 +20,7 @@ const activeAccountHandler = async () => {
   }
   catch (e) {
     if (e)
-      errorMessage.value = e.response?.data.message || t(`active_account.${e.response?.data?.errors?.code?.toLowerCase()}`)
+      errorMessage.value = e.response?.data.message || e.response?.data?.errors?.code ? t(`active_account.${e.response?.data?.errors?.code?.toLowerCase()}`) : t('message.invalid_link')
     isSuccess.value = false
   }
 }
@@ -50,8 +50,7 @@ activeAccountHandler()
         <p style="font-size: 6em;">Woops!</p>
       </div>
       <p class="message-text">{{ errorMessage }}</p>
-      <p>Go to home and login again</p>
-      <VBtn>Home</VBtn>
+      <VBtn>PƠ</VBtn>
     </VCardText>
   </VCard>
 </template>
