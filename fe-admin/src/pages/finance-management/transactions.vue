@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { CategoryIcon } from '@/constants/common'
+const { t } = useI18n()
 
 const headers = [
-  { title: 'Name/Wallet', align: 'start', key: 'name' },
-  { title: 'Calories', align: 'center', key: 'category' },
-  { title: 'Amount', align: 'center', key: 'amount' },
-  { title: 'Date', align: 'center', key: 'date' },
-  { title: 'Action', align: 'center', key: 'action' },
+  { title: t('common.name_wallet'), align: 'start', key: 'name' },
+  { title: t('common.category'), align: 'center', key: 'category' },
+  { title: t('common.amount'), align: 'center', key: 'amount' },
+  { title: t('common.date'), align: 'center', key: 'date' },
+  { title: t('common.action'), align: 'center', key: 'action' },
 ]
 
 const desserts = [

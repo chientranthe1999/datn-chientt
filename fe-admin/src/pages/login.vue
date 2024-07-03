@@ -23,7 +23,7 @@ import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 
 const authThemeImg = useGenerateImageVariant(authV2LoginIllustrationLight, authV2LoginIllustrationDark, authV2LoginIllustrationBorderedLight, authV2LoginIllustrationBorderedDark, true)
 
-const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
+const authThemeMask = useGenerateImageVariant(authV2MaskLight as string, authV2MaskDark as string) as string
 
 const isPasswordVisible = ref(false)
 const loading: Ref<boolean> = ref(false)
@@ -32,9 +32,9 @@ const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 
-const errors = ref<Record<string, string | undefined>>({
-  email: undefined,
-  password: undefined,
+const errors = ref<Record<string, string>>({
+  email: '',
+  password: '',
 })
 
 const refVForm = ref<VForm>()
@@ -55,15 +55,18 @@ const loginHandler = async () => {
       userStore.setToken(token)
       userStore.setUserInfo(user)
 
-      createSnackbar('Login Successfully', { color: 'success' })
+      createSnackbar(t('message.login_success'), { color: 'success' })
 
-      await router.replace(route.query.to ? String(route.query.to) : '/')
+      await router.push(route.query.to ? String(route.query.to) : '/')
     }
   }
   catch (e) {
+    console.log(e)
     let errorMessage = t('message.exception')
     if ((e as AxiosError)?.response?.status === HTTP_STATUS.UNAUTHORIZED)
       errorMessage = t('message.unauthorized')
+    else if (e.response?.data?.message)
+      errorMessage = e.response.data.message
 
     createSnackbar(errorMessage, { color: 'error' })
   }
@@ -72,8 +75,8 @@ const loginHandler = async () => {
   }
 }
 
-const onSubmit = () => {
-  refVForm.value?.validate()
+const onSubmit = validate => {
+  validate
     .then(async ({ valid: isValid }) => {
       if (isValid)
         await loginHandler()
@@ -118,7 +121,7 @@ const onSubmit = () => {
         </VCardText>
 
         <VCardText>
-          <VForm ref="refVForm" @submit.prevent="onSubmit">
+          <VForm validate-on="lazy blur" @submit.prevent="onSubmit">
             <VRow>
               <!-- email -->
               <VCol cols="12">
@@ -129,6 +132,7 @@ const onSubmit = () => {
                   :rules="[requiredValidator, emailValidator]"
                   :hide-details="false"
                   :error-messages="errors.email"
+                  autocomplete="on"
                 />
               </VCol>
 

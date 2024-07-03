@@ -1,4 +1,3 @@
-import { RouteParamValue } from 'vue-router'
 import request from '@axios'
 
 interface LoginRequest {

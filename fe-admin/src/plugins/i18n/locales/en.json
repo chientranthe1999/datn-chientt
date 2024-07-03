@@ -39,7 +39,10 @@
     "category": "Category",
     "amount": "Amount",
     "wallet": "Wallet",
-    "note": "Note"
+    "note": "Note",
+    "name_wallet": "Name/Wallet",
+    "action": "Action",
+    "date": "Date"
   },
   "message": {
     "login_success": "Login successfully",
@@ -53,5 +56,4 @@
     "token_expired": "The token has expired. Please login to re-send activation link",
     "invalid_token": "The token is invalid."
   }
-
 }

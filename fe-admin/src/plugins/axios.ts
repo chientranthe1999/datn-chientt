@@ -1,4 +1,4 @@
-import type { AxiosError, AxiosRequestConfig } from 'axios'
+import type { AxiosError, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import { TOKEN_TYPE, getToken } from '@core/utils/auth'
 
@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
 })
 
 axiosInstance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     const token = getToken()
     if (token)
       (config.headers || {}).Authorization = `${TOKEN_TYPE} ${token}`

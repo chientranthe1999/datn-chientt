@@ -45,9 +45,7 @@ const errors = ref<Record<string, string | undefined>>({
 
 const register = () => {
   axios.post<RegisterResponse>('/auth/register', {
-    username: username.value,
-    email: email.value,
-    password: password.value,
+    ...registerData,
   })
     .then(r => {
       const { accessToken, userData } = r.data
@@ -137,7 +135,7 @@ const onSubmit = () => {
 
             <!-- email -->
             <VTextField
-              v-model="email"
+              v-model="registerData.email"
               :rules="[requiredValidator, emailValidator]"
               label="Email"
               type="email"
@@ -147,7 +145,7 @@ const onSubmit = () => {
 
             <!-- password -->
             <VTextField
-              v-model="password"
+              v-model="registerData.password"
               :rules="[requiredValidator]"
               label="Password"
               :type="isPasswordVisible ? 'text' : 'password'"
@@ -159,7 +157,7 @@ const onSubmit = () => {
 
             <!-- password -->
             <VTextField
-              v-model="password"
+              v-model="registerData.rePassword"
               :rules="[requiredValidator]"
               label="Password"
               :type="isPasswordVisible ? 'text' : 'password'"

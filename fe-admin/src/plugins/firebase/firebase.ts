@@ -1,10 +1,7 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -15,7 +12,6 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASURE_ID,
 }
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig)
 
 getAnalytics(app)
@@ -32,7 +28,6 @@ const upload = async (file: File, folder = 'images') => {
 
   const result = await uploadBytes(storageRef, file, metaData)
 
-  // for handle upload status, check this link https://firebase.google.com/docs/storage/web/upload-files#web-modular-api_6
   return getDownloadURL(result.ref)
 }
 

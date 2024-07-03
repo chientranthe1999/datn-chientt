@@ -17,8 +17,8 @@
     "@vueuse/core": "^9.5.0",
     "@vueuse/math": "^9.5.0",
     "apexcharts-clevision": "^3.28.5",
-    "axios": "1.1.2",
-    "axios-mock-adapter": "^1.21.2",
+    "axios": "1.6.0",
+    "axios-mock-adapter": "1.22.0",
     "chart.js": "^3.9.1",
     "firebase": "^10.7.1",
     "js-cookie": "^3.0.5",
@@ -38,7 +38,7 @@
     "vue3-apexcharts": "^1.4.1",
     "vue3-perfect-scrollbar": "^1.6.0",
     "vuedraggable": "^4.1.0",
-    "vuetify": "3.5.1",
+    "vuetify": "3.6.8",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
@@ -79,7 +79,7 @@
     "typescript": "^4.9.3",
     "unplugin-auto-import": "^0.11.4",
     "unplugin-vue-components": "^0.22.9",
-    "vite": "^5.0.12",
+    "vite": "5.2.6",
     "vite-plugin-image-optimizer": "^1.1.7",
     "vite-plugin-pages": "^0.32.0",
     "vite-plugin-vue-layouts": "^0.11.0",

@@ -1,40 +1,59 @@
 {
-    "router": {
-        "finance": "Quản lý tài chính"
-    },
-    "finance": {
-        "overview": "Overview",
-        "my_wallet": "Ví",
-        "recent_transaction": "Giao dịch gần đây",
-        "transaction": "Danh sách giao dịch",
-        "transaction_add": "Thêm mới giao dịch",
-        "wallet_category": "Wallet & Category",
-        "top_spending": "Top Spending By Transaction",
-        "spending_by_category": "Category Spending",
-        "spending_chart": "Spending Chart"
-    },
-    "task": {
-        "heading": "Task & Calendar",
-        "title": "Title",
-        "label": "Label",
-        "kanban": "Kanban Board"
-    },
-    "see_all": "Tất cả",
-    "balance": "Tổng số dư",
-    "spending": "Tổng chi",
-    "incoming": "Tổng thu",
-    "btn": {
-        "submit": "Submit",
-        "save": "Lưu",
-        "cancel": "Hủy bỏ",
-        "edit": "Edit",
-        "detail": "Chi tiết",
-        "login": "Đăng nhập"
-    },
-    "active_account": {
-        "not_match_type": "The provided token does not match the expected type.",
-        "not_match_user": "The provided token does not match current user.",
-        "token_expired": "The token has expired.",
-        "invalid_token": "The token is invalid.",
-    }
+  "router": {
+    "finance": "Finance Management"
+  },
+  "finance": {
+    "overview": "Overview",
+    "my_wallet": "My wallet",
+    "recent_transaction": "Recent Transaction",
+    "transaction": "Transaction List",
+    "transaction_add": "Transaction Add",
+    "wallet_category": "Wallet & Category",
+    "top_spending": "Top Spending By Transaction",
+    "spending_by_category": "Category Spending",
+    "spending_chart": "Spending Chart",
+    "note": "Note",
+    "image": "Image",
+    "exclude_report": "Exclude from report",
+    "transaction_add_title": "Add a new transaction"
+  },
+  "task": {
+    "heading": "Task & Calendar",
+    "title": "Title",
+    "label": "Label",
+    "kanban": "Kanban Board"
+  },
+  "see_all": "See all",
+  "balance": "Total balance",
+  "spending": "Total spending",
+  "incoming": "Total incoming",
+  "btn": {
+    "submit": "Submit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "detail": "Detail",
+    "login": "Login"
+  },
+  "common": {
+    "category": "Category",
+    "amount": "Amount",
+    "wallet": "Wallet",
+    "note": "Note",
+    "name_wallet": "Name/Wallet",
+    "action": "Action",
+    "date": "Date"
+  },
+  "message": {
+    "login_success": "Login successfully",
+    "unauthorized": "Email or password is incorrect",
+    "exception": "There is an error, please try again",
+    "invalid_link": "Your link you have provided is not valid, please check again or go to Home to continue."
+  },
+  "active_account": {
+    "not_match_type": "The provided token does not match the expected type.",
+    "not_match_user": "The provided token does not match current user.",
+    "token_expired": "The token has expired. Please login to re-send activation link",
+    "invalid_token": "The token is invalid."
+  }
 }
