@@ -12,10 +12,6 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Request;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
@@ -34,9 +30,7 @@ class AuthController extends Controller
     public function create(RegisterRequest $request)
     {
         $result = DB::transaction(function() use ($request) {
-            $data = $request->only('name', 'email', 'password', 'avt');
-
-            return $this->authService->register(User::class, ...array_values($data));
+            return $this->authService->register(User::class, $request->only('name', 'email', 'password', 'avt'));
         });
 
         return $this->respond($result);

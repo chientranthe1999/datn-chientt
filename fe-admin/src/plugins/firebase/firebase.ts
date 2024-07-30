@@ -28,7 +28,7 @@ const upload = async (file: File, folder = 'images') => {
 
   const result = await uploadBytes(storageRef, file, metaData)
 
-  return getDownloadURL(result.ref)
+  return await getDownloadURL(result.ref)
 }
 
 export { storage, upload }

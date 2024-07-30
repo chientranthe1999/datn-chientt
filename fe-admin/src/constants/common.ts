@@ -29,6 +29,11 @@ export const TASK_PRIORITY = {
     icon: 'tabler-arrow-badge-up',
     text: 'High',
   },
+  HIGHEST: {
+    color: 'error',
+    icon: 'tabler-arrow-badge-up',
+    text: 'Highest',
+  },
 }
 
 export const HTTP_STATUS = {

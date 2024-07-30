@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { VForm } from 'vuetify/components'
-import type { RegisterResponse } from '@/@fake-db/types'
+import type { SubmitEventPromise } from 'vuetify'
 import authV2RegisterIllustrationBorderedDark from '@images/pages/auth-v2-register-illustration-bordered-dark.png'
 import authV2RegisterIllustrationBorderedLight from '@images/pages/auth-v2-register-illustration-bordered-light.png'
 import authV2RegisterIllustrationDark from '@images/pages/auth-v2-register-illustration-dark.png'
@@ -9,16 +9,16 @@ import authV2MaskDark from '@images/pages/misc-mask-dark.png'
 import authV2MaskLight from '@images/pages/misc-mask-light.png'
 
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
-import axios from '@axios'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
 import { alphaDashValidator, emailValidator, requiredValidator } from '@validators'
-
-const refVForm = ref<VForm>()
+import { register } from '@/api/auth'
+import {HTTP_STATUS} from "@/constants/common";
+import {useSnackbar} from "@core/components/Snackbar/useSnackbar";
 
 const registerData = reactive({
-  username: '',
+  name: '',
   email: '',
   password: '',
   rePassword: '',
@@ -26,12 +26,8 @@ const registerData = reactive({
   privacyPolicies: false,
 })
 
-const isPasswordVisible = ref(false)
-
-const username = ref('')
-const email = ref('')
-const password = ref('')
-const privacyPolicies = ref(true)
+const isPasswordVisible = ref<boolean>(false)
+const imageRef = ref()
 
 // Router
 const route = useRoute()
@@ -42,28 +38,18 @@ const errors = ref<Record<string, string | undefined>>({
   email: undefined,
   password: undefined,
 })
-
-const register = () => {
-  axios.post<RegisterResponse>('/auth/register', {
-    ...registerData,
-  })
-    .then(r => {
-      const { accessToken, userData } = r.data
-
-      localStorage.setItem('userData', JSON.stringify(userData))
-      localStorage.setItem('accessToken', JSON.stringify(accessToken))
-
-      // Redirect to `to` query if exist or redirect to index route
-      router.replace(route.query.to ? String(route.query.to) : '/')
-
-      return null
-    })
-    .catch(e => {
-      const { errors: formErrors } = e.response.data
-
-      errors.value = formErrors
-      console.error(e.response.data)
-    })
+const createSnackbar = useSnackbar()
+const { t } = useI18n()
+const registerHandler = async () => {
+  registerData.avt = await imageRef.value.upload('avt')
+  try {
+    const result = await register({ ...registerData });
+    if(result.status === HTTP_STATUS.OK) {
+      createSnackbar(t('message.register_success'), { color: 'success' })
+      await router.push({name: 'login'})
+    }
+  } catch (error) {
+    console.error(error)
 }
 
 const imageVariant = useGenerateImageVariant(
@@ -75,12 +61,10 @@ const imageVariant = useGenerateImageVariant(
 
 const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
 
-const onSubmit = () => {
-  refVForm.value?.validate()
-    .then(({ valid: isValid }) => {
-      if (isValid)
-        register()
-    })
+const onSubmit = async (validate: SubmitEventPromise) => {
+  const result = await validate
+  if (result.valid)
+    await registerHandler()
 }
 </script>
 
@@ -121,13 +105,13 @@ const onSubmit = () => {
             @submit.prevent="onSubmit"
           >
             <div class="mb-4">
-              <ImageUpload rounded class="mb-2" />
+              <ImageUpload ref="imageRef" rounded class="mb-2" />
               <p class="text-x">Upload your avt here</p>
             </div>
 
             <VTextField
-              v-model="registerData.username"
-              :rules="[requiredValidator, alphaDashValidator]"
+              v-model="registerData.name"
+              :rules="[requiredValidator]"
               label="Enter your name"
               :hide-details="false"
               class="mb-3"
@@ -170,7 +154,7 @@ const onSubmit = () => {
             <div class="d-flex align-center mt-2 mb-4">
               <VCheckbox
                 id="privacy-policy"
-                v-model="privacyPolicies"
+                v-model="registerData.privacyPolicies"
                 inline
               />
               <VLabel

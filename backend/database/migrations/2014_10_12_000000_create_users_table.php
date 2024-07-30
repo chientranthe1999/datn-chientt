@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('avt')->nullable();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('role', 16)->default(Role::ROLE_USER);
+            $table->enum('role', Role::ROLES)->default(Role::ROLE_USER);
             $table->boolean('is_active')->default(false);
             $table->timestamps();
             $table->softDeletes();

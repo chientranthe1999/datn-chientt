@@ -14,9 +14,12 @@ const imageUrl = ref<string | null>('')
 const selectedFile = ref<File | null>(null)
 const zoomOut = ref<boolean>(false)
 
-const upload = () => {
+const upload = async (folder = 'images'): Promise<string> => {
+  let imageUploadedUrl = ''
   if (selectedFile.value)
-    uploadImage(selectedFile.value)
+    imageUploadedUrl = await uploadImage(selectedFile.value, folder)
+
+  return imageUploadedUrl
 }
 
 const previewImage = (e: Event) => {
@@ -73,7 +76,7 @@ defineExpose({
   </div>
 
   <VDialog v-model="zoomOut" width="50%">
-    <VImg :src="imageUrl" />
+    <VImg :src="imageUrl as string" />
     <VBtn class="icon--close" @click="() => zoomOut = false">Close</VBtn>
   </VDialog>
 </template>

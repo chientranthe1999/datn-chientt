@@ -3,6 +3,7 @@ import { VForm } from 'vuetify/components'
 
 import type { Ref } from 'vue'
 import type { AxiosError } from 'axios'
+import type { SubmitEventPromise } from 'vuetify'
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
@@ -23,7 +24,7 @@ import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 
 const authThemeImg = useGenerateImageVariant(authV2LoginIllustrationLight, authV2LoginIllustrationDark, authV2LoginIllustrationBorderedLight, authV2LoginIllustrationBorderedDark, true)
 
-const authThemeMask = useGenerateImageVariant(authV2MaskLight as string, authV2MaskDark as string) as string
+const authThemeMask = useGenerateImageVariant(authV2MaskLight as string, authV2MaskDark as string)
 
 const isPasswordVisible = ref(false)
 const loading: Ref<boolean> = ref(false)
@@ -37,7 +38,6 @@ const errors = ref<Record<string, string>>({
   password: '',
 })
 
-const refVForm = ref<VForm>()
 const email = ref()
 const password = ref()
 
@@ -61,7 +61,6 @@ const loginHandler = async () => {
     }
   }
   catch (e) {
-    console.log(e)
     let errorMessage = t('message.exception')
     if ((e as AxiosError)?.response?.status === HTTP_STATUS.UNAUTHORIZED)
       errorMessage = t('message.unauthorized')
@@ -75,12 +74,11 @@ const loginHandler = async () => {
   }
 }
 
-const onSubmit = validate => {
-  validate
-    .then(async ({ valid: isValid }) => {
-      if (isValid)
-        await loginHandler()
-    })
+const onSubmit = async (validate: SubmitEventPromise) => {
+  const result = await validate
+
+  if (result.valid)
+    await loginHandler()
 }
 </script>
 

@@ -16,6 +16,7 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'user_not_found' => 'User not found',
-    'user_not_active' => 'Your account have not been activated, please check your email to active your account',
+    'user_not_found' => 'Vui lòng kiểm tra lại thông tin đăng nhập',
+    'user_not_active' => 'Vui lòng kích hoạt tài khoản của bạn trước khi đăng nhập',
+
 ];

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import type { VForm } from 'vuetify/components'
+import { VForm } from 'vuetify/components'
 
 import type { UserProperties } from '@/@fake-db/types'
 import { requiredValidator } from '@validators'
@@ -21,14 +20,16 @@ const emit = defineEmits<Emit>()
 
 const isFormValid = ref(false)
 const refForm = ref<VForm>()
-const fullName = ref('')
-const email = ref('')
-const company = ref('')
-const country = ref('')
-const contact = ref('')
-const role = ref()
-const plan = ref()
-const status = ref()
+
+const task = reactive({
+  title: '',
+  role: '',
+  description: '',
+  priority: '',
+  start_date: '',
+  end_date: '',
+  label: '',
+})
 
 // 👉 drawer close
 const closeNavigationDrawer = () => {
@@ -72,7 +73,7 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
 
 <template>
   <VNavigationDrawer
-    temporary="true"
+    temporary
     :width="480"
     location="end"
     class="scrollable-content"
@@ -96,14 +97,13 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
     <PerfectScrollbar :options="{ wheelPropagation: false }">
       <VCard flat>
         <VCardText>
-          <!-- 👉 Form -->
           <VForm
             ref="refForm"
             v-model="isFormValid"
             @submit.prevent="onSubmit"
           >
             <VTextField
-              v-model="fullName"
+              v-model="task.title"
               :rules="[requiredValidator]"
               :label="$t('task.title')"
               :hide-details="false"
@@ -112,24 +112,24 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
             />
 
             <VSelect
-              v-model="role"
+              v-model="task.label"
               :label="$t('task.label')"
               :rules="[requiredValidator]"
               :items="['Design', 'Backend', 'Feature Request', 'QA']"
               :hide-details="false"
-              clearable="true"
+              clearable
               class="mb-2"
               chips
             />
 
             <div class="mb-4">
-              <Calendar v-model:datetime="displayDate" label="Start date" />
+              <Calendar v-model:datetime="task.start_date" label="Start date" />
             </div>
             <div class="mb-2">
-              <Calendar v-model:datetime="displayDate" label="End date" />
+              <Calendar v-model:datetime="task.end_date" label="End date" />
             </div>
 
-            <VRadioGroup class="mb-4">
+            <VRadioGroup v-model="task.priority" class="mb-4">
               <template #label>
                 <div>Priority</div>
               </template>
@@ -144,7 +144,7 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
             </VRadioGroup>
 
             <VTextarea
-              v-model="role"
+              v-model="task.description"
               label="Description"
               :rules="[requiredValidator]"
               :items="['Admin', 'Author', 'Editor', 'Maintainer', 'Subscriber']"

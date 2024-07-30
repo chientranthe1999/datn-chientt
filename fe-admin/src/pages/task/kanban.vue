@@ -7,6 +7,8 @@ const isOpenAddNewTask: Ref<boolean> = ref(false)
 </script>
 
 <template>
-  <KanbanBoard @open-add-new-task="isOpenAddNewTask = true" />
-  <AddNewTask v-model:is-drawer-open="isOpenAddNewTask" />
+  <section>
+    <KanbanBoard @open-add-new-task="isOpenAddNewTask = true" />
+    <AddNewTask v-model:is-drawer-open="isOpenAddNewTask" />
+  </section>
 </template>

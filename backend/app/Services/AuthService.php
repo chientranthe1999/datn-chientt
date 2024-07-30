@@ -74,13 +74,11 @@ class AuthService
     /**
      * @throws Exception
      */
-    public function register(string $modelNamespace, $name, $email, $password, $avt = '')
+    public function register(string $modelNamespace, $data)
     {
-        $data = compact('name', 'email', 'password', 'avt');
-        $data['password'] = Hash::make($password);
+        $data['password'] = Hash::make($data['password']);
 
         $user = $modelNamespace::create($data);
-        Log::info($user);
         $token = Str::random(Common::REQUEST_ACCOUNT_TOKEN_LENGTH);
         UserRequest::create([
             'user_id' => $user->id,
@@ -90,9 +88,10 @@ class AuthService
         ]);
 
         Log::info("Send email to: " . $data['email']);
-        Mail::to($data['email'])->send(
-            new ActiveAccount(CommonUtil::buildClientUrl(Common::CLIENT_REDIRECT_URI['ACTIVE_ACCOUNT'] . '/' . $token))
-        );
+        // TODO: send mail
+//        Mail::to($data['email'])->send(
+//            new ActiveAccount(CommonUtil::buildClientUrl(Common::CLIENT_REDIRECT_URI['ACTIVE_ACCOUNT'] . '/' . $token))
+//        );
 
         return true;
     }
@@ -103,8 +102,8 @@ class AuthService
     public function login(string $modelNamespace, $email, $password)
     {
         $user = User::query()->where('email', $email)->first();
-        if(!$user) throw new NotFoundHttpException();
-        if(!$user->is_active) throw new BadRequestHttpException('Your account have not been activated, please check your email to active your account');
+        if(!$user) throw new NotFoundHttpException(__('auth.user_not_found'));
+        if(!$user->is_active) throw new BadRequestHttpException(__('auth.user_not_active'));
         $result = [];
         $result['token'] = $this->generateToken($modelNamespace, $email, $password);
         if (!$result['token']) {

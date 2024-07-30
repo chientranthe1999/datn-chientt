@@ -46,6 +46,8 @@
   },
   "message": {
     "login_success": "Login successfully",
+    "logout_success": "Logout successfully",
+    "register_success": "Tạo tài khoản thành công. Vui lòng kiểm tra email để kích hoạt tài khoản",
     "unauthorized": "Email or password is incorrect",
     "exception": "There is an error, please try again",
     "invalid_link": "Your link you have provided is not valid, please check again or go to Home to continue."

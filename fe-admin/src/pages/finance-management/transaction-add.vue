@@ -1,23 +1,39 @@
 <script setup lang="ts">
-import FileInput from '@/pages/forms/file-input.vue'
-
-const rules = {
-  email: [
-    (value: unknown) => !!value || 'Not be emptied',
-  ],
-}
-
-const firstName = ref('')
+import { integerValidator, requiredValidator } from '@validators'
+import TransactionApi from '@/api/transaction.api'
 
 const formatDate = (date: Date = new Date()) => {
   return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
 }
 
-const displayDate = ref(formatDate())
-
-watch(displayDate, newVal => {
-  console.log(newVal)
+const formData = reactive({
+  amount: '',
+  category_id: '',
+  wallet_id: '',
+  note: '',
+  action_time: formatDate,
+  excludeReport: false,
 })
+
+const imageUploader = ref()
+const transactionApi = new TransactionApi()
+const loading = ref<boolean>(false)
+
+const addNewTransaction = async () => {
+  try {
+    loading.value = true
+
+    const imageUrl = await imageUploader.value.upload('transactions')
+
+    const result = await transactionApi.save({ ...formData, image: imageUrl })
+  }
+  catch (e) {
+    console.log(e)
+  }
+  finally {
+    loading.value = false
+  }
+}
 </script>
 
 <template>
@@ -28,33 +44,33 @@ watch(displayDate, newVal => {
         <VRow>
           <VCol cols="6">
             <VTextField
-              v-model="firstName"
+              v-model="formData.amount"
               :label="$t('common.amount')"
-              :rules="rules.email"
+              :rules="[requiredValidator, integerValidator]"
               :hide-details="false"
               suffix="$"
             />
           </VCol>
           <VCol cols="6">
             <VSelect
-              v-model="firstName"
+              v-model="formData.category_id"
               :label="$t('common.category')"
-              :rules="rules.email"
+              :rules="[requiredValidator]"
               :hide-details="false"
             />
           </VCol>
 
           <VCol cols="6">
             <VSelect
-              v-model="firstName"
+              v-model="formData.wallet_id"
               :label="$t('common.wallet')"
-              :rules="rules.email"
+              :rules="[requiredValidator]"
               :hide-details="false"
             />
           </VCol>
 
           <VCol cols="6">
-            <Calendar v-model:datetime="displayDate" />
+            <Calendar v-model:datetime="formData.action_time" />
           </VCol>
 
           <VCol cols="12">
@@ -62,14 +78,14 @@ watch(displayDate, newVal => {
           </VCol>
           <VCol cols="12">
             <p>{{ $t('finance.image') }}</p>
-            <ImageUpload />
+            <ImageUpload ref="imageUploader" />
           </VCol>
           <VCol cols="12">
             <VCheckbox :label="$t('finance.exclude_report')" />
           </VCol>
         </VRow>
 
-        <VBtn type="submit" class="mt-4">
+        <VBtn type="submit" class="mt-4" @click="addNewTransaction">
           {{ $t('btn.submit') }}
         </VBtn>
       </VForm>
