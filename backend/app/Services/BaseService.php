@@ -121,7 +121,7 @@ abstract class BaseService
      * @param $filter
      * @return void
      */
-    protected function basicFilter(Builder $query, $key, $filter)
+    protected function basicFilter(Builder $query, $key, $filter): void
     {
         if (is_array($filter)) {
             if ($key == 'equal') {

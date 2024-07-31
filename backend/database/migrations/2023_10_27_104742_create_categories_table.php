@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,10 +14,11 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('group_id')->default(0);
+            $table->bigInteger('user_id')->index();
             $table->enum('type', array_values(Common::CATEGORY_TYPE));
             $table->string('name', 128);
             $table->string('icon');
-            $table->boolean('report_exclude')->default(false);
+            $table->boolean('report_exclude')->default(false)->index();
             $table->timestamps();
         });
     }

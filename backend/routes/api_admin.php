@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function() {
+Route::get('/', function () {
     return response()->json(['status' => 'ChienTT OK']);
 });
 
@@ -24,7 +25,7 @@ Route::post('register', [AuthController::class, 'create']);
 Route::post('refresh_token', [AuthController::class, 'refreshToken'])->name('admin.refresh_token');
 Route::get('active-user/{token}', [AuthController::class, 'activeAccount']);
 
-Route::middleware('auth:api_admin')->group(function() {
+Route::middleware('auth:api_admin')->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
     Route::get('profile', [AuthController::class, 'profile'])->name('admin.profile');
 
@@ -32,5 +33,6 @@ Route::middleware('auth:api_admin')->group(function() {
     Route::get('transactions', [TransactionController::class, 'index']);
 
     Route::get('categories', [TransactionController::class, 'index']);
+    Route::post('categories', [CategoryController::class, 'create']);
     Route::get('categories/options', [TransactionController::class, 'index']);
 });

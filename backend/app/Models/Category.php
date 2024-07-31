@@ -13,7 +13,9 @@ class Category extends Model
         'type',
         'name',
         'group_id',
-        'icon'
+        'icon',
+        'user_id',
+        'report_exclude'
     ];
 
     public function transactions(): \Illuminate\Database\Eloquent\Relations\HasMany

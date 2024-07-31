@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,13 +12,13 @@ return new class extends Migration
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->index();
             $table->bigInteger('group_id');
             $table->string('description')->nullable();
             $table->string('name');
             $table->float('total');
             $table->tinyInteger('status');
-            $table->string('icon')->default('wallet-icon')->nullable();
+            $table->string('icon')->default('wallet-default');
             $table->boolean('report_exclude')->default(false);
             $table->timestamps();
         });
