@@ -39,5 +39,24 @@ export const TASK_PRIORITY = {
 export const HTTP_STATUS = {
   OK: 200,
   UNAUTHORIZED: 401,
+  VALIDATION_ERR: 422,
 }
 
+export const CATEGORY_TYPE = {
+  DEBT: {
+    value: 'DEBT',
+    label: 'Debt',
+  },
+  SALARY: {
+    value: 'SALARY',
+    label: 'Salary',
+  },
+  INCOME: {
+    value: 'INCOME',
+    label: 'Income',
+  },
+  EXPENSE: {
+    value: 'EXPENSE',
+    label: 'Expense',
+  },
+}

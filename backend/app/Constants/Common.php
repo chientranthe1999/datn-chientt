@@ -9,13 +9,15 @@ class Common
     const CATEGORY_TYPE = [
         'DEBT' => "DEBT",
         'SALARY' => 'SALARY',
-        'EXPENSE' => 'EXPENSE'
+        'INCOME' => 'INCOME',
+        'EXPENSE' => 'EXPENSE',
     ];
 
     const TASK_PRIORITY = [
         'LOW' => 'LOW',
         'MEDIUM' => 'MEDIUM',
         'HIGH' => 'HIGH',
+        'URGENT' => 'URGENT'
     ];
 
     const USER_REQUEST = [

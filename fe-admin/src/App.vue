@@ -15,10 +15,12 @@ syncConfigThemeWithVuetifyTheme()
 <template>
   <VLocaleProvider :rtl="isAppRtl">
     <SnackbarProvider>
-      <!-- ℹ️ This is required to set the background color of active nav link based on currently active global theme's primary -->
-      <VApp :style="`--v-global-theme-primary: ${hexToRgb(global.current.value.colors.primary)}`">
-        <RouterView />
-      </VApp>
+      <LoadingProvider>
+        <!-- ℹ️ This is required to set the background color of active nav link based on currently active global theme's primary -->
+        <VApp :style="`--v-global-theme-primary: ${hexToRgb(global.current.value.colors.primary)}`">
+          <RouterView />
+        </VApp>
+      </LoadingProvider>
     </SnackbarProvider>
   </VLocaleProvider>
 </template>

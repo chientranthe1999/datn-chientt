@@ -1,12 +1,16 @@
+import type { Composer } from 'vue-i18n'
 import { isEmpty, isEmptyArray, isNullOrUndefined } from './index'
 import i18n from '@/plugins/i18n'
+
+const i18nGlobal = i18n.global as Composer
 
 // 👉 Required Validator
 export const requiredValidator = (value: unknown) => {
   if (isNullOrUndefined(value) || isEmptyArray(value) || value === false)
-    return i18n.global.t('validation.required')
 
-  return !!String(value).trim().length || i18n.global.t('validation.required')
+    return i18nGlobal.t('validation.required')
+
+  return !!String(value).trim().length || i18nGlobal.t('validation.required')
 }
 
 // 👉 Email Validator
@@ -17,9 +21,9 @@ export const emailValidator = (value: unknown) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
   if (Array.isArray(value))
-    return value.every(val => re.test(String(val))) || i18n.global.t('validation.email')
+    return value.every(val => re.test(String(val))) || i18nGlobal.t('validation.email')
 
-  return re.test(String(value)) || i18n.global.t('validation.email')
+  return re.test(String(value)) || i18nGlobal.t('validation.email')
 }
 
 // 👉 Password Validator
@@ -53,9 +57,9 @@ export const integerValidator = (value: unknown) => {
     return true
 
   if (Array.isArray(value))
-    return value.every(val => /^-?[0-9]+$/.test(String(val))) || i18n.global.t('validation.integer')
+    return value.every(val => /^-?[0-9]+$/.test(String(val))) || i18nGlobal.t('validation.integer')
 
-  return /^-?[0-9]+$/.test(String(value)) || i18n.global.t('validation.integer')
+  return /^-?[0-9]+$/.test(String(value)) || i18nGlobal.t('validation.integer')
 }
 
 // 👉 Regex Validator

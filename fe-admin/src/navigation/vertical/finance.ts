@@ -17,7 +17,7 @@ export default [
   },
   {
     title: 'finance.wallet_category',
-    to: 'finance-management-wallets',
+    to: 'finance-management-wallet-category',
     icon: { icon: 'tabler-wallet' },
   },
 ]

@@ -12,6 +12,12 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\DB;
+use MarcinOrlowski\ResponseBuilder\Exceptions\ArrayWithMixedKeysException;
+use MarcinOrlowski\ResponseBuilder\Exceptions\ConfigurationNotFoundException;
+use MarcinOrlowski\ResponseBuilder\Exceptions\IncompatibleTypeException;
+use MarcinOrlowski\ResponseBuilder\Exceptions\InvalidTypeException;
+use MarcinOrlowski\ResponseBuilder\Exceptions\MissingConfigurationKeyException;
+use MarcinOrlowski\ResponseBuilder\Exceptions\NotIntegerException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 

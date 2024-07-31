@@ -273,6 +273,8 @@ declare module '@vue/runtime-core' {
     ErrorHeader: typeof import('./src/@core/components/ErrorHeader.vue')['default']
     I18n: typeof import('./src/@core/components/I18n.vue')['default']
     ImageUpload: typeof import('./src/@core/components/ImageUpload.vue')['default']
+    Loading: typeof import('./src/@core/components/Loading/loading.vue')['default']
+    LoadingProvider: typeof import('./src/@core/components/Loading/LoadingProvider.vue')['default']
     Notifications: typeof import('./src/@core/components/Notifications.vue')['default']
     Notify: typeof import('./src/@core/components/Notify.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

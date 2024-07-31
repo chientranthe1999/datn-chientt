@@ -1,11 +1,13 @@
 <script setup>
 import { activeAccount } from '@/api/auth'
+import { useLoading } from '@core/components/Loading/useLoading'
 
 const route = useRoute()
 const { t } = useI18n()
 
 const isSuccess = ref(false)
 const errorMessage = ref('')
+const setLoading = useLoading()
 
 const activeAccountHandler = async () => {
   const token = route.params.token
@@ -16,12 +18,20 @@ const activeAccountHandler = async () => {
   }
 
   try {
-    const result = await activeAccount(token)
+    setLoading(true)
+    await activeAccount(token)
+    isSuccess.value = true
   }
   catch (e) {
-    if (e)
-      errorMessage.value = e.response?.data.message || e.response?.data?.errors?.code ? t(`active_account.${e.response?.data?.errors?.code?.toLowerCase()}`) : t('message.invalid_link')
     isSuccess.value = false
+    if (e) {
+      errorMessage.value = e.response?.data.message || e.response?.data?.errors?.code
+        ? t(`active_account.${e.response?.data?.errors?.code?.toLowerCase()}`)
+        : t('message.invalid_link')
+    }
+  }
+  finally {
+    setLoading(false)
   }
 }
 
@@ -50,7 +60,9 @@ activeAccountHandler()
         <p style="font-size: 6em;">Woops!</p>
       </div>
       <p class="message-text">{{ errorMessage }}</p>
-      <VBtn>PƠ</VBtn>
+      <VBtn>
+        <RouterLink to="/" class="text-white">{{ $t('btn.home') }}</RouterLink>
+      </VBtn>
     </VCardText>
   </VCard>
 </template>

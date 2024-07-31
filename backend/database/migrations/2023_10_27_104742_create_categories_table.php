@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\Common;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('group_id')->default(0);
-            $table->string('type', 16);
+            $table->enum('type', array_values(Common::CATEGORY_TYPE));
             $table->string('name', 128);
             $table->string('icon');
             $table->boolean('report_exclude')->default(false);

@@ -88,10 +88,9 @@ class AuthService
         ]);
 
         Log::info("Send email to: " . $data['email']);
-        // TODO: send mail
-//        Mail::to($data['email'])->send(
-//            new ActiveAccount(CommonUtil::buildClientUrl(Common::CLIENT_REDIRECT_URI['ACTIVE_ACCOUNT'] . '/' . $token))
-//        );
+        Mail::to($data['email'])->send(
+            new ActiveAccount(CommonUtil::buildClientUrl(Common::CLIENT_REDIRECT_URI['ACTIVE_ACCOUNT'] . '/' . $token))
+        );
 
         return true;
     }

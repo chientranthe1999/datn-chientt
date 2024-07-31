@@ -2,7 +2,7 @@
 import { VForm } from 'vuetify/components'
 
 import type { Ref } from 'vue'
-import type { AxiosError } from 'axios'
+import { AxiosError } from 'axios'
 import type { SubmitEventPromise } from 'vuetify'
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
@@ -62,10 +62,12 @@ const loginHandler = async () => {
   }
   catch (e) {
     let errorMessage = t('message.exception')
-    if ((e as AxiosError)?.response?.status === HTTP_STATUS.UNAUTHORIZED)
-      errorMessage = t('message.unauthorized')
-    else if (e.response?.data?.message)
-      errorMessage = e.response.data.message
+    if (e instanceof AxiosError) {
+      if (e.response?.status === HTTP_STATUS.UNAUTHORIZED)
+        errorMessage = t('message.unauthorized')
+      else if (e.response?.data?.message)
+        errorMessage = e.response.data.message
+    }
 
     createSnackbar(errorMessage, { color: 'error' })
   }

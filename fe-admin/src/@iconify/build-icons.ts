@@ -79,12 +79,6 @@ const sources: BundleScriptConfig = {
       monotone: false,
       prefix: '',
     },
-
-    // {
-    //   dir: 'emojis',
-    //   monotone: false,
-    //   prefix: 'emoji',
-    // },
   ],
 
   icons: [

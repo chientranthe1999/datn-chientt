@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { CategoryIcon } from '@/constants/common'
+import CategoryAddDialog from '@/views/finance-management/CategoryAddDialog.vue'
 
 const headers = [
   { title: 'Wallet', width: '15', align: 'start', key: 'name' },
@@ -57,7 +58,7 @@ const desserts = [
     <VCol cols="5">
       <VCard title="My Categories">
         <template #append>
-          <VBtn prepend-icon="tabler-plus" size="small">Add New</VBtn>
+          <CategoryAddDialog />
         </template>
         <VDivider />
 

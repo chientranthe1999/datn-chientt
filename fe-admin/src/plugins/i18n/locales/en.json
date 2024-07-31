@@ -33,7 +33,8 @@
     "cancel": "Cancel",
     "edit": "Edit",
     "detail": "Detail",
-    "login": "Login"
+    "login": "Login",
+    "home": "Home"
   },
   "common": {
     "category": "Category",
@@ -58,9 +59,20 @@
     "token_expired": "The token has expired. Please login to re-send activation link",
     "invalid_token": "The token is invalid."
   },
-    "validation": {
-      "required": "This field is required",
-      "email": "Email is invalid",
-      "integer": "This field must be an integer"
-    }
+  "validation": {
+    "required": "This field is required",
+    "email": "Email is invalid",
+    "integer": "This field must be an integer"
+  },
+  "sign_up": "Sign up",
+  "icon": "icon",
+  "category": {
+    "add_title": "Add a new category",
+    "name": "Category name",
+    "type": "Category type",
+    "parent": "Parent category",
+    "income": "Income",
+    "expense": "Expense",
+    "add": "Add category"
+  }
 }

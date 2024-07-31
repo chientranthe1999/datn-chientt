@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { VForm } from 'vuetify/components'
 import type { SubmitEventPromise } from 'vuetify'
+import { AxiosError } from 'axios'
 import authV2RegisterIllustrationBorderedDark from '@images/pages/auth-v2-register-illustration-bordered-dark.png'
 import authV2RegisterIllustrationBorderedLight from '@images/pages/auth-v2-register-illustration-bordered-light.png'
 import authV2RegisterIllustrationDark from '@images/pages/auth-v2-register-illustration-dark.png'
@@ -12,10 +13,10 @@ import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
-import { alphaDashValidator, emailValidator, requiredValidator } from '@validators'
+import { emailValidator, requiredValidator } from '@validators'
 import { register } from '@/api/auth'
-import {HTTP_STATUS} from "@/constants/common";
-import {useSnackbar} from "@core/components/Snackbar/useSnackbar";
+import { HTTP_STATUS } from '@/constants/common'
+import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 
 const registerData = reactive({
   name: '',
@@ -29,27 +30,32 @@ const registerData = reactive({
 const isPasswordVisible = ref<boolean>(false)
 const imageRef = ref()
 
-// Router
-const route = useRoute()
 const router = useRouter()
 
-// Form Errors
-const errors = ref<Record<string, string | undefined>>({
-  email: undefined,
-  password: undefined,
-})
 const createSnackbar = useSnackbar()
+const loading = ref(false)
 const { t } = useI18n()
+
 const registerHandler = async () => {
   registerData.avt = await imageRef.value.upload('avt')
   try {
-    const result = await register({ ...registerData });
-    if(result.status === HTTP_STATUS.OK) {
+    loading.value = true
+
+    const result = await register({ ...registerData })
+    if (result.status === HTTP_STATUS.OK) {
       createSnackbar(t('message.register_success'), { color: 'success' })
-      await router.push({name: 'login'})
+      await router.push({ name: 'login' })
     }
-  } catch (error) {
-    console.error(error)
+  }
+  catch (error) {
+    if (error instanceof AxiosError && error?.response?.status === HTTP_STATUS.VALIDATION_ERR)
+      createSnackbar(error.response.data.message, { color: 'error' })
+
+    else createSnackbar(t('message.exception'), { color: 'error' })
+  }
+  finally {
+    loading.value = false
+  }
 }
 
 const imageVariant = useGenerateImageVariant(
@@ -155,18 +161,18 @@ const onSubmit = async (validate: SubmitEventPromise) => {
               <VCheckbox
                 id="privacy-policy"
                 v-model="registerData.privacyPolicies"
-                inline
-              />
-              <VLabel
-                for="privacy-policy"
-                style="opacity: 1;"
+                :rules="[requiredValidator]"
               >
-                <span class="me-1">I agree to</span>
-                <a class="text-primary">privacy policy & terms</a>
-              </VLabel>
+                <template #label>
+                  <div>
+                    <span class="me-1">I agree to</span>
+                    <a class="text-primary">privacy policy & terms</a>
+                  </div>
+                </template>
+              </VCheckbox>
             </div>
 
-            <VBtn block type="submit" class="mb-4">Sign up</VBtn>
+            <VBtn block type="submit" class="mb-4" :loading="loading">{{ t('sign_up') }}</VBtn>
 
             <VRow>
               <!-- create account -->

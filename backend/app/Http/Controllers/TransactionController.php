@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Services\TransactionService;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    public function __construct(protected readonly TransactionService $service)
+    {
+    }
+
     public function index()
     {
-        //
+
     }
 
     /**
@@ -20,7 +23,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**

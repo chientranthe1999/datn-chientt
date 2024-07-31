@@ -9,7 +9,7 @@ defineProps({
   },
 })
 
-const mapColor = {
+const mapColor: Record<string, string> = {
   'Design': 'purple',
   'Feature Request': 'teal',
   'Backend': 'blue',
@@ -30,33 +30,29 @@ const mapColor = {
 </template>
 
 <style scoped lang="scss">
-$teal: #2c7a7b;
-$purple: #6b46c1;
-$green: #2f855a;
-$blue: #2b6cb0;
-$theme-colors-name: (
-  "purple",
-  "teal",
-  "blue",
-  "green",
-) !default;
+$colors: (
+  "purple": #6b46c1,
+  "teal": #2c7a7b,
+  "blue": #2b6cb0,
+  "green": #2f855a,
+);
 
-$color-value: $teal;
-
-@each $color-name in $theme-colors-name {
-  @if $color-name == "purple" {
-    $color-value: $purple;
-  } @else if $color-name == "teal" {
-    $color-value: $teal;
-  } @else if $color-name == "blue" {
-    $color-value: $blue;
-  } @else if $color-name == "green" {
-    $color-value: $green;
-  }
-
+@each $color-name, $color-value in $colors {
   .text-custom-#{$color-name} {
     color: $color-value !important;
     background-color: color-mix(in srgb, currentColor 10%, transparent);
+  }
+}
+
+.task-card {
+  box-shadow: rgba(145, 158, 171, 0.16) 0 1px 2px 0;
+  border-radius: 16px;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  margin-bottom: 16px;
+  background-color: white;
+
+  &:hover {
+    box-shadow: rgba(145, 158, 171, 0.16) 0px 20px 40px -4px;
   }
 }
 

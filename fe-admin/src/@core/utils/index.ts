@@ -29,3 +29,15 @@ export const isToday = (date: Date) => {
     && date.getFullYear() === today.getFullYear()
   )
 }
+
+export const getListCategoryIcon = (srcPath: string, prefix: string) => {
+  const icons = import.meta.glob('/src/assets/images/icons/category/*.svg')
+  const iconList = []
+  for (const path in icons) {
+    const key = path.replace(/^.*[\\\/]/, '').replace('.svg', '')
+
+    prefix ? iconList.push(`${prefix}-${key}`) : iconList.push(key)
+  }
+
+  return iconList
+}

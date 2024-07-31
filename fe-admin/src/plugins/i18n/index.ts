@@ -1,3 +1,4 @@
+import type { I18n } from 'vue-i18n'
 import { createI18n } from 'vue-i18n'
 
 const messages = Object.fromEntries(
@@ -12,4 +13,6 @@ export default createI18n({
   locale: 'en',
   fallbackLocale: 'en',
   messages,
+  globalInjection: true,
 })
+
