@@ -187,9 +187,9 @@ abstract class BaseService
      * @param array $columns
      * @return Builder[]|Collection
      */
-    public function findAll(array $columns = ['*'])
+    public function findAll(array $columns = ['*'], $relations = []): Collection
     {
-        return $this->query()->get(is_array($columns) ? $columns : func_get_args());
+        return $this->query()->with($relations)->get(is_array($columns) ? $columns : func_get_args());
     }
 
     /**

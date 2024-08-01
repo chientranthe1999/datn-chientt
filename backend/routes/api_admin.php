@@ -32,7 +32,9 @@ Route::middleware('auth:api_admin')->group(function () {
 
     Route::get('transactions', [TransactionController::class, 'index']);
 
-    Route::get('categories', [TransactionController::class, 'index']);
-    Route::post('categories', [CategoryController::class, 'create']);
-    Route::get('categories/options', [TransactionController::class, 'index']);
+    Route::get('categories', [CategoryController::class, 'index']);
+    Route::post('categories', [CategoryController::class, 'store']);
+    Route::get('categories/get-all', [CategoryController::class, 'getAll']);
+    Route::get('categories/tree', [CategoryController::class, 'getCategoryTree']);
+    Route::get('categories/options', [CategoryController::class, 'getCategoryOptions']);
 });

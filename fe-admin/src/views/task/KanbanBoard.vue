@@ -152,7 +152,9 @@ const columns = ref([
         </template>
 
         <template #footer>
-          <VBtn block="true" variant="tonal" prepend-icon="tabler-plus" @click="$emit('openAddNewTask', column.title)">Add Task</VBtn>
+          <VBtn block variant="tonal" prepend-icon="tabler-plus" @click="$emit('openAddNewTask', column.title)">
+            Add Task
+          </VBtn>
         </template>
       </Draggable>
     </VCard>
@@ -161,7 +163,9 @@ const columns = ref([
       class="mr-4 px-3 py-3 column-width h-fit-content"
       color="#f3f3f3"
     >
-      <VBtn block="true" variant="tonal" prepend-icon="tabler-plus" @click="$emit('openAddNewTask', column.title)">Add Task</VBtn>
+      <VBtn block variant="tonal" prepend-icon="tabler-plus" @click="$emit('openAddNewTask', column.title)">
+        Add Task
+      </VBtn>
     </VCard>
   </div>
 </template>

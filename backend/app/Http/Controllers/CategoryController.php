@@ -8,14 +8,6 @@ use App\Models\Category;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use MarcinOrlowski\ResponseBuilder\Exceptions\ArrayWithMixedKeysException;
-use MarcinOrlowski\ResponseBuilder\Exceptions\ConfigurationNotFoundException;
-use MarcinOrlowski\ResponseBuilder\Exceptions\IncompatibleTypeException;
-use MarcinOrlowski\ResponseBuilder\Exceptions\InvalidTypeException;
-use MarcinOrlowski\ResponseBuilder\Exceptions\MissingConfigurationKeyException;
-use MarcinOrlowski\ResponseBuilder\Exceptions\NotIntegerException;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class CategoryController extends Controller
 {
@@ -29,30 +21,34 @@ class CategoryController extends Controller
         return $this->respond($this->service->paginate($r->all()));
     }
 
+    public function getAll()
+    {
+        return $this->respond($this->service->findAll(['id', 'name', 'type', 'icon', 'report_exclude']));
+    }
+
+    public function getCategoryTree()
+    {
+        return $this->respond($this->service->getCategoryTree());
+    }
+
     public function getCategoryOptions(Request $r)
     {
         return $this->respond($this->service->getCategoryOptions($r->input('only_parent', false)));
     }
 
+
     /**
-     * @throws \Exception
+     * Store a newly created resource in storage.
      */
-    public function create(CreateCategoryRequest $r)
+    public function store(CreateCategoryRequest $r)
     {
         $data = $r->only(['group_id', 'name', 'type', 'icon', 'report_exclude']);
         $data['icon'] = $data['icon'] ?? Common::CATEGORY_DEFAULT_ICON;
         $data['report_exclude'] = $data['report_exclude'] ?? false;
         $data['user_id'] = Auth::user()->id;
+        $data['group_id'] = $data['group_id'] ?? 0;
 
-        $this->respond($this->service->store($data));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return $this->respond($this->service->store($data));
     }
 
     /**

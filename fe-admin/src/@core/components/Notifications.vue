@@ -104,7 +104,7 @@ defineEmits<{
 
           <!-- 👉 Footer -->
           <VListItem class="notification-section">
-            <VBtn block="true" @click="$emit('click:readAllNotifications')">
+            <VBtn block @click="$emit('click:readAllNotifications')">
               READ ALL NOTIFICATIONS
             </VBtn>
           </VListItem>

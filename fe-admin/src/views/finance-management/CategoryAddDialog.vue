@@ -1,22 +1,75 @@
 <script lang="ts" setup>
-import { CATEGORY_TYPE } from '@/constants/common'
+import type { SubmitEventPromise } from 'vuetify'
+import { CATEGORY_TYPE, HTTP_STATUS } from '@/constants/common'
 import { getListCategoryIcon } from '@core/utils'
+import { categoriesApi } from '@/api/categories.api'
+import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 
-const isDialogVisible = ref(true)
+const emit = defineEmits(['closeModal'])
 
-const formData = reactive({
-  group_id: '',
-  type: '',
+const isDialogVisible = ref(false)
+
+const defaultState = {
+  group_id: null,
+  type: null,
   name: '',
   icon: 'cate-default',
   report_exclude: false,
+}
+
+const loading = ref(false)
+
+const formData = reactive({
+  ...defaultState,
 })
+
+const parentCategories = ref([])
 
 const { t } = useI18n()
 let icons: string[] = []
 
+const getParentCategory = async () => {
+  const res = await categoriesApi.getOptions({ only_parent: true })
+  if (res.status === HTTP_STATUS.OK)
+    parentCategories.value = res.data.items || []
+}
+
+const handleDialogClose = (needUpdateData = false) => {
+  isDialogVisible.value = false
+  Object.assign(formData, defaultState)
+  emit('closeModal', needUpdateData)
+}
+
+const createSnackbar = useSnackbar()
+
+const handleAddCategory = async (validate: SubmitEventPromise) => {
+  const result = await validate
+
+  if (result.valid) {
+    try {
+      loading.value = true
+
+      await categoriesApi.save({ ...formData })
+
+      createSnackbar(t('category.add_success'), { color: 'success' })
+      handleDialogClose(true)
+    }
+    catch (e) {
+      createSnackbar(t('message.exception'), { color: 'error' })
+    }
+    finally {
+      loading.value = false
+    }
+  }
+}
+
 onMounted(() => {
   icons = getListCategoryIcon('category', 'cate')
+})
+
+watch(isDialogVisible, async val => {
+  if (val)
+    await getParentCategory()
 })
 </script>
 
@@ -34,14 +87,17 @@ onMounted(() => {
     <DialogCloseBtn @click="isDialogVisible = !isDialogVisible" />
 
     <VCard :title="t('category.add_title')">
-      <VCardText>
-        <VForm @submit.prevent>
+      <VForm @submit.prevent="handleAddCategory">
+        <VCardText>
           <VRow>
             <VCol cols="6">
               <VSelect
                 v-model="formData.group_id"
-                :items="['0-17', '18-29', '30-54', '54+']"
+                :items="parentCategories"
+                item-title="name"
+                item-value="id"
                 :label="t('category.parent')"
+                clearable
               />
             </VCol>
             <VCol cols="6">
@@ -61,30 +117,29 @@ onMounted(() => {
                 v-model="formData.icon"
                 :items="icons"
                 :label="t('icon')"
+                :prepend-inner-icon="formData.icon"
+                :menu-props="{ maxWidth: 250 }"
               >
                 <template #item="{ props }">
-                  <div v-bind="props">
-                    <VAvatar size="30" :icon="props.value as string" />
-                  </div>
+                  <VBtn density="compact" :icon="props.value as string" v-bind="props" class="mx-1 mb-1" />
                 </template>
               </VSelect>
             </VCol>
           </VRow>
-        </VForm>
-      </VCardText>
-
-      <VCardText class="d-flex justify-end flex-wrap gap-3">
-        <VBtn
-          variant="tonal"
-          color="secondary"
-          @click="isDialogVisible = false"
-        >
-          Close
-        </VBtn>
-        <VBtn @click="isDialogVisible = false">
-          Save
-        </VBtn>
-      </VCardText>
+        </VCardText>
+        <VCardText class="d-flex justify-end flex-wrap gap-3">
+          <VBtn
+            variant="tonal"
+            color="secondary"
+            :loading="loading"
+            @click="handleDialogClose"
+          >
+            Close
+          </VBtn>
+          <VBtn type="submit" :loading="loading">Save</VBtn>
+        </VCardText>
+      </VForm>
     </VCard>
   </VDialog>
 </template>
+

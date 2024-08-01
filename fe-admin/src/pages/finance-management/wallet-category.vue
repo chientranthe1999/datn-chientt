@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { CategoryIcon } from '@/constants/common'
 import CategoryAddDialog from '@/views/finance-management/CategoryAddDialog.vue'
+import { categoriesApi } from '@/api/categories.api'
+import { HTTP_STATUS } from '@/constants/common'
 
 const headers = [
   { title: 'Wallet', width: '15', align: 'start', key: 'name' },
@@ -28,11 +29,32 @@ const desserts = [
     date: 65,
   },
 ]
+
+const categories = ref([])
+
+const getCategoryList = async () => {
+  try {
+    const result = await categoriesApi.getTree()
+
+    if (result.status === HTTP_STATUS.OK)
+      categories.value = result.data.items
+  }
+  catch (e) {
+    console.log(e)
+  }
+}
+
+const handleCloseCategoryModal = async (needUpdateData = false) => {
+  if (needUpdateData)
+    await getCategoryList()
+}
+
+getCategoryList()
 </script>
 
 <template>
   <VRow>
-    <VCol cols="7">
+    <VCol cols="7" md="12" lg="7">
       <VCard title="My wallet">
         <template #append>
           <VBtn prepend-icon="tabler-plus" size="small">Add New</VBtn>
@@ -55,15 +77,15 @@ const desserts = [
       </VCard>
     </VCol>
 
-    <VCol cols="5">
+    <VCol cols="5" md="12" lg="5">
       <VCard title="My Categories">
         <template #append>
-          <CategoryAddDialog />
+          <CategoryAddDialog @closeModal="handleCloseCategoryModal" />
         </template>
         <VDivider />
 
         <VCardText>
-          <TreeView />
+          <VTreeNode v-for="(category, index) in categories" :key="`category-${index}`" :items="category" />
         </VCardText>
       </VCard>
     </VCol>

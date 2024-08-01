@@ -16,7 +16,7 @@ class CreateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'group_id' => ['required', 'integer'],
+            'group_id' => ['nullable'],
             'name' => 'required',
             'type' => ['required', Rule::in(array_values(Common::CATEGORY_TYPE))],
             'icon' => ['nullable'],

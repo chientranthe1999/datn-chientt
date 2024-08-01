@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { integerValidator, requiredValidator } from '@validators'
-import TransactionApi from '@/api/transaction.api'
+import { transactionApi } from '@/api/transactions.api'
 
 const formatDate = (date: Date = new Date()) => {
   return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
@@ -16,7 +16,6 @@ const formData = reactive({
 })
 
 const imageUploader = ref()
-const transactionApi = new TransactionApi()
 const loading = ref<boolean>(false)
 
 const addNewTransaction = async () => {

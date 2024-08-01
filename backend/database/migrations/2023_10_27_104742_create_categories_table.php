@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('name', 128);
             $table->string('icon');
             $table->boolean('report_exclude')->default(false)->index();
+            $table->unique(['user_id', 'name']);
             $table->timestamps();
         });
     }

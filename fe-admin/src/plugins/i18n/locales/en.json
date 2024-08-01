@@ -73,6 +73,7 @@
     "parent": "Parent category",
     "income": "Income",
     "expense": "Expense",
-    "add": "Add category"
+    "add": "Add category",
+    "add_success": "Add category successfully"
   }
 }

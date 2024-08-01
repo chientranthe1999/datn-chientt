@@ -55,7 +55,7 @@ const transitions = [
   <VCard :title="$t('finance.my_wallet')">
     <template #append>
       <div class="me-n2">
-        <VBtn color="success" variant="text" append-icon="tabler-chevron-right" :to="{ name: 'finance-management-wallets' }">
+        <VBtn color="success" variant="text" append-icon="tabler-chevron-right" :to="{ name: 'finance-management-wallet-category' }">
           {{ $t('see_all') }}
         </VBtn>
       </div>

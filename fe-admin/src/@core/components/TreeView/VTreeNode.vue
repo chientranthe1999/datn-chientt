@@ -4,10 +4,12 @@ import { VAvatar } from 'vuetify/components'
 import { VTreeNode } from '@core/components/TreeView/index'
 
 interface TreeItem {
-  label: string
+  [key: string]: string | number | TreeItem[] | undefined
+
   icon?: string
   children?: TreeItem[]
 }
+
 export default defineComponent({
   name: 'VTreeNode',
   props: {
@@ -16,13 +18,21 @@ export default defineComponent({
       required: true,
       default: () => ({}),
     },
+    itemKey: {
+      type: String,
+      default: 'id',
+    },
+    itemLabel: {
+      type: String,
+      default: 'name',
+    },
   },
 
   setup(props) {
     const genChild = (child: TreeItem) => {
       return h(VTreeNode, {
         class: 'ml-8',
-        items: child, // flat props
+        items: child,
       })
     }
 
@@ -46,11 +56,13 @@ export default defineComponent({
         class: 'me-2',
       })
 
+      const label = props.items[props.itemLabel] as string
+
       return h('div',
         {
-          class: 'py-3',
+          class: 'py-1',
         },
-        [icon, props.items.label],
+        [icon, label],
       )
     }
 
