@@ -4,6 +4,7 @@ import { CATEGORY_TYPE, HTTP_STATUS } from '@/constants/common'
 import { getListCategoryIcon } from '@core/utils'
 import { categoriesApi } from '@/api/categories.api'
 import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
+import { requiredValidator } from '@validators'
 
 const emit = defineEmits(['closeModal'])
 
@@ -107,10 +108,11 @@ watch(isDialogVisible, async val => {
                 item-title="label"
                 item-value="value"
                 :label="t('category.type')"
+                :rules="[requiredValidator]"
               />
             </VCol>
             <VCol cols="12">
-              <VTextField v-model="formData.name" :label="t('category.name')" />
+              <VTextField v-model="formData.name" :label="t('category.name')" :rules="[requiredValidator]" />
             </VCol>
             <VCol cols="6">
               <VSelect
@@ -124,6 +126,9 @@ watch(isDialogVisible, async val => {
                   <VBtn density="compact" :icon="props.value as string" v-bind="props" class="mx-1 mb-1" />
                 </template>
               </VSelect>
+            </VCol>
+            <VCol cols="6">
+              <VCheckbox v-model="formData.report_exclude" :label="$t('finance.exclude_report')" />
             </VCol>
           </VRow>
         </VCardText>

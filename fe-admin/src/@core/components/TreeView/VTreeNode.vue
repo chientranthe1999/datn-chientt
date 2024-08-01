@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { PropType, VNode } from 'vue'
-import { VAvatar } from 'vuetify/components'
+import { VAvatar, VBtn } from 'vuetify/components'
 import { VTreeNode } from '@core/components/TreeView/index'
 
 interface TreeItem {
@@ -28,7 +28,7 @@ export default defineComponent({
     },
   },
 
-  setup(props) {
+  setup(props, { emit, slots }) {
     const genChild = (child: TreeItem) => {
       return h(VTreeNode, {
         class: 'ml-8',
@@ -56,13 +56,20 @@ export default defineComponent({
         class: 'me-2',
       })
 
+      const editIcon = h(VBtn, {
+        class: 'me-2 ml-auto',
+        onClick: () => emit('edit', props.items),
+        icon: 'mdi-pencil',
+        size: 'small',
+      })
+
       const label = props.items[props.itemLabel] as string
 
       return h('div',
         {
-          class: 'py-1',
+          class: 'py-1 d-flex align-center',
         },
-        [icon, label],
+        slots.default ? slots.default({ icon, label }) : [icon, label, editIcon],
       )
     }
 

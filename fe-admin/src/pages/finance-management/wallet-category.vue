@@ -49,6 +49,10 @@ const handleCloseCategoryModal = async (needUpdateData = false) => {
     await getCategoryList()
 }
 
+const editCategory = props => {
+  console.log(props)
+}
+
 getCategoryList()
 </script>
 
@@ -80,12 +84,15 @@ getCategoryList()
     <VCol cols="5" md="12" lg="5">
       <VCard title="My Categories">
         <template #append>
-          <CategoryAddDialog @closeModal="handleCloseCategoryModal" />
+          <CategoryAddDialog @close-modal="handleCloseCategoryModal" />
         </template>
         <VDivider />
 
         <VCardText>
-          <VTreeNode v-for="(category, index) in categories" :key="`category-${index}`" :items="category" />
+          <VTreeNode
+            v-for="(category, index) in categories" :key="`category-${index}`" :items="category"
+            @edit="editCategory"
+          />
         </VCardText>
       </VCard>
     </VCol>

@@ -141,8 +141,6 @@ const columns = ref([
         :list="column.tasks"
         :item-key="column.title"
         group="task"
-        tag="transition-group"
-        :component-data="{ tag: 'ul', name: 'flip-list', type: 'transition' }"
       >
         <template #item="{ element }">
           <TaskCard
