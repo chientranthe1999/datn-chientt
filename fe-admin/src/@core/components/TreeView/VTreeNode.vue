@@ -27,12 +27,13 @@ export default defineComponent({
       default: 'name',
     },
   },
-
+  emits: ['edit'],
   setup(props, { emit, slots }) {
     const genChild = (child: TreeItem) => {
       return h(VTreeNode, {
         class: 'ml-8',
         items: child,
+        onEdit: item => emit('edit', item),
       })
     }
 
@@ -63,7 +64,9 @@ export default defineComponent({
         size: 'small',
       })
 
-      const label = props.items[props.itemLabel] as string
+      const label = h('span', {
+        style: 'max-width: 60%;',
+      }, props.items[props.itemLabel] as string)
 
       return h('div',
         {

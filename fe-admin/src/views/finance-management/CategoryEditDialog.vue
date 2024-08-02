@@ -6,9 +6,15 @@ import { categoriesApi } from '@/api/categories.api'
 import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 import { requiredValidator } from '@validators'
 
-const emit = defineEmits(['closeModal'])
+const props = defineProps({
+  category: {
+    type: Object,
+    default: null,
+  },
+})
 
-const isDialogVisible = ref(false)
+const emit = defineEmits(['closeModal'])
+const isOpenDialog = ref(true)
 
 const defaultState = {
   group_id: null,
@@ -20,9 +26,9 @@ const defaultState = {
 
 const loading = ref(false)
 
-const formData = reactive({
-  ...defaultState,
-})
+const formData = reactive(props.category
+  ? { ...props.category }
+  : { ...defaultState })
 
 const parentCategories = ref([])
 
@@ -36,21 +42,19 @@ const getParentCategory = async () => {
 }
 
 const handleDialogClose = (needUpdateData = false) => {
-  isDialogVisible.value = false
-  Object.assign(formData, defaultState)
   emit('closeModal', needUpdateData)
 }
 
 const createSnackbar = useSnackbar()
 
-const handleAddCategory = async (validate: SubmitEventPromise) => {
+const handleEditCategory = async (validate: SubmitEventPromise) => {
   const result = await validate
 
   if (result.valid) {
     try {
       loading.value = true
 
-      await categoriesApi.save({ ...formData })
+      await categoriesApi.update(props.category.id, { ...formData })
 
       createSnackbar(t('category.add_success'), { color: 'success' })
       handleDialogClose(true)
@@ -64,31 +68,22 @@ const handleAddCategory = async (validate: SubmitEventPromise) => {
   }
 }
 
+getParentCategory()
+
 onMounted(() => {
   icons = getListCategoryIcon('category', 'cate')
-})
-
-watch(isDialogVisible, async val => {
-  if (val)
-    await getParentCategory()
 })
 </script>
 
 <template>
   <VDialog
-    v-model="isDialogVisible"
+    v-model="isOpenDialog"
     max-width="600"
   >
-    <template #activator="{ props }">
-      <VBtn v-bind="props" prepend-icon="tabler-plus" size="small">
-        {{ t('category.add') }}
-      </VBtn>
-    </template>
-
     <DialogCloseBtn @click="handleDialogClose" />
 
-    <VCard :title="t('category.add_title')">
-      <VForm @submit.prevent="handleAddCategory">
+    <VCard :title="t('category.edit_title')">
+      <VForm @submit.prevent="handleEditCategory">
         <VCardText>
           <VRow>
             <VCol cols="6">

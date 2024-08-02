@@ -68,6 +68,7 @@
   "icon": "icon",
   "category": {
     "add_title": "Add a new category",
+    "edit_title": "Edit category",
     "name": "Category name",
     "type": "Category type",
     "parent": "Parent category",

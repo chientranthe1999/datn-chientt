@@ -34,6 +34,7 @@ Route::middleware('auth:api_admin')->group(function () {
 
     Route::get('categories', [CategoryController::class, 'index']);
     Route::post('categories', [CategoryController::class, 'store']);
+    Route::put('categories/{id}', [CategoryController::class, 'update']);
     Route::get('categories/get-all', [CategoryController::class, 'getAll']);
     Route::get('categories/tree', [CategoryController::class, 'getCategoryTree']);
     Route::get('categories/options', [CategoryController::class, 'getCategoryOptions']);
