@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,4 +39,13 @@ Route::middleware('auth:api_admin')->group(function () {
     Route::get('categories/get-all', [CategoryController::class, 'getAll']);
     Route::get('categories/tree', [CategoryController::class, 'getCategoryTree']);
     Route::get('categories/options', [CategoryController::class, 'getCategoryOptions']);
+
+    Route::group(['prefix' => 'wallets'], function () {
+        Route::get('/', [WalletController::class, 'index']);
+        Route::post('/', [WalletController::class, 'store']);
+        Route::put('/{id}', [WalletController::class, 'update']);
+        Route::get('/get-all', [WalletController::class, 'getAll']);
+        Route::get('/tree', [WalletController::class, 'getCategoryTree']);
+        Route::get('/options', [WalletController::class, 'getCategoryOptions']);
+    });
 });

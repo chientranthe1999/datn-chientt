@@ -1,62 +1,51 @@
 <script lang="ts" setup>
 import type { SubmitEventPromise } from 'vuetify'
-import { CATEGORY_TYPE, HTTP_STATUS } from '@/constants/common'
+import { HTTP_STATUS } from '@/constants/common'
 import { getListIcon } from '@core/utils'
-import { categoriesApi } from '@/api/categories.api'
+import { walletsApi } from '@/api/wallets.api'
 import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
-import { requiredValidator } from '@validators'
-
-const props = defineProps({
-  category: {
-    type: Object,
-    default: null,
-  },
-})
+import { integerValidator, minIntegerValidator, requiredValidator } from '@validators'
 
 const emit = defineEmits(['closeModal'])
-const isOpenDialog = ref(true)
+
+const isDialogVisible = ref(false)
 
 const defaultState = {
   group_id: null,
-  type: null,
   name: '',
-  icon: 'cate-default',
+  description: '',
+  total: 100000,
+  icon: 'wallet-default',
   report_exclude: false,
 }
 
 const loading = ref(false)
 
-const formData = reactive(props.category
-  ? { ...props.category }
-  : { ...defaultState })
-
-const parentCategories = ref([])
+const formData = reactive({
+  ...defaultState,
+})
 
 const { t } = useI18n()
 let icons: string[] = []
 
-const getParentCategory = async () => {
-  const res = await categoriesApi.getOptions({ only_parent: true })
-  if (res.status === HTTP_STATUS.OK)
-    parentCategories.value = res.data.items || []
-}
-
 const handleDialogClose = (needUpdateData = false) => {
+  isDialogVisible.value = false
+  Object.assign(formData, defaultState)
   emit('closeModal', needUpdateData)
 }
 
 const createSnackbar = useSnackbar()
 
-const handleEditCategory = async (validate: SubmitEventPromise) => {
+const handleSubmit = async (validate: SubmitEventPromise) => {
   const result = await validate
 
   if (result.valid) {
     try {
       loading.value = true
 
-      await categoriesApi.update(props.category.id, { ...formData })
+      await walletsApi.save({ ...formData })
 
-      createSnackbar(t('category.edit_success'), { color: 'success' })
+      createSnackbar(t('wallet.add_success'), { color: 'success' })
       handleDialogClose(true)
     }
     catch (e) {
@@ -68,46 +57,36 @@ const handleEditCategory = async (validate: SubmitEventPromise) => {
   }
 }
 
-getParentCategory()
-
 onMounted(() => {
-  icons = getListIcon('category', 'cate')
+  icons = getListIcon('wallet', '')
 })
-</script>
+</script>`
 
 <template>
   <VDialog
-    v-model="isOpenDialog"
+    v-model="isDialogVisible"
     max-width="600"
   >
+    <template #activator="{ props }">
+      <VBtn v-bind="props" prepend-icon="tabler-plus" size="small">
+        {{ t('wallet.add') }}
+      </VBtn>
+    </template>
+
     <DialogCloseBtn @click="handleDialogClose" />
 
-    <VCard :title="t('category.edit_title')">
-      <VForm @submit.prevent="handleEditCategory">
+    <VCard :title="t('wallet.add_title')">
+      <VForm @submit.prevent="handleSubmit">
         <VCardText>
           <VRow>
-            <VCol cols="6">
-              <VSelect
-                v-model="formData.group_id"
-                :items="parentCategories"
-                item-title="name"
-                item-value="id"
-                :label="t('category.parent')"
-                clearable
-              />
-            </VCol>
-            <VCol cols="6">
-              <VSelect
-                v-model="formData.type"
-                :items="Object.values(CATEGORY_TYPE)"
-                item-title="label"
-                item-value="value"
-                :label="t('category.type')"
-                :rules="[requiredValidator]"
-              />
+            <VCol cols="12">
+              <VTextField v-model="formData.name" :label="t('wallet.name')" :rules="[requiredValidator]" />
             </VCol>
             <VCol cols="12">
-              <VTextField v-model="formData.name" :label="t('category.name')" :rules="[requiredValidator]" />
+              <VTextarea v-model="formData.description" :label="t('wallet.description')" :rules="[requiredValidator]" />
+            </VCol>
+            <VCol cols="6">
+              <VTextField v-model="formData.total" :label="t('wallet.total')" :rules="[requiredValidator, integerValidator, minIntegerValidator(formData.total, 100000)]" />
             </VCol>
             <VCol cols="6">
               <VSelect
@@ -134,9 +113,9 @@ onMounted(() => {
             :loading="loading"
             @click="handleDialogClose"
           >
-            Close
+            {{ t('btn.cancel') }}
           </VBtn>
-          <VBtn type="submit" :loading="loading">Save</VBtn>
+          <VBtn type="submit" :loading="loading">{{ t('btn.save') }}</VBtn>
         </VCardText>
       </VForm>
     </VCard>

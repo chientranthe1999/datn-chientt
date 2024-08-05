@@ -4,13 +4,14 @@ namespace App\Services;
 
 
 use App\Models\Category;
+use App\Models\Wallet;
 
-class CategoryService extends BaseService
+class WalletService extends BaseService
 {
 
     public function model(): string
     {
-        return Category::class;
+        return Wallet::class;
     }
 
     public function getCategoryOptions(bool $onlyParent = false): \Illuminate\Database\Eloquent\Collection|array

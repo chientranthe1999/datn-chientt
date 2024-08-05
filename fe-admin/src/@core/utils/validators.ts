@@ -62,6 +62,16 @@ export const integerValidator = (value: unknown) => {
   return /^-?[0-9]+$/.test(String(value)) || i18nGlobal.t('validation.integer')
 }
 
+export const minIntegerValidator = (value: unknown, min: number) => {
+  if (isEmpty(value))
+    return true
+
+  if (Array.isArray(value))
+    return value.every(val => Number(val) >= min) || `The Min Number field must be at least ${min}`
+
+  return Number(value) >= min || `The Min Number field must be at least ${min}`
+}
+
 // 👉 Regex Validator
 export const regexValidator = (value: unknown, regex: RegExp | string): string | boolean => {
   if (isEmpty(value))

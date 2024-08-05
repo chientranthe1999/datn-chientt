@@ -1,7 +1,8 @@
 <script lang="ts">
 import type { PropType, VNode } from 'vue'
-import { VAvatar, VBtn } from 'vuetify/components'
+import { VAvatar, VBtn, VIcon } from 'vuetify/components'
 import { VTreeNode } from '@core/components/TreeView/index'
+import { CATEGORY_TYPE } from '@/constants/common'
 
 interface TreeItem {
   [key: string]: string | number | TreeItem[] | undefined
@@ -68,11 +69,16 @@ export default defineComponent({
         style: 'max-width: 60%;',
       }, props.items[props.itemLabel] as string)
 
+      const iconType = h(VIcon, {
+        icon: CATEGORY_TYPE[props.items.type as string].icon,
+        color: CATEGORY_TYPE[props.items.type as string].color,
+      })
+
       return h('div',
         {
           class: 'py-1 d-flex align-center',
         },
-        slots.default ? slots.default({ icon, label }) : [icon, label, editIcon],
+        slots.default ? slots.default({ icon, label, iconType }) : [icon, label, iconType, editIcon],
       )
     }
 

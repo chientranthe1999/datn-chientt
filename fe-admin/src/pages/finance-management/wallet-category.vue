@@ -3,6 +3,7 @@ import CategoryAddDialog from '@/views/finance-management/CategoryAddDialog.vue'
 import { categoriesApi } from '@/api/categories.api'
 import { HTTP_STATUS } from '@/constants/common'
 import CategoryEditDialog from '@/views/finance-management/CategoryEditDialog.vue'
+import WalletAddDialog from '@/views/finance-management/WalletAddDialog.vue'
 
 const headers = [
   { title: 'Wallet', width: '15', align: 'start', key: 'name' },
@@ -46,12 +47,18 @@ const getCategoryList = async () => {
   }
 }
 
+const isEditCategoryVisible = ref(false)
+
 const handleCloseCategoryModal = async (needUpdateData = false) => {
   if (needUpdateData)
     await getCategoryList()
 }
 
-const isEditCategoryVisible = ref(false)
+const handleCloseEditModal = async (needUpdateData = false) => {
+  isEditCategoryVisible.value = false
+  if (needUpdateData)
+    await getCategoryList()
+}
 
 const editCategory = (props: any) => {
   selectedCategory.value = {
@@ -73,7 +80,7 @@ getCategoryList()
     <VCol cols="7" md="12" lg="7">
       <VCard title="My wallet">
         <template #append>
-          <VBtn prepend-icon="tabler-plus" size="small">Add New</VBtn>
+          <WalletAddDialog @close-modal="handleCloseCategoryModal" />
         </template>
         <VDivider />
 
@@ -109,7 +116,7 @@ getCategoryList()
       </VCard>
     </VCol>
 
-    <CategoryEditDialog v-if="isEditCategoryVisible" :category="selectedCategory" @close-modal="isEditCategoryVisible = false" />
+    <CategoryEditDialog v-if="isEditCategoryVisible" :category="selectedCategory" @close-modal="handleCloseEditModal" />
   </VRow>
 </template>
 

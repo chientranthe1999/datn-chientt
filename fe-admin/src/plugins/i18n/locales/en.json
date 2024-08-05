@@ -75,6 +75,18 @@
     "income": "Income",
     "expense": "Expense",
     "add": "Add category",
-    "add_success": "Add category successfully"
+    "add_success": "Add category successfully",
+    "edit_success": "Edit category successfully"
+  },
+  "wallet": {
+    "add_title": "Add a new wallet",
+    "edit_title": "Edit wallet",
+    "name": "Wallet name",
+    "balance": "Balance",
+    "description": "Description",
+    "add": "Add wallet",
+    "add_success": "Add new wallet successfully",
+    "edit_success": "Edit wallet successfully",
+    "total": "Total"
   }
 }

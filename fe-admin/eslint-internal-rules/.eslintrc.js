@@ -1,13 +1,17 @@
 module.exports = {
   rules: {
-    // 'valid-appcardcode-code-prop': 'error',
-    // 'valid-appcardcode-demo-sfc': 'error',
+    indent: ['error', 2, {
+      SwitchCase: 0,
+    }],
   },
   overrides: [
     {
       files: ['*.json'],
       rules: {
         'no-invalid-meta': 'off',
+        'indent': ['error', 2, {
+          SwitchCase: 0,
+        }],
       },
     },
   ],

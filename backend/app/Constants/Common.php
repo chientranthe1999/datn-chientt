@@ -40,4 +40,5 @@ class Common
     ];
 
     const CATEGORY_DEFAULT_ICON = 'cate-default';
+    const WALLET_DEFAULT_ICON = 'cate-default';
 }

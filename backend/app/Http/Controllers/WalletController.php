@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Common;
+use App\Http\Requests\Wallet\CreateWalletRequest;
 use App\Models\Wallet;
+use App\Services\WalletService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WalletController extends Controller
 {
+    public function __construct(private readonly WalletService $service)
+    {
+    }
     /**
      * Display a listing of the resource.
      */
@@ -26,9 +33,15 @@ class WalletController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateWalletRequest $r)
     {
-        //
+        $data = $r->only(['group_id', 'name', 'description', 'icon', 'report_exclude', 'total']);
+        $data['icon'] = $data['icon'] ?? Common::WALLET_DEFAULT_ICON;
+        $data['report_exclude'] = $data['report_exclude'] ?? false;
+        $data['user_id'] = Auth::user()->id;
+        $data['group_id'] = $data['group_id'] ?? 0;
+
+        return $this->respond($this->service->store($data));
     }
 
     /**
@@ -50,7 +63,7 @@ class WalletController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Wallet $wallet)
+    public function update(Request $request, $id)
     {
         //
     }

@@ -30,8 +30,17 @@ export const isToday = (date: Date) => {
   )
 }
 
-export const getListCategoryIcon = (srcPath: string, prefix: string) => {
-  const icons = import.meta.glob('/src/assets/images/icons/category/*.svg')
+export const getListIcon = (srcPath: string, prefix: string) => {
+  let icons = {}
+
+  switch (srcPath) {
+    case 'category':
+      icons = import.meta.glob('/src/assets/images/icons/category/*.svg')
+      break
+    case 'wallet':
+      icons = import.meta.glob('/src/assets/images/icons/wallet/*.svg')
+      break
+  }
   const iconList = []
   for (const path in icons) {
     const key = path.replace(/^.*[\\\/]/, '').replace('.svg', '')

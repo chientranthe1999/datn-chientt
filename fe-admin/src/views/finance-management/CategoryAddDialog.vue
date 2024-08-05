@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SubmitEventPromise } from 'vuetify'
 import { CATEGORY_TYPE, HTTP_STATUS } from '@/constants/common'
-import { getListCategoryIcon } from '@core/utils'
+import { getListIcon } from '@core/utils'
 import { categoriesApi } from '@/api/categories.api'
 import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 import { requiredValidator } from '@validators'
@@ -64,8 +64,14 @@ const handleAddCategory = async (validate: SubmitEventPromise) => {
   }
 }
 
+const handleGroupIdChange = (value: number | null) => {
+  formData.group_id = value
+  if (value)
+    formData.type = parentCategories.value.find(item => item.id === value)?.type
+}
+
 onMounted(() => {
-  icons = getListCategoryIcon('category', 'cate')
+  icons = getListIcon('category', 'cate')
 })
 
 watch(isDialogVisible, async val => {
@@ -93,12 +99,13 @@ watch(isDialogVisible, async val => {
           <VRow>
             <VCol cols="6">
               <VSelect
-                v-model="formData.group_id"
+                :model-value="formData.group_id"
                 :items="parentCategories"
                 item-title="name"
                 item-value="id"
                 :label="t('category.parent')"
                 clearable
+                @update:model-value="handleGroupIdChange"
               />
             </VCol>
             <VCol cols="6">
@@ -109,6 +116,7 @@ watch(isDialogVisible, async val => {
                 item-value="value"
                 :label="t('category.type')"
                 :rules="[requiredValidator]"
+                :disabled="!!formData.group_id"
               />
             </VCol>
             <VCol cols="12">
