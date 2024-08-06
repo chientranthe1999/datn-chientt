@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->string('description')->nullable();
             $table->string('name');
             $table->float('total');
-            $table->tinyInteger('status');
             $table->string('icon')->default('wallet-default');
             $table->boolean('report_exclude')->default(false);
             $table->timestamps();

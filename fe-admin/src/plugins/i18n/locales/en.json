@@ -34,7 +34,8 @@
     "edit": "Edit",
     "detail": "Detail",
     "login": "Login",
-    "home": "Home"
+    "home": "Home",
+    "view_transaction": "View transaction"
   },
   "common": {
     "category": "Category",

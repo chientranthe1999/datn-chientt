@@ -15,7 +15,6 @@ class Wallet extends Model
         'description',
         'name',
         'total',
-        'status',
         'report_exclude',
         'icon'
     ];

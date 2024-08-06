@@ -32,20 +32,28 @@ Route::middleware('auth:api_admin')->group(function () {
 
 
     Route::get('transactions', [TransactionController::class, 'index']);
+    Route::group(['prefix' => 'transactions'], function () {
+        Route::get('', [TransactionController::class, 'index']);
+        Route::post('', [TransactionController::class, 'store']);
+        Route::put('{id}', [TransactionController::class, 'update']);
+        Route::get('get-all', [TransactionController::class, 'getAll']);
+        Route::get('options', [TransactionController::class, 'getOptions']);
+    });
 
-    Route::get('categories', [CategoryController::class, 'index']);
-    Route::post('categories', [CategoryController::class, 'store']);
-    Route::put('categories/{id}', [CategoryController::class, 'update']);
-    Route::get('categories/get-all', [CategoryController::class, 'getAll']);
-    Route::get('categories/tree', [CategoryController::class, 'getCategoryTree']);
-    Route::get('categories/options', [CategoryController::class, 'getCategoryOptions']);
+    Route::group(['prefix' => 'categories'], function () {
+        Route::get('', [CategoryController::class, 'index']);
+        Route::post('', [CategoryController::class, 'store']);
+        Route::put('{id}', [CategoryController::class, 'update']);
+        Route::get('get-all', [CategoryController::class, 'getAll']);
+        Route::get('tree', [CategoryController::class, 'getCategoryTree']);
+        Route::get('options', [CategoryController::class, 'getCategoryOptions']);
+    });
 
     Route::group(['prefix' => 'wallets'], function () {
-        Route::get('/', [WalletController::class, 'index']);
-        Route::post('/', [WalletController::class, 'store']);
-        Route::put('/{id}', [WalletController::class, 'update']);
-        Route::get('/get-all', [WalletController::class, 'getAll']);
-        Route::get('/tree', [WalletController::class, 'getCategoryTree']);
-        Route::get('/options', [WalletController::class, 'getCategoryOptions']);
+        Route::get('', [WalletController::class, 'index']);
+        Route::post('', [WalletController::class, 'store']);
+        Route::put('{id}', [WalletController::class, 'update']);
+        Route::get('get-all', [WalletController::class, 'getAll']);
+        Route::get('options', [WalletController::class, 'getOptions']);
     });
 });

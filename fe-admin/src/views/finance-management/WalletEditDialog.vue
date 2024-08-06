@@ -5,9 +5,16 @@ import { walletsApi } from '@/api/wallets.api'
 import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 import { integerValidator, minIntegerValidator, requiredValidator } from '@validators'
 
+const props = defineProps({
+  wallet: {
+    type: Object,
+    default: null,
+  },
+})
+
 const emit = defineEmits(['closeModal'])
 
-const isDialogVisible = ref(false)
+const isDialogVisible = ref(true)
 
 const defaultState = {
   group_id: null,
@@ -20,16 +27,14 @@ const defaultState = {
 
 const loading = ref(false)
 
-const formData = reactive({
-  ...defaultState,
-})
+const formData = reactive(props.wallet
+  ? { ...props.wallet }
+  : { ...defaultState })
 
 const { t } = useI18n()
 let icons: string[] = []
 
 const handleDialogClose = (needUpdateData = false) => {
-  isDialogVisible.value = false
-  Object.assign(formData, defaultState)
   emit('closeModal', needUpdateData)
 }
 
@@ -42,7 +47,7 @@ const handleSubmit = async (validate: SubmitEventPromise) => {
     try {
       loading.value = true
 
-      await walletsApi.save({ ...formData })
+      await walletsApi.update(formData.id, { ...formData })
 
       createSnackbar(t('wallet.add_success'), { color: 'success' })
       handleDialogClose(true)
@@ -66,12 +71,6 @@ onMounted(() => {
     v-model="isDialogVisible"
     max-width="600"
   >
-    <template #activator="{ props }">
-      <VBtn v-bind="props" prepend-icon="tabler-plus" size="small">
-        {{ t('wallet.add') }}
-      </VBtn>
-    </template>
-
     <DialogCloseBtn @click="handleDialogClose" />
 
     <VCard :title="t('wallet.add_title')">

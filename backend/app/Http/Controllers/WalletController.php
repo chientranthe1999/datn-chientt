@@ -17,17 +17,9 @@ class WalletController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $r)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return $this->respond($this->service->paginate($r->all()));
     }
 
     /**
@@ -53,19 +45,13 @@ class WalletController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Wallet $wallet)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(CreateWalletRequest $request, $id)
     {
-        //
+        $data = $request->only(['group_id', 'name', 'description', 'icon', 'report_exclude', 'total']);
+        $data['group_id'] = $data['group_id'] ?? 0;
+        return $this->respond($this->service->update(intval($id), $data));
     }
 
     /**
@@ -74,5 +60,10 @@ class WalletController extends Controller
     public function destroy(Wallet $wallet)
     {
         //
+    }
+
+    public function getOptions()
+    {
+        return $this->respond($this->service->findAll(['id', 'name', 'icon', 'report_exclude']));
     }
 }

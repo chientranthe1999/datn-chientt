@@ -44,3 +44,10 @@ export const formatDateToMonthShort = (value: string, toTimeForCurrentDay = true
 
   return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
 }
+
+export const formatCurrency = (val: number) => {
+  if (!val)
+    return 0
+
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'VND' }).format(val)
+}

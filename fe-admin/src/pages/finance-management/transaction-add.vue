@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { integerValidator, requiredValidator } from '@validators'
 import { transactionApi } from '@/api/transactions.api'
+import { walletsApi } from '@/api/wallets.api'
+import { HTTP_STATUS } from '@/constants/common'
+import { categoriesApi } from '@/api/categories.api'
+
+const wallets = ref([])
+const categories = ref([])
 
 const formatDate = (date: Date = new Date()) => {
   return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
@@ -18,13 +24,27 @@ const formData = reactive({
 const imageUploader = ref()
 const loading = ref<boolean>(false)
 
+const getOptions = async () => {
+  try {
+    const [walletRes, categoryRes] = await Promise.all([walletsApi.getOptions(), categoriesApi.getOptions()])
+
+    wallets.value = walletRes?.data?.data || []
+    categories.value = categoryRes?.data?.data || []
+  }
+  catch (e) {
+    console.log(e)
+  }
+}
+
+getOptions()
+
 const addNewTransaction = async () => {
   try {
     loading.value = true
 
     const imageUrl = await imageUploader.value.upload('transactions')
 
-    const result = await transactionApi.save({ ...formData, image: imageUrl })
+    await transactionApi.save({ ...formData, image: imageUrl })
   }
   catch (e) {
     console.log(e)
@@ -56,6 +76,7 @@ const addNewTransaction = async () => {
               :label="$t('common.category')"
               :rules="[requiredValidator]"
               :hide-details="false"
+              :items="categories"
             />
           </VCol>
 
@@ -65,6 +86,7 @@ const addNewTransaction = async () => {
               :label="$t('common.wallet')"
               :rules="[requiredValidator]"
               :hide-details="false"
+              :items="wallets"
             />
           </VCol>
 

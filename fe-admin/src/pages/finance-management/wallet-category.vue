@@ -1,40 +1,33 @@
 <script lang="ts" setup>
+import { formatCurrency } from '@core/utils/formatters'
 import CategoryAddDialog from '@/views/finance-management/CategoryAddDialog.vue'
 import { categoriesApi } from '@/api/categories.api'
 import { HTTP_STATUS } from '@/constants/common'
 import CategoryEditDialog from '@/views/finance-management/CategoryEditDialog.vue'
 import WalletAddDialog from '@/views/finance-management/WalletAddDialog.vue'
+import { walletsApi } from '@/api/wallets.api'
+import type { WalletResponse } from '@core/common/interface'
+import WalletEditDialog from '@/views/finance-management/WalletEditDialog.vue'
+
+// region Variable declare
+const wallets = ref<WalletResponse[]>([])
+const categories = ref([])
+const selectedCategory = ref({})
+const selectedWallet = ref({})
+const isEditCategoryVisible = ref(false)
+const isEditWalletVisible = ref(false)
+const { t } = useI18n()
 
 const headers = [
   { title: 'Wallet', width: '15', align: 'start', key: 'name' },
-  { title: 'Amount', width: '15', align: 'end', key: 'amount' },
+  { title: 'Amount', width: '15', align: 'center', key: 'total', value: (item: WalletResponse) => formatCurrency(item.total) },
+  { title: 'Report exclude', width: '15', align: 'center', key: 'report_exclude' },
   { title: '', width: '15', key: 'action' },
 ]
 
-const desserts = [
-  {
-    name: 'Frozen Yogurt',
-    category: 159,
-    amount: 6.0,
-    date: 24,
-  },
-  {
-    name: 'Jelly bean',
-    category: 375,
-    amount: 0.0,
-    date: 94,
-  },
-  {
-    name: 'KitKat',
-    category: 518,
-    amount: 26.0,
-    date: 65,
-  },
-]
+// endregion
 
-const categories = ref([])
-const selectedCategory = ref({})
-
+// region Function declare
 const getCategoryList = async () => {
   try {
     const result = await categoriesApi.getTree()
@@ -47,7 +40,17 @@ const getCategoryList = async () => {
   }
 }
 
-const isEditCategoryVisible = ref(false)
+const getListWallet = async () => {
+  try {
+    const result = await walletsApi.get()
+
+    if (result.status === HTTP_STATUS.OK)
+      wallets.value = result.data.data
+  }
+  catch (e) {
+    console.log(e)
+  }
+}
 
 const handleCloseCategoryModal = async (needUpdateData = false) => {
   if (needUpdateData)
@@ -60,19 +63,35 @@ const handleCloseEditModal = async (needUpdateData = false) => {
     await getCategoryList()
 }
 
+const handleCloseEditWalletModal = async (needUpdateData = false) => {
+  isEditWalletVisible.value = false
+  if (needUpdateData)
+    await getListWallet()
+}
+
 const editCategory = (props: any) => {
   selectedCategory.value = {
-    id: props.id,
-    name: props.name,
-    icon: props.icon,
+    ...props,
     group_id: props.group_id || null,
-    type: props.type,
-    report_exclude: props.report_exclude,
   }
   isEditCategoryVisible.value = true
 }
 
+const editWallet = (props: any) => {
+  selectedWallet.value = {
+    ...props,
+    group_id: props.group_id || null,
+  }
+  isEditWalletVisible.value = true
+}
+
+// endregion
+
+// region Function call
+getListWallet()
 getCategoryList()
+
+// endregion
 </script>
 
 <template>
@@ -84,15 +103,19 @@ getCategoryList()
         </template>
         <VDivider />
 
-        <VDataTable :headers="headers" :items="desserts">
-          <template #item.action>
-            <VBtn color="primary" size="x-small" prepend-icon="tabler-pencil">Edit</VBtn>
-            <VBtn color="success" size="x-small" class="ms-2" variant="tonal">Transaction</VBtn>
+        <VDataTable :headers="headers" :items="wallets">
+          <template #item.action="{ item }">
+            <VBtn color="primary" size="x-small" prepend-icon="tabler-pencil" @click="editWallet(item)">{{ t('btn.edit') }}</VBtn>
+            <VBtn color="success" size="x-small" class="ms-2" variant="tonal">{{ t('btn.view_transaction') }}</VBtn>
+          </template>
+
+          <template #item.report_exclude="{ item }">
+            <VSwitch :model-value="item.report_exclude" />
           </template>
 
           <template #item.name="{ item }">
             <VRow class="align-center">
-              <VAvatar variant="tonal" icon="wallet-default" size="40" />
+              <VAvatar variant="tonal" :icon="item.icon" size="40" />
               <span class="ms-2">{{ item.name }}</span>
             </VRow>
           </template>
@@ -117,6 +140,7 @@ getCategoryList()
     </VCol>
 
     <CategoryEditDialog v-if="isEditCategoryVisible" :category="selectedCategory" @close-modal="handleCloseEditModal" />
+    <WalletEditDialog v-if="isEditWalletVisible" :wallet="selectedWallet" @close-modal="handleCloseEditWalletModal" />
   </VRow>
 </template>
 

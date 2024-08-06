@@ -7,27 +7,31 @@ export default class BaseCurlApi {
     this.baseUrl = `api_admin/${baseUrl}`
   }
 
-  get(params: unknown): Promise<unknown> {
-    return request.post(this.baseUrl, params)
+  get(params: unknown = {}): Promise<AxiosResponse> {
+    return request.get(this.baseUrl, { params })
   }
 
   getAll(): Promise<AxiosResponse> {
     return request.get(`${this.baseUrl}/get-all`)
   }
 
-  getById(id: number): Promise<unknown> {
+  getById(id: number): Promise<AxiosResponse> {
     return request.get(`${this.baseUrl}/${id}`)
   }
 
-  save(data: unknown): Promise<unknown> {
+  save(data: unknown): Promise<AxiosResponse> {
     return request.post(this.baseUrl, data)
   }
 
-  update(id: number, data: unknown): Promise<unknown> {
+  update(id: number, data: unknown): Promise<AxiosResponse> {
     return request.put(`${this.baseUrl}/${id}`, data)
   }
 
-  delete(id: number): Promise<unknown> {
+  delete(id: number): Promise<AxiosResponse> {
     return request.delete(`${this.baseUrl}/${id}`)
+  }
+
+  getOptions(params: Record<string, unknown> = {}): Promise<AxiosResponse> {
+    return request.get(`${this.baseUrl}/options`, { params })
   }
 }
