@@ -19,4 +19,14 @@ class Transaction extends Model
         'report_exclude',
         'action_time',
     ];
+
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class, 'id', 'wallet_id');
+    }
+
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'id', 'category_id');
+    }
 }

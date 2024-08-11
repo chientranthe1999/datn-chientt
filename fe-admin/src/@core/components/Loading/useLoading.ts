@@ -1,13 +1,6 @@
 import type { InjectionKey } from 'vue'
 import { inject } from 'vue'
 
-export interface CreateSnackbarOptions {
-  showCloseButton?: boolean
-  closeButtonColor?: string
-  timeout?: number
-  color?: 'success' | 'error' | 'info'
-}
-
 export type Loading = (
   loading: boolean,
 ) => void

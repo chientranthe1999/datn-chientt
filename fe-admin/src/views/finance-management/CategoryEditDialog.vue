@@ -45,7 +45,7 @@ const handleDialogClose = (needUpdateData = false) => {
   emit('closeModal', needUpdateData)
 }
 
-const createSnackbar = useSnackbar()
+const { errorNotify, successNotify } = useSnackbar()
 
 const handleEditCategory = async (validate: SubmitEventPromise) => {
   const result = await validate
@@ -56,11 +56,11 @@ const handleEditCategory = async (validate: SubmitEventPromise) => {
 
       await categoriesApi.update(props.category.id, { ...formData })
 
-      createSnackbar(t('category.edit_success'), { color: 'success' })
+      successNotify(t('category.edit_success'))
       handleDialogClose(true)
     }
     catch (e) {
-      createSnackbar(t('message.exception'), { color: 'error' })
+      errorNotify(t('message.exception'))
     }
     finally {
       loading.value = false

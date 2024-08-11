@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Transaction\CreateTransactionRequest;
+use App\Http\Requests\Transaction\GetTransactionRequest;
 use App\Models\Transaction;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
@@ -13,25 +15,19 @@ class TransactionController extends Controller
     {
     }
 
-    public function index()
+    public function index(GetTransactionRequest $request)
     {
-
+        $result = $this->service->paginate(
+            $request->only('category_id', 'wallet_id', 'start_date', 'end_date'),
+            ['wallet:id,name', 'category:id,name']
+        );
+        return $this->respond($result);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(CreateTransactionRequest $request)
     {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $result = $this->service->store($request->only('group_id', 'amount', 'category_id', 'wallet_id', 'image', 'report_exclude', 'note', 'action_time'));
+        return $this->respond($result);
     }
 
     /**

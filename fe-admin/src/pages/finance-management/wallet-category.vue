@@ -96,10 +96,10 @@ getCategoryList()
 
 <template>
   <VRow>
-    <VCol cols="7" md="12" lg="7">
+    <VCol cols="12" sm="12" md="12" lg="7">
       <VCard title="My wallet">
         <template #append>
-          <WalletAddDialog @close-modal="handleCloseCategoryModal" />
+          <WalletAddDialog @close-modal="(needUpdate) => { if (needUpdate) getListWallet () }" />
         </template>
         <VDivider />
 
@@ -110,7 +110,7 @@ getCategoryList()
           </template>
 
           <template #item.report_exclude="{ item }">
-            <VSwitch :model-value="item.report_exclude" />
+            <VChip variant="flat">{{ item.report_exclude ? 'on' : 'off' }}</VChip>
           </template>
 
           <template #item.name="{ item }">
@@ -123,7 +123,7 @@ getCategoryList()
       </VCard>
     </VCol>
 
-    <VCol cols="5" md="12" lg="5">
+    <VCol cols="12" sm="12" md="12" lg="5">
       <VCard title="My Categories">
         <template #append>
           <CategoryAddDialog @close-modal="handleCloseCategoryModal" />

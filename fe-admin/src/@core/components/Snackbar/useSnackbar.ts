@@ -22,5 +22,13 @@ export function useSnackbar() {
   if (!createSnackbar)
     throw new Error('Could not resolve snackbar provider')
 
-  return createSnackbar
+  const successNotify = (text: string, options?: CreateSnackbarOptions) => {
+    createSnackbar(text, { ...options, color: 'success' })
+  }
+
+  const errorNotify = (text: string, options?: CreateSnackbarOptions) => {
+    createSnackbar(text, { ...options, color: 'error' })
+  }
+
+  return { createSnackbar, errorNotify, successNotify }
 }

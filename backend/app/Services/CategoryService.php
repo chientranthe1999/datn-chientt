@@ -29,5 +29,4 @@ class CategoryService extends BaseService
             ->where('user_id', auth()->id())
             ->get();
     }
-
 }

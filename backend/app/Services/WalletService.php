@@ -3,8 +3,10 @@
 namespace App\Services;
 
 
+use App\Constants\Common;
 use App\Models\Category;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\DB;
 
 class WalletService extends BaseService
 {
@@ -31,4 +33,22 @@ class WalletService extends BaseService
             ->get();
     }
 
+    public function updateBalance($categoryId, $walletId, $amount): void
+    {
+        $category = DB::table('categories')->where('id', $categoryId)->first(['type']);
+        if(!$category) {
+            return;
+        }
+        $balanceAdjustment = match ($category->type) {
+            Common::CATEGORY_TYPE['DEBT'],
+            Common::CATEGORY_TYPE['EXPENSE'] => $amount,
+            Common::CATEGORY_TYPE['INCOME'],
+            Common::CATEGORY_TYPE['SALARY'] => -$amount,
+            default => 0
+        };
+
+        DB::table('wallets')->where('id', $walletId)->update([
+            'total' => DB::raw("total + {$balanceAdjustment}")
+        ]);
+    }
 }

@@ -26,6 +26,7 @@ const formData = reactive({
 
 const parentCategories = ref([])
 
+const { errorNotify, successNotify } = useSnackbar()
 const { t } = useI18n()
 let icons: string[] = []
 
@@ -41,8 +42,6 @@ const handleDialogClose = (needUpdateData = false) => {
   emit('closeModal', needUpdateData)
 }
 
-const createSnackbar = useSnackbar()
-
 const handleAddCategory = async (validate: SubmitEventPromise) => {
   const result = await validate
 
@@ -52,11 +51,11 @@ const handleAddCategory = async (validate: SubmitEventPromise) => {
 
       await categoriesApi.save({ ...formData })
 
-      createSnackbar(t('category.add_success'), { color: 'success' })
+      successNotify(t('category.add_success'))
       handleDialogClose(true)
     }
     catch (e) {
-      createSnackbar(t('message.exception'), { color: 'error' })
+      errorNotify(t('message.exception'))
     }
     finally {
       loading.value = false

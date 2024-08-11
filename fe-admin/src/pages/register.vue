@@ -32,7 +32,7 @@ const imageRef = ref()
 
 const router = useRouter()
 
-const createSnackbar = useSnackbar()
+const { successNotify, errorNotify } = useSnackbar()
 const loading = ref(false)
 const { t } = useI18n()
 
@@ -43,15 +43,15 @@ const registerHandler = async () => {
 
     const result = await register({ ...registerData })
     if (result.status === HTTP_STATUS.OK) {
-      createSnackbar(t('message.register_success'), { color: 'success' })
+      successNotify(t('message.register_success'))
       await router.push({ name: 'login' })
     }
   }
   catch (error) {
     if (error instanceof AxiosError && error?.response?.status === HTTP_STATUS.VALIDATION_ERR)
-      createSnackbar(error.response.data.message, { color: 'error' })
+      errorNotify(error.response.data.message)
 
-    else createSnackbar(t('message.exception'), { color: 'error' })
+    else errorNotify(t('message.exception'))
   }
   finally {
     loading.value = false

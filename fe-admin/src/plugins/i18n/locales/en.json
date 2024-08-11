@@ -42,7 +42,7 @@
     "amount": "Amount",
     "wallet": "Wallet",
     "note": "Note",
-    "name_wallet": "Name/Wallet",
+    "name_wallet": "Wallet",
     "action": "Action",
     "date": "Date"
   },
@@ -89,5 +89,8 @@
     "add_success": "Add new wallet successfully",
     "edit_success": "Edit wallet successfully",
     "total": "Total"
+  },
+  "transaction": {
+    "add_success": "Add transaction successfully",
   }
 }

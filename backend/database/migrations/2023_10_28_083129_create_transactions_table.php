@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->bigInteger('category_id');
             $table->bigInteger('user_id')->index();
             $table->bigInteger('wallet_id');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('image')->nullable();
             $table->boolean('report_exclude')->default(false);
             $table->dateTime('action_time');

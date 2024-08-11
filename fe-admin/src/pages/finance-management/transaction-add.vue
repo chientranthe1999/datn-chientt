@@ -2,22 +2,20 @@
 import { integerValidator, requiredValidator } from '@validators'
 import { transactionApi } from '@/api/transactions.api'
 import { walletsApi } from '@/api/wallets.api'
-import { HTTP_STATUS } from '@/constants/common'
 import { categoriesApi } from '@/api/categories.api'
+import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 
 const wallets = ref([])
 const categories = ref([])
-
-const formatDate = (date: Date = new Date()) => {
-  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
-}
+const { success: successNotify } = useSnackbar()
+const { t } = useI18n()
 
 const formData = reactive({
   amount: '',
   category_id: '',
   wallet_id: '',
   note: '',
-  action_time: formatDate,
+  action_time: '',
   excludeReport: false,
 })
 
@@ -28,8 +26,8 @@ const getOptions = async () => {
   try {
     const [walletRes, categoryRes] = await Promise.all([walletsApi.getOptions(), categoriesApi.getOptions()])
 
-    wallets.value = walletRes?.data?.data || []
-    categories.value = categoryRes?.data?.data || []
+    wallets.value = walletRes?.data?.items || []
+    categories.value = categoryRes?.data?.items || []
   }
   catch (e) {
     console.log(e)
@@ -45,6 +43,7 @@ const addNewTransaction = async () => {
     const imageUrl = await imageUploader.value.upload('transactions')
 
     await transactionApi.save({ ...formData, image: imageUrl })
+    successNotify(t('transaction.add_success'))
   }
   catch (e) {
     console.log(e)
@@ -76,6 +75,8 @@ const addNewTransaction = async () => {
               :label="$t('common.category')"
               :rules="[requiredValidator]"
               :hide-details="false"
+              item-title="name"
+              item-value="id"
               :items="categories"
             />
           </VCol>
@@ -86,6 +87,8 @@ const addNewTransaction = async () => {
               :label="$t('common.wallet')"
               :rules="[requiredValidator]"
               :hide-details="false"
+              item-title="name"
+              item-value="id"
               :items="wallets"
             />
           </VCol>

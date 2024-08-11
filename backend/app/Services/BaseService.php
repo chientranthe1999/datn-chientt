@@ -82,7 +82,7 @@ abstract class BaseService
             $query->withTrashed();
         }
         if (method_exists($this, 'addFilter')) {
-            $this->addFilter($query);
+            $this->addFilter($query, $params);
         }
         if ($withDefaultFilter) {
             $this->addDefaultFilter($query, $params);

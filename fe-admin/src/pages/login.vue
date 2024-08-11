@@ -41,7 +41,7 @@ const errors = ref<Record<string, string>>({
 const email = ref()
 const password = ref()
 
-const createSnackbar = useSnackbar()
+const { successNotify, errorNotify } = useSnackbar()
 
 const loginHandler = async () => {
   try {
@@ -54,8 +54,7 @@ const loginHandler = async () => {
       setToken(token.access_token)
       userStore.setToken(token)
       userStore.setUserInfo(user)
-
-      createSnackbar(t('message.login_success'), { color: 'success' })
+      successNotify(t('message.login_success'))
 
       await router.push(route.query.to ? String(route.query.to) : '/')
     }
@@ -69,7 +68,7 @@ const loginHandler = async () => {
         errorMessage = e.response.data.message
     }
 
-    createSnackbar(errorMessage, { color: 'error' })
+    errorNotify(errorMessage)
   }
   finally {
     loading.value = false

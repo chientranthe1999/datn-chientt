@@ -38,7 +38,7 @@ const handleDialogClose = (needUpdateData = false) => {
   emit('closeModal', needUpdateData)
 }
 
-const createSnackbar = useSnackbar()
+const { errorNotify, successNotify } = useSnackbar()
 
 const handleSubmit = async (validate: SubmitEventPromise) => {
   const result = await validate
@@ -49,11 +49,11 @@ const handleSubmit = async (validate: SubmitEventPromise) => {
 
       await walletsApi.update(formData.id, { ...formData })
 
-      createSnackbar(t('wallet.add_success'), { color: 'success' })
+      successNotify(t('wallet.add_success'))
       handleDialogClose(true)
     }
     catch (e) {
-      createSnackbar(t('message.exception'), { color: 'error' })
+      errorNotify(t('message.exception'))
     }
     finally {
       loading.value = false
