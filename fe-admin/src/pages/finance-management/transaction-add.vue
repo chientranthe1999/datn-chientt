@@ -7,7 +7,7 @@ import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 
 const wallets = ref([])
 const categories = ref([])
-const { success: successNotify } = useSnackbar()
+const { successNotify } = useSnackbar()
 const { t } = useI18n()
 
 const formData = reactive({
@@ -15,7 +15,7 @@ const formData = reactive({
   category_id: '',
   wallet_id: '',
   note: '',
-  action_time: '',
+  action_time: '2024-08-22',
   excludeReport: false,
 })
 
