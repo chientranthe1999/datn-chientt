@@ -6,13 +6,16 @@ const props = defineProps({
   },
   datetime: {
     type: [String, Date],
-    default: new Date(),
+    default: '',
   },
 })
 
 const emit = defineEmits(['update:datetime'])
 
-const formatDate = (date: Date | string = new Date()) => {
+const formatDate = (date: Date | string) => {
+  if (!date)
+    return
+
   if (typeof date === 'string')
     date = new Date(date)
 
@@ -27,10 +30,14 @@ watch(() => props.datetime, () => {
   displayDate.value = formatDate(props.datetime)
 })
 
-watch(datePickerValue, newVal => {
-  displayDate.value = formatDate(newVal)
+const updateDate = (val: Date | '') => {
+  displayDate.value = formatDate(val)
   menuDisplay.value = false
   emit('update:datetime', displayDate)
+}
+
+watch(datePickerValue, newVal => {
+  updateDate(newVal)
 })
 </script>
 
@@ -43,6 +50,7 @@ watch(datePickerValue, newVal => {
         v-bind="props"
         append-inner-icon="mdi-calendar"
         clearable
+        @click:clear="() => updateDate('')"
       />
     </template>
 

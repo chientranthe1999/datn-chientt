@@ -31,7 +31,6 @@ Route::middleware('auth:api_admin')->group(function () {
     Route::get('profile', [AuthController::class, 'profile'])->name('admin.profile');
 
 
-    Route::get('transactions', [TransactionController::class, 'index']);
     Route::group(['prefix' => 'transactions'], function () {
         Route::get('', [TransactionController::class, 'index']);
         Route::post('', [TransactionController::class, 'store']);

@@ -37,14 +37,14 @@ const getOptions = async () => {
 
 getOptions()
 
-const addNewTransaction = async () => {
+const updateTransaction = async () => {
   try {
     loading.value = true
 
     const imageUrl = await imageUploader.value.upload('transactions')
 
     await transactionApi.save({ ...formData, image: imageUrl })
-    successNotify(t('transaction.add_success'))
+    successNotify(t('transaction.edit_success'))
     await router.push({ name: 'finance-management-transactions' })
   }
   catch (e) {
@@ -111,7 +111,7 @@ const addNewTransaction = async () => {
           </VCol>
         </VRow>
 
-        <VBtn type="submit" class="mt-4" @click="addNewTransaction">
+        <VBtn type="submit" class="mt-4" @click="updateTransaction">
           {{ $t('btn.submit') }}
         </VBtn>
       </VForm>

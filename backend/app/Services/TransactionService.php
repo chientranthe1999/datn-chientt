@@ -25,7 +25,7 @@ class TransactionService extends BaseService
             $attributes['user_id'] = auth()->id();
             $result = $this->model->query()->create($attributes);
 
-            if($attributes['report_exclude'] && $result) {
+            if(($attributes['report_exclude'] ?? false) && $result) {
                 $this->walletService->updateBalance($attributes['category_id'],$attributes['wallet_id'], $attributes['amount'],);
             }
 
@@ -45,6 +45,14 @@ class TransactionService extends BaseService
 
         $query->when(!empty($params['end_date']), function ($builder) use ($params) {
             $builder->where('action_time', '<=', $params['end_date']);
+        });
+
+        $query->when(!empty($params['category_id']), function ($builder) use ($params) {
+            $builder->where('category_id', $params['category_id']);
+        });
+
+        $query->when(!empty($params['wallet_id']), function ($builder) use ($params) {
+            $builder->where('wallet_id', $params['wallet_id']);
         });
     }
 }

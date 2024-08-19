@@ -97,7 +97,8 @@ getList()
 
       <VDataTable :headers="headers" :items="transactions" @update:items-per-page="onLimitChange">
         <template #item.action>
-          <VBtn color="primary" size="small">Detail</VBtn>
+          <VBtn color="primary" size="x-small" prepend-icon="tabler-pencil">{{ t('btn.edit') }}</VBtn>
+          <VBtn color="success" size="x-small" class="ms-2" variant="tonal">{{ t('btn.view_transaction') }}</VBtn>
         </template>
       </VDataTable>
     </VCardText>

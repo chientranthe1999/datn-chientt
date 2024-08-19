@@ -99,7 +99,7 @@ getCategoryList()
     <VCol cols="12" sm="12" md="12" lg="7">
       <VCard title="My wallet">
         <template #append>
-          <WalletAddDialog @close-modal="(needUpdate) => { if (needUpdate) getListWallet () }" />
+          <WalletAddDialog @close-modal="(needUpdate: boolean) => { if (needUpdate) getListWallet () }" />
         </template>
         <VDivider />
 
