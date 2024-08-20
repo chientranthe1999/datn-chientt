@@ -41,4 +41,9 @@ class Common
 
     const CATEGORY_DEFAULT_ICON = 'cate-default';
     const WALLET_DEFAULT_ICON = 'cate-default';
+
+    const TRANSACTION_TYPE = [
+        'INCOME' => 'INCOME',
+        'EXPENSE' => 'EXPENSE'
+    ];
 }

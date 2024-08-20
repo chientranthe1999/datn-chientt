@@ -16,23 +16,6 @@ class WalletService extends BaseService
         return Wallet::class;
     }
 
-    public function getCategoryOptions(bool $onlyParent = false): \Illuminate\Database\Eloquent\Collection|array
-    {
-        return $this->model
-            ->query()
-            ->where('user_id', auth()->id())
-            ->when($onlyParent, fn($q) => $q->where('group_id', 0))
-            ->get(['id', 'name', 'group_id', 'type']);
-    }
-
-    public function getCategoryTree(): \Illuminate\Database\Eloquent\Collection|array
-    {
-        return $this->model->with('children')
-            ->where('group_id', 0)
-            ->where('user_id', auth()->id())
-            ->get();
-    }
-
     public function updateBalance($categoryId, $walletId, $amount, $restore = false): void
     {
         $category = DB::table('categories')->where('id', $categoryId)->first(['type']);
@@ -52,5 +35,10 @@ class WalletService extends BaseService
         DB::table('wallets')->where('id', $walletId)->update([
             'total' => DB::raw("total + {$balanceAdjustment}")
         ]);
+    }
+
+    public function getTotalWalletBalance(): float
+    {
+        return DB::table('wallets')->sum('total');
     }
 }

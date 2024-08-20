@@ -2,6 +2,7 @@
 namespace App\Services;
 
 
+use App\Constants\Common;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -67,18 +68,23 @@ class TransactionService extends BaseService
     {
        $query->when(!empty($params['start_date']), function ($builder) use ($params) {
           $builder->where('action_time', '>=', $params['start_date']);
-       });
-
-        $query->when(!empty($params['end_date']), function ($builder) use ($params) {
+       })->when(!empty($params['end_date']), function ($builder) use ($params) {
             $builder->where('action_time', '<=', $params['end_date']);
-        });
-
-        $query->when(!empty($params['category_id']), function ($builder) use ($params) {
+        })->when(!empty($params['category_id']), function ($builder) use ($params) {
             $builder->where('category_id', $params['category_id']);
-        });
-
-        $query->when(!empty($params['wallet_id']), function ($builder) use ($params) {
+        })->when(!empty($params['wallet_id']), function ($builder) use ($params) {
             $builder->where('wallet_id', $params['wallet_id']);
         });
+    }
+
+    public function getTotalIncomeAndExpense($month = null)
+    {
+        return $this->model->query()
+            ->selectRaw('SUM(CASE WHEN transaction_type = ' . Common::TRANSACTION_TYPE['INCOME'] . ' THEN amount ELSE 0 END) as total_income')
+            ->selectRaw('SUM(CASE WHEN transaction_type = '. Common::TRANSACTION_TYPE['INCOME'] . ' THEN amount ELSE 0 END) as total_expense')
+            ->when($month, function ($builder) use ($month) {
+                $builder->whereMonth('action_time', $month);
+            })
+            ->firstOrFail();
     }
 }

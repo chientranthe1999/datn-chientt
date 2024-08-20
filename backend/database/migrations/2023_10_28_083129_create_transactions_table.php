@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\Common;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +21,7 @@ return new class extends Migration {
             $table->string('image')->nullable();
             $table->boolean('report_exclude')->default(false);
             $table->dateTime('action_time');
+            $table->enum('transaction_type', Common::TRANSACTION_TYPE)->default('expense')->index();
             $table->timestamps();
         });
     }
