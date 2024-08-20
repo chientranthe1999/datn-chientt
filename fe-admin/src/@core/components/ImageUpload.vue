@@ -3,10 +3,12 @@ import { upload as uploadImage } from '@/plugins/firebase/firebase'
 
 interface Props {
   rounded?: boolean
+  url?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   rounded: false,
+  url: '',
 })
 
 const fileInput = ref<HTMLElement>()
@@ -14,7 +16,15 @@ const imageUrl = ref<string | null>('')
 const selectedFile = ref<File | null>(null)
 const zoomOut = ref<boolean>(false)
 
+watch(() => props.url, url => {
+  if (url)
+    imageUrl.value = url
+})
+
 const upload = async (folder = 'images'): Promise<string> => {
+  if (imageUrl.value?.startsWith('https'))
+    return imageUrl.value
+
   let imageUploadedUrl = ''
   if (selectedFile.value)
     imageUploadedUrl = await uploadImage(selectedFile.value, folder)

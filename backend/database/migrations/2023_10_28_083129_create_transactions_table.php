@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->float('amount');
+            $table->double('amount');
             $table->bigInteger('category_id');
             $table->bigInteger('user_id')->index();
             $table->bigInteger('wallet_id');

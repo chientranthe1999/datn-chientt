@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-const props = defineProps({
+import { formatDate } from '@core/utils/formatters'
+
+const componentProps = defineProps({
   label: {
     type: String,
     default: 'Date',
@@ -8,26 +10,20 @@ const props = defineProps({
     type: [String, Date],
     default: '',
   },
+  clearable: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:datetime'])
 
-const formatDate = (date: Date | string) => {
-  if (!date)
-    return
-
-  if (typeof date === 'string')
-    date = new Date(date)
-
-  return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
-}
-
 const menuDisplay = ref(false)
 const datePickerValue = ref()
-const displayDate = ref(formatDate(props.datetime))
+const displayDate = ref(formatDate(componentProps.datetime))
 
-watch(() => props.datetime, () => {
-  displayDate.value = formatDate(props.datetime)
+watch(() => componentProps.datetime, () => {
+  displayDate.value = formatDate(componentProps.datetime)
 })
 
 const updateDate = (val: Date | '') => {
@@ -47,9 +43,8 @@ watch(datePickerValue, newVal => {
       <VTextField
         v-model="displayDate"
         :label="label"
-        v-bind="props"
+        v-bind="{ ...props, ...componentProps }"
         append-inner-icon="mdi-calendar"
-        clearable
         @click:clear="() => updateDate('')"
       />
     </template>

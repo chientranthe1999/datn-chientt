@@ -35,7 +35,8 @@
     "detail": "Detail",
     "login": "Login",
     "home": "Home",
-    "view_transaction": "View transaction"
+    "view_transaction": "View transaction",
+    "delete": "Delete"
   },
   "common": {
     "category": "Category",
@@ -91,6 +92,8 @@
     "total": "Total"
   },
   "transaction": {
+    "edit_title": "Edit transaction",
     "add_success": "Add transaction successfully",
+    "edit_success": "Edit transaction successfully"
   }
 }

@@ -37,6 +37,8 @@ Route::middleware('auth:api_admin')->group(function () {
         Route::put('{id}', [TransactionController::class, 'update']);
         Route::get('get-all', [TransactionController::class, 'getAll']);
         Route::get('options', [TransactionController::class, 'getOptions']);
+        Route::get('{id}', [TransactionController::class, 'show']);
+        Route::delete('{id}', [TransactionController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'categories'], function () {

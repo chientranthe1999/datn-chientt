@@ -3,6 +3,7 @@ namespace App\Services;
 
 
 use App\Models\Transaction;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class TransactionService extends BaseService
@@ -25,9 +26,7 @@ class TransactionService extends BaseService
             $attributes['user_id'] = auth()->id();
             $result = $this->model->query()->create($attributes);
 
-            if(($attributes['report_exclude'] ?? false) && $result) {
-                $this->walletService->updateBalance($attributes['category_id'],$attributes['wallet_id'], $attributes['amount'],);
-            }
+            $this->walletService->updateBalance($attributes['category_id'],$attributes['wallet_id'], $attributes['amount']);
 
             DB::commit();
             return $result;
@@ -35,6 +34,33 @@ class TransactionService extends BaseService
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function updateTransaction($id, array $attributes): \Illuminate\Database\Eloquent\Builder|array|\Illuminate\Database\Eloquent\Collection|Model
+    {
+        DB::beginTransaction();
+        try {
+            $transaction = $this->model->query()->find($id);
+
+            $this->walletService->updateBalance($transaction->category_id, $transaction->wallet_id, $transaction->amount, true);
+            $transaction->fill($attributes)->update();
+            $this->walletService->updateBalance($attributes['category_id'],$attributes['wallet_id'], $attributes['amount']);
+
+            DB::commit();
+            return $transaction;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    public function destroy($id, bool $force = false): bool
+    {
+        return DB::transaction(function () use ($id) {
+            $transaction = $this->model->query()->find($id);
+            $this->walletService->updateBalance($transaction->category_id, $transaction->wallet_id, $transaction->amount, true);
+            return $transaction->delete();
+        });
     }
 
     public function addFilter($query, $params): void

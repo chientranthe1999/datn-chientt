@@ -22,12 +22,12 @@ export const kFormatter = (num: number) => {
  * @param {String} value date to format
  * @param {Intl.DateTimeFormatOptions} formatting Intl object to format with
  */
-export const formatDate = (value: string, formatting: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' }) => {
-  if (!value)
-    return value
-
-  return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
-}
+// export const formatDate = (value: string, formatting: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' }) => {
+//   if (!value)
+//     return value
+//
+//   return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
+// }
 
 /**
  * Return short human friendly month representation of date
@@ -50,4 +50,14 @@ export const formatCurrency = (val: number) => {
     return 0
 
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'VND' }).format(val)
+}
+
+export const formatDate = (date: Date | string) => {
+  if (!date)
+    return
+
+  if (typeof date === 'string')
+    date = new Date(date)
+
+  return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
 }

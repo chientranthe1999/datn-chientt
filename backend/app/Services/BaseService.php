@@ -239,14 +239,14 @@ abstract class BaseService
     /**
      * Update the specified resource in storage.
      *
-     * @param Model|int $parent
+     * @param int|Model $parent
      * @param array $attributes
      * @return Model|bool
      *
      * @throws ModelNotFoundException
      * @throws Exception
      */
-    public function update($parent, array $attributes)
+    public function update(Model|int $parent, array $attributes): Model|bool|int
     {
         if (is_integer($parent)) {
             $parent = $this->query()->findOrFail($parent);

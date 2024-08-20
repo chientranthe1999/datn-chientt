@@ -33,7 +33,7 @@ class WalletService extends BaseService
             ->get();
     }
 
-    public function updateBalance($categoryId, $walletId, $amount): void
+    public function updateBalance($categoryId, $walletId, $amount, $restore = false): void
     {
         $category = DB::table('categories')->where('id', $categoryId)->first(['type']);
         if(!$category) {
@@ -46,6 +46,8 @@ class WalletService extends BaseService
             Common::CATEGORY_TYPE['SALARY'] => -$amount,
             default => 0
         };
+
+        $balanceAdjustment = $restore ? -$balanceAdjustment : $balanceAdjustment;
 
         DB::table('wallets')->where('id', $walletId)->update([
             'total' => DB::raw("total + {$balanceAdjustment}")

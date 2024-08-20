@@ -33,9 +33,9 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Transaction $transaction)
+    public function show($id)
     {
-        //
+        return $this->respond($this->service->show($id));
     }
 
     /**
@@ -49,16 +49,18 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Transaction $transaction)
+    public function update(CreateTransactionRequest $request, $id)
     {
-        //
+        $result = $this->service->updateTransaction($id, $request->only('group_id', 'amount', 'category_id', 'wallet_id', 'image', 'report_exclude', 'note', 'action_time'));
+        return $this->respond($result);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaction $transaction)
+    public function destroy($id)
     {
-        //
+        $result = $this->service->destroy($id);
+        return $this->respond($result);
     }
 }

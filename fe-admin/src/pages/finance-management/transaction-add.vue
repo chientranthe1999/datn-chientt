@@ -7,7 +7,7 @@ import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 
 const wallets = ref([])
 const categories = ref([])
-const { successNotify } = useSnackbar()
+const { successNotify, errorNotify } = useSnackbar()
 const { t } = useI18n()
 const router = useRouter()
 
@@ -48,7 +48,7 @@ const addNewTransaction = async () => {
     await router.push({ name: 'finance-management-transactions' })
   }
   catch (e) {
-    console.log(e)
+    errorNotify(e.message || e.response?.data?.message)
   }
   finally {
     loading.value = false
