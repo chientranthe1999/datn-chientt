@@ -25,9 +25,12 @@ class TransactionService extends BaseService
         DB::beginTransaction();
         try {
             $attributes['user_id'] = auth()->id();
+            $category = DB::table('categories')->where('id', $attributes['category_id'])->first(['type']);
+
+            $attributes['transaction_type'] = $this->getTransactionTypeByCategory($category->type);
             $result = $this->model->query()->create($attributes);
 
-            $this->walletService->updateBalance($attributes['category_id'],$attributes['wallet_id'], $attributes['amount']);
+            $this->walletService->updateBalance($category, $attributes['wallet_id'], $attributes['amount']);
 
             DB::commit();
             return $result;
@@ -35,6 +38,17 @@ class TransactionService extends BaseService
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function getTransactionTypeByCategory($categoryType): ?string
+    {
+        return match ($categoryType) {
+            Common::CATEGORY_TYPE['DEBT'],
+            Common::CATEGORY_TYPE['EXPENSE'] => Common::TRANSACTION_TYPE['EXPENSE'],
+            Common::CATEGORY_TYPE['INCOME'],
+            Common::CATEGORY_TYPE['SALARY'] => Common::TRANSACTION_TYPE['INCOME'],
+            default => null
+        };
     }
 
     public function updateTransaction($id, array $attributes): \Illuminate\Database\Eloquent\Builder|array|\Illuminate\Database\Eloquent\Collection|Model

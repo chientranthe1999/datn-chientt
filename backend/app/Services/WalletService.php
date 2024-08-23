@@ -16,9 +16,8 @@ class WalletService extends BaseService
         return Wallet::class;
     }
 
-    public function updateBalance($categoryId, $walletId, $amount, $restore = false): void
+    public function updateBalance($category, $walletId, $amount, $restore = false): void
     {
-        $category = DB::table('categories')->where('id', $categoryId)->first(['type']);
         if(!$category) {
             return;
         }
