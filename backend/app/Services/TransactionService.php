@@ -6,6 +6,7 @@ use App\Constants\Common;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TransactionService extends BaseService
 {
@@ -56,10 +57,12 @@ class TransactionService extends BaseService
         DB::beginTransaction();
         try {
             $transaction = $this->model->query()->find($id);
+            $category = DB::table('categories')->where('id', $attributes['category_id'])->first(['type']);
 
-            $this->walletService->updateBalance($transaction->category_id, $transaction->wallet_id, $transaction->amount, true);
+            $attributes['transaction_type'] = $this->getTransactionTypeByCategory($category->type);
+            $this->walletService->updateBalance($transaction, $transaction->wallet_id, $transaction->amount, true);
             $transaction->fill($attributes)->update();
-            $this->walletService->updateBalance($attributes['category_id'],$attributes['wallet_id'], $attributes['amount']);
+            $this->walletService->updateBalance($transaction, $attributes['wallet_id'], $attributes['amount']);
 
             DB::commit();
             return $transaction;
@@ -94,11 +97,30 @@ class TransactionService extends BaseService
     public function getTotalIncomeAndExpense($month = null)
     {
         return $this->model->query()
-            ->selectRaw('SUM(CASE WHEN transaction_type = ' . Common::TRANSACTION_TYPE['INCOME'] . ' THEN amount ELSE 0 END) as total_income')
-            ->selectRaw('SUM(CASE WHEN transaction_type = '. Common::TRANSACTION_TYPE['INCOME'] . ' THEN amount ELSE 0 END) as total_expense')
+            ->selectRaw("SUM(CASE WHEN transaction_type = '" . Common::TRANSACTION_TYPE['INCOME'] . "' THEN amount ELSE 0 END) as total_income")
+            ->selectRaw("SUM(CASE WHEN transaction_type = '" . Common::TRANSACTION_TYPE['EXPENSE'] . "' THEN amount ELSE 0 END) as total_expense")
             ->when($month, function ($builder) use ($month) {
                 $builder->whereMonth('action_time', $month);
             })
+            ->where('user_id', auth()->id())
             ->firstOrFail();
+    }
+
+    public function getListTransactionByMonth($month)
+    {
+        return $this->model->query()
+            ->whereMonth('action_time', $month)
+            ->with('category')
+            ->where('user_id', auth()->id())
+            ->get();
+    }
+
+    public function getRecentTransaction(): \Illuminate\Database\Eloquent\Collection
+    {
+        return $this->model->query()
+            ->orderBy('action_time', 'desc')
+            ->limit(10)
+            ->where('user_id', auth()->id())
+            ->get();
     }
 }

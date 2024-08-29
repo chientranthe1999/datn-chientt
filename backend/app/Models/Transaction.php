@@ -18,7 +18,7 @@ class Transaction extends Model
         'image',
         'report_exclude',
         'action_time',
-        'type'
+        'transaction_type',
     ];
 
     public function wallet()

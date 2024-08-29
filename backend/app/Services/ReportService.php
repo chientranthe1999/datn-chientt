@@ -22,11 +22,21 @@ class ReportService extends BaseService
         return Transaction::class;
     }
 
-    public function getTransactionDashBoard()
+    public function getTransactionDashBoard(): array
     {
-        // current balance
-        $balance = $this->walletService->getTotalWalletBalance();
-
         $transactionCalculator = $this->transactionService->getTotalIncomeAndExpense();
+
+        $transactionThisMonth = $this->transactionService->getListTransactionByMonth(date('m'));
+
+        return [
+            'wallet' => $this->walletService->findAll(),
+            'overall' => $transactionCalculator,
+            'transaction_current_month' => $transactionThisMonth,
+            'recent_transaction' => $this->transactionService->getRecentTransaction(),
+            'compare_month' => [
+                'last_month' => $this->transactionService->getTotalIncomeAndExpense(date('m', strtotime('-1 month'))),
+                'this_month' => $this->transactionService->getTotalIncomeAndExpense(date('m')),
+            ]
+        ];
     }
 }

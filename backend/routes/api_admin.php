@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
@@ -57,4 +58,6 @@ Route::middleware('auth:api_admin')->group(function () {
         Route::get('get-all', [WalletController::class, 'getAll']);
         Route::get('options', [WalletController::class, 'getOptions']);
     });
+
+    Route::get('report/finance', [ReportController::class, 'getDashBoard']);
 });

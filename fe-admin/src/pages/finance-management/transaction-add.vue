@@ -4,6 +4,7 @@ import { transactionApi } from '@/api/transactions.api'
 import { walletsApi } from '@/api/wallets.api'
 import { categoriesApi } from '@/api/categories.api'
 import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
+import { formatDate } from '@core/utils/formatters'
 
 const wallets = ref([])
 const categories = ref([])
@@ -16,7 +17,7 @@ const formData = reactive({
   category_id: '',
   wallet_id: '',
   note: '',
-  action_time: new Date(),
+  action_time: formatDate(new Date()),
   excludeReport: false,
 })
 

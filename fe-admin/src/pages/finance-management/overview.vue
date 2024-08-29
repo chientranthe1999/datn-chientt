@@ -5,6 +5,11 @@ import SpendingChart from '@/views/finance-management/SpendingChart.vue'
 import TopSpending from '@/views/finance-management/TopSpending.vue'
 import CategoryChart from '@/views/finance-management/CategoryChart.vue'
 import Wallet from '@/views/finance-management/Wallet.vue'
+import { reportApi } from '@/api/report.api'
+import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
+import { useLoading } from '@core/components/Loading/useLoading'
+import { HTTP_STATUS } from '@/constants/common'
+import { formatCurrency } from '@core/utils/formatters'
 
 const chartJsCustomColors = {
   primary: '#29A073',
@@ -28,6 +33,42 @@ const chartJsCustomColors = {
 }
 
 const toggle_exclusive = ref('month')
+
+const { errorNotify } = useSnackbar()
+const setLoading = useLoading()
+
+const overview = reactive({
+  balance: '0',
+  spending: '0',
+  incoming: '0',
+})
+
+const getReport = async () => {
+  try {
+    setLoading(true)
+
+    const res = await reportApi.getReport()
+
+    console.log(res)
+    if (res.status === HTTP_STATUS.OK) {
+      const data = res.data
+
+      const balance = (data.wallet ?? []).reduce((acc: number, item: unknown) => acc + item.total, 0)
+
+      overview.balance = formatCurrency(balance) as string
+      overview.spending = formatCurrency(data.overall.total_expense || 0) as string
+      overview.incoming = formatCurrency(data.overall.total_income || 0) as string
+    }
+  }
+  catch (e) {
+    errorNotify('There is an error occurred while fetching data')
+  }
+  finally {
+    setLoading(false)
+  }
+}
+
+getReport()
 </script>
 
 <template>
@@ -42,7 +83,7 @@ const toggle_exclusive = ref('month')
 
             <VCol cols="9">
               <div class="mb-2">{{ $t('balance') }}</div>
-              <div class="text-h6">250 250</div>
+              <div class="text-h6">{{ overview.balance }}</div>
             </VCol>
           </VRow>
         </VCardText>
@@ -59,7 +100,7 @@ const toggle_exclusive = ref('month')
 
             <VCol cols="9">
               <div class="mb-2">{{ $t('spending') }}</div>
-              <div class="text-h6">250 250</div>
+              <div class="text-h6">{{ overview.spending }}</div>
             </VCol>
           </VRow>
         </VCardText>
@@ -76,7 +117,7 @@ const toggle_exclusive = ref('month')
 
             <VCol cols="9">
               <div class="mb-2">{{ $t('incoming') }}</div>
-              <div class="text-h6">250 250</div>
+              <div class="text-h6">{{ overview.incoming }}</div>
             </VCol>
           </VRow>
         </VCardText>

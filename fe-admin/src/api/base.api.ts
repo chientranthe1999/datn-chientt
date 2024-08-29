@@ -15,7 +15,7 @@ export default class BaseCurlApi {
     return request.get(`${this.baseUrl}/get-all`)
   }
 
-  getById(id: number): Promise<AxiosResponse> {
+  getById(id: number | string): Promise<AxiosResponse> {
     return request.get(`${this.baseUrl}/${id}`)
   }
 

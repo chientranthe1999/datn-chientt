@@ -45,7 +45,7 @@ const getList = async () => {
   transactions.value = result.data.data ?? []
 }
 
-const onLimitChange = limit => {
+const onLimitChange = (limit: number) => {
   formData.limit = limit
   getList()
 }
@@ -72,6 +72,7 @@ getList()
             item-title="name"
             item-value="id"
             :items="categories"
+            clearable
           />
         </VCol>
         <VCol :md="2" :sm="12">
@@ -83,6 +84,7 @@ getList()
             item-title="name"
             item-value="id"
             :items="wallets"
+            clearable
           />
         </VCol>
         <VCol :md="2" :sm="12">
@@ -98,7 +100,12 @@ getList()
 
       <VDataTable :headers="headers" :items="transactions" @update:items-per-page="onLimitChange">
         <template #item.action="{ item }">
-          <VBtn color="primary" size="x-small" prepend-icon="tabler-pencil" @click="router.push({ name: 'finance-management-transaction-edit', params: { id: item.id } })">{{ t('btn.edit') }}</VBtn>
+          <VBtn
+            color="primary" size="x-small" prepend-icon="tabler-pencil"
+            @click="router.push({ name: 'finance-management-transaction-edit', params: { id: item.id } })"
+          >
+            {{ t('btn.edit') }}
+          </VBtn>
 
           <VDialog max-width="500">
             <template #activator="{ props: activatorProps }">

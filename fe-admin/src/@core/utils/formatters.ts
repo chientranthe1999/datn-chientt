@@ -45,16 +45,16 @@ export const formatDateToMonthShort = (value: string, toTimeForCurrentDay = true
   return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
 }
 
-export const formatCurrency = (val: number) => {
+export const formatCurrency = (val: number): number | string => {
   if (!val)
     return 0
 
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'VND' }).format(val)
 }
 
-export const formatDate = (date: Date | string) => {
+export const formatDate = (date: Date | string): string => {
   if (!date)
-    return
+    return ''
 
   if (typeof date === 'string')
     date = new Date(date)
