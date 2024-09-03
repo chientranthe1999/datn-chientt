@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { da } from 'vuetify/locale'
 import RecentTransaction from '@/views/finance-management/RecentTransaction.vue'
 import type { ChartJsCustomColors } from '@/views/charts/chartjs/types'
 import SpendingChart from '@/views/finance-management/SpendingChart.vue'
@@ -41,6 +42,8 @@ const overview = reactive({
   balance: '0',
   spending: '0',
   incoming: '0',
+  wallet: {},
+  transactions: {},
 })
 
 const getReport = async () => {
@@ -49,7 +52,6 @@ const getReport = async () => {
 
     const res = await reportApi.getReport()
 
-    console.log(res)
     if (res.status === HTTP_STATUS.OK) {
       const data = res.data
 
@@ -58,6 +60,8 @@ const getReport = async () => {
       overview.balance = formatCurrency(balance) as string
       overview.spending = formatCurrency(data.overall.total_expense || 0) as string
       overview.incoming = formatCurrency(data.overall.total_income || 0) as string
+      overview.wallet = data.wallet
+      overview.transactions = data.recent_transaction
     }
   }
   catch (e) {
@@ -129,7 +133,7 @@ getReport()
     </VCol>
 
     <VCol cols="12" sm="12" md="4">
-      <Wallet class="h-100" />
+      <Wallet class="h-100" :wallets="overview.wallet" />
     </VCol>
 
     <VCol cols="12" sm="12" md="4">
@@ -158,7 +162,7 @@ getReport()
 
     <!--      Recent transaction -->
     <VCol cols="12" sm="12" md="6">
-      <RecentTransaction class="h-100" />
+      <RecentTransaction class="h-100" :transactions="overview.transactions" />
     </VCol>
   </VRow>
 </template>

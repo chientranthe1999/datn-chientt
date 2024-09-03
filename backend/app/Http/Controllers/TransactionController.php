@@ -26,7 +26,7 @@ class TransactionController extends Controller
 
     public function store(CreateTransactionRequest $request)
     {
-        $result = $this->service->store($request->only('group_id', 'amount', 'category_id', 'wallet_id', 'image', 'report_exclude', 'note', 'action_time'));
+        $result = $this->service->store($request->only('group_id', 'amount', 'category_id', 'wallet_id', 'image', 'report_exclude', 'description', 'action_time'));
         return $this->respond($result);
     }
 
@@ -51,7 +51,7 @@ class TransactionController extends Controller
      */
     public function update(CreateTransactionRequest $request, $id)
     {
-        $result = $this->service->updateTransaction($id, $request->only('group_id', 'amount', 'category_id', 'wallet_id', 'image', 'report_exclude', 'note', 'action_time'));
+        $result = $this->service->updateTransaction($id, $request->only('group_id', 'amount', 'category_id', 'wallet_id', 'image', 'report_exclude', 'description', 'action_time'));
         return $this->respond($result);
     }
 

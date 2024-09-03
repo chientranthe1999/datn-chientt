@@ -1,71 +1,14 @@
 <script setup lang="ts">
-import aeIcon from '@images/icons/payments/ae-icon.png'
-import mastercardIcon from '@images/icons/payments/mastercard-icon.png'
-import visaIcon from '@images/icons/payments/visa-icon.png'
+import { formatCurrency, formatDate } from '@core/utils/formatters'
 
-interface Status {
-  Verified: string
-  Rejected: string
-  Pending: string
-}
+const props = defineProps({
+  transactions: {
+    type: Object,
+    default: () => ({}),
+  },
+})
 
-interface Transaction {
-  cardImg: string
-  lastDigit: string
-  cardType: string
-  sentDate: string
-  status: keyof Status
-  trend: string
-}
-
-const lastTransactions: Transaction[] = [
-  {
-    cardImg: visaIcon,
-    lastDigit: '*4230',
-    cardType: 'Global',
-    sentDate: '17 Mar 2022',
-    status: 'Verified',
-    trend: '+$1,678',
-  },
-  {
-    cardImg: mastercardIcon,
-    lastDigit: '*5578',
-    cardType: 'Credit',
-    sentDate: '12 Feb 2022',
-    status: 'Rejected',
-    trend: '-$839',
-  },
-  {
-    cardImg: aeIcon,
-    lastDigit: '*4567',
-    cardType: 'Credit',
-    sentDate: '28 Feb 2022',
-    status: 'Verified',
-    trend: '+$435',
-  },
-  {
-    cardImg: visaIcon,
-    lastDigit: '*5699',
-    cardType: 'Credit',
-    sentDate: '8 Jan 2022',
-    status: 'Pending',
-    trend: '+$2,345',
-  },
-  {
-    cardImg: visaIcon,
-    lastDigit: '*5699',
-    cardType: 'Credit',
-    sentDate: '8 Jan 2022',
-    status: 'Rejected',
-    trend: '-$234',
-  },
-]
-
-const resolveStatus: Status = {
-  Verified: 'success',
-  Rejected: 'error',
-  Pending: 'secondary',
-}
+const router = useRouter()
 </script>
 
 <template>
@@ -84,7 +27,7 @@ const resolveStatus: Status = {
       <thead>
         <tr>
           <th class="font-weight-semibold">
-            NAME/WALLET
+            WALLET
           </th>
           <th class="font-weight-semibold">
             CATEGORY
@@ -103,47 +46,25 @@ const resolveStatus: Status = {
 
       <tbody>
         <tr
-          v-for="transaction in lastTransactions"
-          :key="transaction.lastDigit"
+          v-for="transaction in props.transactions"
+          :key="transaction.id"
         >
           <td style="padding-block: 0.61rem;">
-            <div class="d-flex align-center">
-              <div class="me-3">
-                <VImg
-                  :src="transaction.cardImg"
-                  width="50"
-                />
-              </div>
-              <div>
-                <p class="text-medium-emphasis font-weight-semibold text-base mb-0">
-                  {{ transaction.lastDigit }}
-                </p>
-                <p class="text-sm mb-0 opacity-100 text-disabled">
-                  {{ transaction.cardType }}
-                </p>
-              </div>
-            </div>
+            <span>{{ transaction.wallet.name || '' }}</span>
           </td>
           <td style="padding-block: 0.61rem;">
-            <VChip
-              label
-              :color="resolveStatus[transaction.status]"
-            >
-              {{ transaction.status }}
-            </VChip>
+            <span>{{ transaction.category.name || '' }}</span>
           </td>
           <td style="padding-block: 0.61rem;">
-            <p class="text-medium-emphasis font-weight-semibold text-base mb-0">
-              {{ transaction.trend }}
-            </p>
+            <span>
+              {{ formatCurrency(transaction.amount) }}
+            </span>
           </td>
           <td style="padding-block: 0.61rem;">
-            <span class="text-sm opacity-100 text-disabled">{{ transaction.sentDate }}</span>
+            <span>{{ formatDate(transaction.action_time) }}</span>
           </td>
           <td style="padding-block: 0.61rem; width: 60px;">
-            <VBtn
-              size="small"
-            >
+            <VBtn size="small" @click="router.push({ name: 'finance-management-transaction-edit', params: { id: transaction.id } })">
               Detail
             </VBtn>
           </td>

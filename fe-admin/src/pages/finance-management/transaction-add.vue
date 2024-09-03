@@ -16,7 +16,7 @@ const formData = reactive({
   amount: '',
   category_id: '',
   wallet_id: '',
-  note: '',
+  description: '',
   action_time: formatDate(new Date()),
   excludeReport: false,
 })
@@ -101,7 +101,7 @@ const addNewTransaction = async () => {
           </VCol>
 
           <VCol cols="12">
-            <VTextarea :label="$t('common.note')" />
+            <VTextarea v-model="formData.description" :label="$t('common.note')" />
           </VCol>
           <VCol cols="12">
             <p>{{ $t('finance.image') }}</p>

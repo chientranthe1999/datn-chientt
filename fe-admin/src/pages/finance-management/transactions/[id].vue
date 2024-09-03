@@ -4,7 +4,6 @@ import { transactionApi } from '@/api/transactions.api'
 import { walletsApi } from '@/api/wallets.api'
 import { categoriesApi } from '@/api/categories.api'
 import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
-import { useLoading } from '@core/components/Loading/useLoading'
 import { HTTP_STATUS } from '@/constants/common'
 import { formatDate } from '@core/utils/formatters'
 
@@ -20,7 +19,7 @@ const formData = reactive({
   amount: '',
   category_id: '',
   wallet_id: '',
-  note: '',
+  description: '',
   action_time: new Date(),
   excludeReport: false,
   image: '',
@@ -49,7 +48,7 @@ const getTransactionById = async () => {
     formData.amount = data.amount
     formData.category_id = data.category_id
     formData.wallet_id = data.wallet_id
-    formData.note = data.note
+    formData.description = data.description
     formData.action_time = formatDate(new Date(data.action_time))
     formData.excludeReport = data.exclude_report
     formData.image = data.image
@@ -122,7 +121,7 @@ getTransactionById()
           </VCol>
 
           <VCol cols="12">
-            <VTextarea :label="$t('common.note')" />
+            <VTextarea v-model="formData.description" :label="$t('common.note')" />
           </VCol>
           <VCol cols="12">
             <p>{{ $t('finance.image') }}</p>

@@ -118,6 +118,7 @@ class TransactionService extends BaseService
     public function getRecentTransaction(): \Illuminate\Database\Eloquent\Collection
     {
         return $this->model->query()
+            ->with(['wallet:id,name', 'category:id,name'])
             ->orderBy('action_time', 'desc')
             ->limit(10)
             ->where('user_id', auth()->id())
