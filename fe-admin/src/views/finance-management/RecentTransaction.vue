@@ -15,7 +15,7 @@ const router = useRouter()
   <VCard :title="$t('finance.recent_transaction')">
     <template #append>
       <div class="me-n2">
-        <VBtn color="success" variant="text">
+        <VBtn color="success" variant="text" @click="router.push({ name: 'finance-management-transactions' })">
           {{ $t('see_all') }}
           <VIcon end icon="tabler-chevron-right" />
         </VBtn>

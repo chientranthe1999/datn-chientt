@@ -14,8 +14,8 @@ class Task extends Model
         'label',
         'priority',
         'description',
-        'startDate',
-        'endDate',
+        'start_date',
+        'end_date',
         'status_id',
         'user_id',
         'parent_id'

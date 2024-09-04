@@ -115,6 +115,20 @@ class TransactionService extends BaseService
             ->get();
     }
 
+    public function getExpenseByCategory($month = null): \Illuminate\Database\Eloquent\Collection|array
+    {
+        return $this->model->query()
+            ->selectRaw('categories.name as category_name, SUM(amount) as total')
+            ->join('categories', 'categories.id', '=', 'transactions.category_id')
+            ->where('transaction_type', Common::TRANSACTION_TYPE['EXPENSE'])
+            ->when($month, function ($builder) use ($month) {
+                $builder->whereMonth('action_time', $month);
+            })
+            ->where('transactions.user_id', auth()->id())
+            ->groupBy('category_id')
+            ->get();
+    }
+
     public function getRecentTransaction(): \Illuminate\Database\Eloquent\Collection
     {
         return $this->model->query()

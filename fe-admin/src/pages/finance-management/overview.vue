@@ -11,6 +11,7 @@ import { useSnackbar } from '@core/components/Snackbar/useSnackbar'
 import { useLoading } from '@core/components/Loading/useLoading'
 import { HTTP_STATUS } from '@/constants/common'
 import { formatCurrency } from '@core/utils/formatters'
+import MonthPicker from '@core/components/MonthPicker.vue'
 
 const chartJsCustomColors = {
   primary: '#29A073',
@@ -148,12 +149,12 @@ getReport()
     <!--    TOP category spending -->
     <VCol cols="12" sm="12" md="6">
       <VCard :title="$t('finance.spending_chart')">
-        <template #append>
-          <VBtnToggle v-model="toggle_exclusive" color="primary">
-            <VBtn value="month">Month</VBtn>
-            <VBtn value="year">Year</VBtn>
-          </VBtnToggle>
-        </template>
+        <!--        <template #append> -->
+        <!--          <VBtnToggle v-model="toggle_exclusive" color="primary"> -->
+        <!--            <VBtn value="month">Month</VBtn> -->
+        <!--            <VBtn value="year">Year</VBtn> -->
+        <!--          </VBtnToggle> -->
+        <!--        </template> -->
         <VCardText>
           <SpendingChart :colors="chartJsCustomColors" />
         </VCardText>

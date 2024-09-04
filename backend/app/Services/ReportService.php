@@ -26,12 +26,12 @@ class ReportService extends BaseService
     {
         $transactionCalculator = $this->transactionService->getTotalIncomeAndExpense();
 
-        $transactionThisMonth = $this->transactionService->getListTransactionByMonth(date('m'));
+        $transactionByCategory = $this->transactionService->getExpenseByCategory(date('m'));
 
         return [
             'wallet' => $this->walletService->findAll(),
             'overall' => $transactionCalculator,
-            'transaction_current_month' => $transactionThisMonth,
+            'transaction_by_category' => $transactionByCategory,
             'recent_transaction' => $this->transactionService->getRecentTransaction(),
             'compare_month' => [
                 'last_month' => $this->transactionService->getTotalIncomeAndExpense(date('m', strtotime('-1 month'))),
